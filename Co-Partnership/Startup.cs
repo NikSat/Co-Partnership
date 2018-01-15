@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Co_Partnership.Data;
 using Co_Partnership.Models;
 using Co_Partnership.Services;
+using Co_Partnership.Models.Database;
 
 namespace Co_Partnership
 {
@@ -27,11 +28,18 @@ namespace Co_Partnership
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Add the dbcontext here in the services in order to ba available
+            services.AddDbContext<CoPartnershipContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
