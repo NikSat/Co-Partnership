@@ -1,16 +1,114 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    overflow-x: hidden;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.list-dim {
+    max-width: 960px;
 }
 
-/* Carousel */
+.btn-outline-primary {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+.btn-outline-primary:hover {
+    color: #f8f9fa;
+    background-color:black;
+    border-color: #868e96;
+}
+
+a {
+    color: #ddd;
+    text-decoration: none;
+}
+a:hover {
+    color: #868e9699;
+    text-decoration: none;
+}
+    a:visited {
+        color: black;
+        text-decoration: none;
+    }
+    a:focus {
+        color: green;
+        text-decoration: none;
+    }
+
+    @media (max-width: 991px) and (min-width:768px) {
+        .list-dim {
+            max-width: 762px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .list-dim {
+            max-width: 512px;
+        }
+    }
+    /* Wrapping element */
+    /* Set some basic padding to keep content from hitting the edges */
+    .body-content {
+    padding: 50px 15px;   
+}
+
+
+@media (min-width: 992px) {
+
+    /*navbar*/
+    .navbar {
+        width: 96%;
+        position: absolute;
+        z-index: 1;
+        left: 2%;        
+    }
+
+}
+
+@media (min-width: 768px) {
+    /*navbar-padding-bottom-0*/
+    .navbar {
+        padding-bottom: 0;
+    }
+        /*dropdown*/
+        .navbar-expand-md .navbar-nav .dropdown-menu {
+        width: 100%;
+        position: absolute;
+        top: 96%;
+        border-radius: 0;
+    }
+}
+
+/*nav dropdown*/
+@media screen and (min-width: 576px) {
+    .has-mega-menu .container-sm {
+        width: 540px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .has-mega-menu .container-md {
+        width: 720px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .has-mega-menu .container-lg {
+        width: 960px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .has-mega-menu .container-xl {
+        width: 1140px;
+    }
+}
+/*end nav*/
+nav ul li:hover > a {
+    display: block;
+}
+
+
+/* Carousel p,image */
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
@@ -21,15 +119,119 @@
     width: 100%;
 }
 
+.carousel-inner > .carousel-item > img, .carousel-inner > .carousel-item > a > img {
+    width: 100%;
+}
+
+/*carousel item*/
+.carousel-item {
+    height: 100vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/*overlay*/
+.carousel-item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.2);
+}
+/*carousel-caption position*/
+.carousel-caption {
+    bottom: 40%;
+}
+/*carousel -end*/
+
+/*card-img-top*/
+.card-img-top {
+    max-width: 100%; /*220px;*/
+    margin: 0 auto;
+    border-top-left-radius: 0; /*overrride bootstrap*/
+    border-top-right-radius: 0; /*same*/
+}
+
+/*card*/
+.card {
+    width: 14rem;
+    margin: 1rem auto;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
 }
 
+/*fa-search*/
+.fa-search {
+    color: #818182;
+}
+
+.fa-search:hover {
+     color: #727b84;
+}
+
+/*search-overlay on xs sm*/
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+}
+
+.overlay-content {
+    position: relative;
+    top: 35%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+/*8elei href gia na piasei sto x*/
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+    .overlay a:hover, .overlay a:focus {
+        color: #f1f1f1;
+    }
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+/*footer*/
+.footer {
+    background-color: #000000ab;
+}
+.footer-btm {
+    border-top: 1px solid #342c1c;
+    padding-top: 14px;
+}
+/*end serch overlay*/
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
-    .carousel-caption {
+    /*.carousel-caption {
         display: none;
-    }
+    }*/
 }

@@ -1,0 +1,36 @@
+{
+  "name": "hover-menu-aim",
+  "version": "1.0.0",
+  "description": "javascript plugin to fire events when user's cursor aims at particular dropdown menu items.",
+  "main": "hover-menu-aim.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osamamaruf/jQuery-menu-aim.git"
+  },
+  "keywords": [
+    "\"menu-aim\"",
+    "\"amazon",
+    "drop",
+    "down\"",
+    "\"menu",
+    "aim\"",
+    "\"native",
+    "menu",
+    "aim\"",
+    "\"aim",
+    "menu\"",
+    "\"hover-menu-aim\""
+  ],
+  "author": "Syed Osama Maruf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/osamamaruf/jQuery-menu-aim/issues"
+  },
+  "homepage": "https://github.com/osamamaruf/jQuery-menu-aim#readme"
+}
