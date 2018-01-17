@@ -5,7 +5,7 @@
 .list-dim {
     max-width: 960px;
 }
-
+/*btn override*/
 .btn-outline-primary {
     color: #f8f9fa;
     border-color: #f8f9fa;
@@ -16,6 +16,17 @@
     border-color: #868e96;
 }
 
+.btn-secondary {
+    background-color: #dee2e6;
+}
+/*btn override end*/
+.nav-access {
+    color: #868e96;
+    font-size: 14px;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #e9ecef;
+}
 a {
     color: #ddd;
     text-decoration: none;
