@@ -44,6 +44,10 @@ namespace Co_Partnership
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            // Add the item repository here
+            services.AddTransient<IItemRepository, ACItemRepository>();
+
+
             services.AddMvc();
         }
 
