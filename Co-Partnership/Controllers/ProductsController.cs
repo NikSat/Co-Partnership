@@ -39,7 +39,7 @@ namespace Co_Partnership.Controllers
                 .ToListAsync();
 
             //
-            if (catProducts == null)
+            if (catProducts == null || catProducts.Count == 0)
             {
                 return RedirectToAction("Index");
             }
