@@ -6,17 +6,17 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    // A form of storage for the items
+    // A form of storage for the items to be used by the adminstrator
     interface IItemRepository
     {
 
         IQueryable<Item> Items { get; }
 
-        void UpdateProduct(Item item);
+        void UpdateItem(Item item);
 
-        void SaveProduct(Item item);
+        void SaveItem(Item item);
 
-        Item DeleteProduct(int itemId);
+        Item DeleteItem(int itemId);
     }
 
     

@@ -63,7 +63,7 @@ namespace Co_Partnership
             services.AddTransient<IEmailSender, EmailSender>();
 
             // Add the item repository here
-            services.AddTransient<IItemRepository, ACItemRepository>();
+            services.AddTransient<IItemRepository, CItemRepository>();
 
 
             services.AddMvc();

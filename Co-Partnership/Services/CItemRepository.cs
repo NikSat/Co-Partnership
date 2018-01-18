@@ -7,18 +7,22 @@ using Co_Partnership.Data;
 
 namespace Co_Partnership.Services
 {
-    public class ACItemRepository : IItemRepository
+    public class CItemRepository : IItemRepository
     {
+        // Set the database needed to get the products
         private CoPartnershipContext db;
 
-        public ACItemRepository (CoPartnershipContext db)
+        // The Constructor
+        public CItemRepository (CoPartnershipContext db)
         {
             this.db = db;
         }
 
+        // Get a queryable for items get all, apply queries at the controller level
         public IQueryable<Item> Items => db.Item;
 
-        public Item DeleteProduct(int itemId)
+       
+        public Item DeleteItem(int itemId)
         {
             Item ite = db.Item.FirstOrDefault(p => p.Id == itemId);
 
@@ -32,15 +36,15 @@ namespace Co_Partnership.Services
 
         }
 
-        public void SaveProduct(Item item)
+        public void SaveItem(Item item)
         {
-            db.Update(item);
+            db.Item.Add(item);
             db.SaveChanges();
         }
 
-        public void UpdateProduct(Item item)
+        public void UpdateItem(Item item)
         {
-            db.Item.Add(item);
+            db.Update(item);
             db.SaveChanges();
         }
     }
