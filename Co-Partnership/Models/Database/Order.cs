@@ -17,6 +17,8 @@ namespace Co_Partnership.Models.Database
         public bool? Completed { get; set; }
         public decimal? Price { get; set; }
         public int? AddressId { get; set; }
+        public bool? IsCompleted { get; set; }
+        public bool? IsShipped { get; set; }
 
         public Address Address { get; set; }
         public User Client { get; set; }

@@ -17,14 +17,13 @@ namespace Co_Partnership.Data
         public virtual DbSet<OrderItem> OrderItem { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
         public virtual DbSet<PersonalFund> PersonalFund { get; set; }
+        public virtual DbSet<Phone> Phone { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<WishList> WishList { get; set; }
 
-
         public CoPartnershipContext(DbContextOptions<CoPartnershipContext> options)
-            : base(options)
+            :base(options)
         { }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,10 +32,7 @@ namespace Co_Partnership.Data
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Address1)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Address2)
+                    .HasColumnName("Address")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -45,6 +41,10 @@ namespace Co_Partnership.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.Country)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Number)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -86,7 +86,15 @@ namespace Co_Partnership.Data
 
                 entity.Property(e => e.Description).IsUnicode(false);
 
+                entity.Property(e => e.Image).IsUnicode(false);
+
                 entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
+
+                entity.Property(e => e.UnitType)
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
@@ -248,11 +256,32 @@ namespace Co_Partnership.Data
                     .HasConstraintName("FK_PersonalFund_Payment");
             });
 
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Phone)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Phone_User");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.ExtId).HasColumnName("Ext_Id");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UserType).HasMaxLength(50);
             });

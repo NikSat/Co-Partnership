@@ -14,6 +14,7 @@ namespace Co_Partnership.Models.Database
             OfferMember = new HashSet<Offer>();
             Order = new HashSet<Order>();
             PersonalFund = new HashSet<PersonalFund>();
+            Phone = new HashSet<Phone>();
             WishList = new HashSet<WishList>();
         }
 
@@ -21,6 +22,8 @@ namespace Co_Partnership.Models.Database
         public string ExtId { get; set; }
         public string UserType { get; set; }
         public bool? IsActive { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
 
         public ICollection<Address> Address { get; set; }
         public ICollection<Message> MessageReceiverNavigation { get; set; }
@@ -29,6 +32,7 @@ namespace Co_Partnership.Models.Database
         public ICollection<Offer> OfferMember { get; set; }
         public ICollection<Order> Order { get; set; }
         public ICollection<PersonalFund> PersonalFund { get; set; }
+        public ICollection<Phone> Phone { get; set; }
         public ICollection<WishList> WishList { get; set; }
     }
 }
