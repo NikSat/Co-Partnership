@@ -12,8 +12,8 @@ namespace Co_Partnership.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CoPartnershipContext _context;
-        public HomeController(CoPartnershipContext context)
+        private readonly Co_PartnershipContext _context;
+        public HomeController(Co_PartnershipContext context)
         {
             _context = context;
         }
