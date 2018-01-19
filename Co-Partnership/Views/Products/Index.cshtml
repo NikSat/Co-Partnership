@@ -20,7 +20,7 @@
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameFor(model => model.StockQuantity)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.IsLive)
@@ -28,6 +28,7 @@
             <th></th>
         </tr>
     </thead>
+<<<<<<< HEAD
     <tbody>*@
 <div class="row">
 
@@ -55,6 +56,32 @@
 else
 {
                 <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
+=======
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsLive)
+            </td>
+            <td>
+                <a asp-action="Product" asp-route-id="@item.Id">Details</a> | 
+                <a>Add to Cart</a> |
+                <a>Add to WishList</a> 
+            </td>
+        </tr>
+>>>>>>> dc8c5fa64c7eb9c4591c9fa40342f557ff9fff99
 }
                     </div>
                     @*onclick="location.href='<%: Url.Action("Action", "Cart") %>'"*@

@@ -8,31 +8,26 @@ namespace Co_Partnership.Models.Database
         public User()
         {
             Address = new HashSet<Address>();
-            MessageReceiverNavigation = new HashSet<Message>();
-            MessageSenderNavigation = new HashSet<Message>();
-            OfferAdmin = new HashSet<Offer>();
-            OfferMember = new HashSet<Offer>();
-            Order = new HashSet<Order>();
-            PersonalFund = new HashSet<PersonalFund>();
-            Phone = new HashSet<Phone>();
+            MessageReceiver = new HashSet<Message>();
+            MessageSender = new HashSet<Message>();
+            TransactionOwner = new HashSet<Transaction>();
+            TransactionRecipient = new HashSet<Transaction>();
             WishList = new HashSet<WishList>();
         }
 
         public int Id { get; set; }
         public string ExtId { get; set; }
-        public string UserType { get; set; }
+        public int? UserType { get; set; }
         public bool? IsActive { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
 
+        public PersonalFinancialAccount PersonalFinancialAccount { get; set; }
         public ICollection<Address> Address { get; set; }
-        public ICollection<Message> MessageReceiverNavigation { get; set; }
-        public ICollection<Message> MessageSenderNavigation { get; set; }
-        public ICollection<Offer> OfferAdmin { get; set; }
-        public ICollection<Offer> OfferMember { get; set; }
-        public ICollection<Order> Order { get; set; }
-        public ICollection<PersonalFund> PersonalFund { get; set; }
-        public ICollection<Phone> Phone { get; set; }
+        public ICollection<Message> MessageReceiver { get; set; }
+        public ICollection<Message> MessageSender { get; set; }
+        public ICollection<Transaction> TransactionOwner { get; set; }
+        public ICollection<Transaction> TransactionRecipient { get; set; }
         public ICollection<WishList> WishList { get; set; }
     }
 }

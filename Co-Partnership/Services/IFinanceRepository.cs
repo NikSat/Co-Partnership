@@ -9,18 +9,13 @@ namespace Co_Partnership.Services
 {
     interface IFinanceRepository
     {
-        IQueryable<Fund> Funds { get; }
-        IQueryable<Order> Orders { get; }
-        IQueryable<Offer> Offers { get; }
-        IQueryable<Payment> Payments { get; }
+        IQueryable<Transaction> Transactions { get; }
 
-        void UpdateOrder(Order order);
+        void UpdateTransaction(Transaction transaction);
 
-        void UpdateOffer(Offer offer);
+        void SaveTransaction(Transaction transaction);
 
-        void MakePayment(Payment payment);
+        Item DeleteTransaction(int transactionId);
 
-        void MakeTransfer(Fund fund);
-        
     }
 }

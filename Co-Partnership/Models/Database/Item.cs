@@ -7,8 +7,7 @@ namespace Co_Partnership.Models.Database
     {
         public Item()
         {
-            OfferedItems = new HashSet<OfferedItems>();
-            OrderItem = new HashSet<OrderItem>();
+            TransactionItem = new HashSet<TransactionItem>();
             WishList = new HashSet<WishList>();
         }
 
@@ -16,14 +15,13 @@ namespace Co_Partnership.Models.Database
         public string Name { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public int? Quantity { get; set; }
+        public double? StockQuantity { get; set; }
         public bool? IsLive { get; set; }
         public string Image { get; set; }
         public string UnitType { get; set; }
-        public decimal? UnitPrice { get; set; }
+        public string UnitPrice { get; set; }
 
-        public ICollection<OfferedItems> OfferedItems { get; set; }
-        public ICollection<OrderItem> OrderItem { get; set; }
+        public ICollection<TransactionItem> TransactionItem { get; set; }
         public ICollection<WishList> WishList { get; set; }
     }
 }
