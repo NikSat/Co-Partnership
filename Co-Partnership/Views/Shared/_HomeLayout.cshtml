@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/shame.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -19,11 +18,10 @@
     </environment>
 </head>
 <body>
-
+    
     @Html.Partial("_Header")
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+    @RenderBody()
+
     <footer class="footer">
         <div class="container">
             <div class="row py-4 ">

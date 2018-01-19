@@ -32,7 +32,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    color: #868e9699;
+    color: rgba(134,142,150,0.6);
     text-decoration: none;
 }
     a:visited {
@@ -44,13 +44,11 @@ a:hover {
         text-decoration: none;
     }
 
-    @media (max-width: 991px) and (min-width:768px) {
-        .list-dim {
-            max-width: 762px;
-        }
-    }
+.body-content a {
+    color: inherit;
+}
 
-    @media (max-width: 767px) {
+    @media (max-width: 991px) {
         .list-dim {
             max-width: 512px;
         }
@@ -139,9 +137,9 @@ nav ul li:hover > a {
     height: 100vh;
     min-height: 300px;
     background: no-repeat center center scroll;
-    -webkit-background-size: cover;
+    /*-webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;
+    -o-background-size: cover;*/
     background-size: cover;
 }
 
@@ -176,6 +174,18 @@ nav ul li:hover > a {
     margin: 1rem auto;
 }
 
+.card-body {
+    padding: 2.5rem;
+    padding-top: 1.25rem;
+    position: relative;/*semihack*/
+}
+
+.custom-position {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.75rem;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
@@ -189,6 +199,17 @@ nav ul li:hover > a {
 .fa-search:hover {
      color: #727b84;
 }
+
+.fa-check-circle-o {
+    color: lawngreen;
+    font-size: 1.5rem
+}
+
+.fa-times-circle-o {
+    color: red;
+    font-size: 1.5rem
+}
+
 
 /*search-overlay on xs sm*/
 .overlay {
@@ -232,7 +253,8 @@ nav ul li:hover > a {
 }
 /*footer*/
 .footer {
-    background-color: #000000ab;
+    background-color: rgba(0, 0, 0,0.67);
+    
 }
 .footer-btm {
     border-top: 1px solid #342c1c;

@@ -2,13 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
 
 
-<table class="table">
+@*<table class="table">
     <thead>
         <tr>
                 <th>
@@ -29,30 +28,77 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsLive)
-            </td>
-            <td>
-                <a asp-action="Product" asp-route-id="@item.Id">Details</a> | 
-                <a>Add to Cart</a> |
-                <a>Add to WishList</a> 
-            </td>
-        </tr>
+    <tbody>*@
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+
+        <div class="mx-auto col-12 col-sm-6 col-lg-3">
+            <div class="card text-center">
+                <a asp-action="Product" asp-route-id="@item.Id">
+                    <img class="card-img-top" src="~/images/potatoes.jpg" alt="Card image cap">
+                </a>
+                <div class="card-body">
+                    <a asp-action="Product" asp-route-id="@item.Id">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    </a>
+
+                    <a href="@Url.Action("Category", "Products",new {category=@item.Category})" class="card-link" role="button"> @item.Category</a>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <div class="custom-position">
+
+                        @if ((bool)item.IsLive)
+        {
+                <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
 }
-    </tbody>
-</table>
+else
+{
+                <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
+}
+                    </div>
+                    @*onclick="location.href='<%: Url.Action("Action", "Cart") %>'"*@
+                    <div class="btn-group d-flex" role="group">
+                        <a href="" class="btn btn-secondary w-100">Like</a>
+                        @if ((bool)item.IsLive)
+                        {
+                    <a href="" class="btn btn-secondary w-100">Buy</a>
+                        }
+                        else
+                        {
+                            <a href=""  class="btn btn-secondary w-100 disabled">Buy</a>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }
+</div>
+@*   <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLive)
+        </td>
+        <td>
+            <a asp-action="Product" asp-route-id="@item.Id">Details</a> |
+            <a>Add to Cart</a> |
+            <a>Add to WishList</a>
+        </td>
+    </tr>*@
+
+
