@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 
 # The application settings file that contains the database sting
-./Co-Partnership/appsettings.json
+./Co_Partnership/appsettings.json
