@@ -12,9 +12,9 @@ namespace Co_Partnership.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CoPartnershipContext _context;
+        private readonly Co_PartnershipContext _context;
 
-        public ProductsController(CoPartnershipContext context)
+        public ProductsController(Co_PartnershipContext context)
         {
             _context = context;
         }
@@ -68,3 +68,4 @@ namespace Co_Partnership.Controllers
 
     }
 }
+

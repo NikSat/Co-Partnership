@@ -10,26 +10,18 @@ namespace Co_Partnership.Services
     public class ACAdministatorRepository : IAdministratorRepository
     {
 
+
         // In order to view everyone also names etc we need to access both databases
-        private CoPartnershipContext db;
+        private Co_PartnershipContext db;
         private ApplicationDbContext idedb;
 
-        // The Constructor
-        public ACAdministatorRepository (CoPartnershipContext db, ApplicationDbContext idedb)
+        // The Constructor receives the databases
+        public ACAdministatorRepository(Co_PartnershipContext db, ApplicationDbContext idedb)
         {
             this.db = db;
             this.idedb = idedb;
         }
 
-
-
-        public IQueryable<Fund> Funds => db.Fund;
-
-        public IQueryable<Order> Orders => db.Order;
-
-        public IQueryable<Offer> Offers => db.Offer;
-
-        public IQueryable<Payment> Payments => db.Payment;
 
         public IQueryable<Item> Items => db.Item;
 
@@ -37,81 +29,85 @@ namespace Co_Partnership.Services
 
         public IQueryable<Message> Messages => db.Message;
 
+        public IQueryable<Transaction> Transactions => throw new NotImplementedException();
 
 
         // This part deals with the items
-
         #region Items
         public Item DeleteItem(int itemId)
         {
-            throw new NotImplementedException();
-        }
+            Item ite = db.Item.FirstOrDefault(p => p.Id == itemId);
 
-        public void UpdateItem(Item item)
-        {
-            throw new NotImplementedException();
+            if (ite != null)
+            {
+                db.Item.Remove(ite);
+                db.SaveChanges();
+            }
+
+            return ite;
+
         }
 
         public void SaveItem(Item item)
         {
-            throw new NotImplementedException();
+            db.Item.Add(item);
+            db.SaveChanges();
+        }
+
+        public void UpdateItem(Item item)
+        {
+            db.Update(item);
+            db.SaveChanges();
         }
         #endregion
 
 
-        // This part deals with the orders
-        #region Offers
-        public void UpdateOffer(Offer offer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateOrder(Order order)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
 
 
-        // This part deals with payments
-        #region Payments 
-        public void MakePayment(Payment payment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MakeTransfer(Fund fund)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-
-        // Members panel
-        #region Member
-        public void UpdateMember(User user)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Members
         public Item DeleteMember(int userId)
         {
             throw new NotImplementedException();
         }
 
+
         public void SaveMember(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void UpdateMember(User user)
         {
             throw new NotImplementedException();
         }
         #endregion
 
 
-        // Message panel
-        #region Member
+        #region Finances
+        public Item DeleteTransaction(int transactionId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void SaveTransaction(Transaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateTransaction(Transaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Messages
         public void SaveMessage(Message message)
         {
             throw new NotImplementedException();
         }
         #endregion
+
     }
 }

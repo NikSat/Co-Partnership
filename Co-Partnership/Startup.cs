@@ -54,7 +54,7 @@ namespace Co_Partnership
                 .AddDefaultTokenProviders();
 
             // Add the dbcontext here in the services in order to ba available
-            services.AddDbContext<CoPartnershipContext>(options =>
+            services.AddDbContext<Co_PartnershipContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.ConfigureApplicationCookie(options =>

@@ -10,10 +10,10 @@ namespace Co_Partnership.Services
     public class CItemRepository : IItemRepository
     {
         // Set the database needed to get the products
-        private CoPartnershipContext db;
+        private Co_PartnershipContext db;
 
         // The Constructor
-        public CItemRepository (CoPartnershipContext db)
+        public CItemRepository (Co_PartnershipContext db)
         {
             this.db = db;
         }
