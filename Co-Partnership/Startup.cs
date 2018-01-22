@@ -40,18 +40,18 @@ namespace Co_Partnership
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-                {
-                    // Password settings
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequiredUniqueChars = 2;
-                    // Signin settings
-                    options.SignIn.RequireConfirmedEmail = true;
-                    // User settings
-                    options.User.RequireUniqueEmail = true;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            {
+                // Password settings
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 2;
+                // Signin settings
+                options.SignIn.RequireConfirmedEmail = true;
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             // Add the dbcontext here in the services in order to ba available
             services.AddDbContext<Co_PartnershipContext>(options =>
@@ -112,6 +112,7 @@ namespace Co_Partnership
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
