@@ -10,8 +10,11 @@ namespace Co_Partnership.Models
 {
     public class IdentitySeedData
     {
-        private const string UserName = "Admin";
-        private const string Password = "Secret123$";
+        private const string UserAdmin = "Admin";
+        private const string PasswordAdmin = "Admin1";
+
+        private const string UserMember = "Member";
+        private const string PasswordMember = "Member1";
 
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
@@ -23,27 +26,41 @@ namespace Co_Partnership.Models
                 .ApplicationServices
                 .GetRequiredService<RoleManager<IdentityRole>>();
 
-            IdentityUser user = await userManager.FindByNameAsync(UserName);
+            IdentityUser userA = await userManager.FindByNameAsync(UserAdmin);
+            IdentityUser userM = await userManager.FindByNameAsync(UserMember);
 
-            if (user == null)
+
+            if (userA == null)
             {
-                user = new IdentityUser("admin");
-                await userManager.CreateAsync(user, Password);
+                userA = new IdentityUser("admin");
+                await userManager.CreateAsync(userA, PasswordAdmin);
             }
 
-            IdentityRole superAdminRole = await roleManager.FindByIdAsync("SuperAdmin");
-            IdentityRole simpleMemberRole = await roleManager.FindByIdAsync("SimpleMemberRole");
-
-            if (superAdminRole == null)
+            if (userM == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
-                await userManager.AddToRoleAsync(user, "SuperAdmin");
+                userM = new IdentityUser("member");
+                await userManager.CreateAsync(userM, PasswordMember);
             }
-            if (simpleMemberRole == null)
+
+            IdentityRole adminRole = await roleManager.FindByIdAsync("Admin");
+            IdentityRole memberRole = await roleManager.FindByIdAsync("Member");
+            IdentityRole simpleUserRole = await roleManager.FindByIdAsync("SimpleUser");
+
+            if (adminRole == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("simpleMemberRole"));
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await userManager.AddToRoleAsync(userA, "Admin");
+            }
+            if (memberRole == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("Member"));
+                await userManager.AddToRoleAsync(userM, "Member");
+            }
+            if (simpleUserRole == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("SimpleUser"));
                 var simpleUser = await userManager.FindByNameAsync("User1");
-                await userManager.AddToRoleAsync(simpleUser, "simpleMemberRole");
+                await userManager.AddToRoleAsync(simpleUser, "SimpleUser");
             }
         }
     }
