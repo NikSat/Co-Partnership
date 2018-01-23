@@ -16,74 +16,92 @@ namespace Co_Partnership.Models
         private const string UserMember = "member@cooperation.com";
         private const string PasswordMember = "SecretMember1!";
 
-        public static async Task EnsurePopulated(IServiceProvider serviceProvider)
+        public static async void EnsurePopulated(IApplicationBuilder app)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            //public static async Task EnsurePopulated(IServiceProvider serviceProvider)
+            //{
+            //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            //    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            //Check that there is an Admin role and create if not
-            var hasAdminRole = await roleManager.RoleExistsAsync("Admin");
+            IServiceScopeFactory scopeFactory =
+           app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
 
-            if (!hasAdminRole)
+            using (IServiceScope scope = scopeFactory.CreateScope())
             {
-                var roleresult = await roleManager.CreateAsync(new IdentityRole("Admin"));
-            }
 
-            //Check that there is a Member role and create if not
-            var hasMemberRole = await roleManager.RoleExistsAsync("Member");
+                RoleManager<IdentityRole> roleManager = 
+                    scope.ServiceProvider
+                    .GetRequiredService<RoleManager<IdentityRole>>();
 
-            if (!hasMemberRole)
-            {
-                await roleManager.CreateAsync(new IdentityRole("Member"));
-            }
+                UserManager<ApplicationUser> userManager =
+                    scope.ServiceProvider
+                    .GetRequiredService<UserManager<ApplicationUser>>();
 
-            //Check that there is a SimpleUser role and create if not
-            var hasSimpleUserRole = await roleManager.RoleExistsAsync("SimpleUser");
 
-            if (!hasSimpleUserRole)
-            {
-                await roleManager.CreateAsync(new IdentityRole("SimpleUser"));
-            }
+                //Check that there is an Admin role and create if not
+                var hasAdminRole = await roleManager.RoleExistsAsync("Admin");
 
-            //Check if the admin user exists and create it if not
-            //Add to the Admin role
-            var userA = await userManager.FindByEmailAsync(UserAdmin);
-
-            if (userA == null)
-            {
-                userA = new ApplicationUser()
+                if (!hasAdminRole)
                 {
-                    Email = UserAdmin,
-                    UserName = UserAdmin,
-                    EmailConfirmed = true
-                };
+                    var roleresult = await roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
 
-                var newUser = await userManager.CreateAsync(userA, PasswordAdmin);
+                //Check that there is a Member role and create if not
+                var hasMemberRole = await roleManager.RoleExistsAsync("Member");
 
-                if (newUser.Succeeded)
+                if (!hasMemberRole)
                 {
-                    await userManager.AddToRoleAsync(userA, "Admin");
-                }                   
-            }
+                    await roleManager.CreateAsync(new IdentityRole("Member"));
+                }
 
-            //Check if the member user exists and create it if not
-            //Add to the Member role
-            var userM = await userManager.FindByEmailAsync(UserMember);
+                //Check that there is a SimpleUser role and create if not
+                var hasSimpleUserRole = await roleManager.RoleExistsAsync("SimpleUser");
 
-            if (userM == null)
-            {
-                userM = new ApplicationUser()
+                if (!hasSimpleUserRole)
                 {
-                    Email = UserMember,
-                    UserName = UserMember,
-                    EmailConfirmed = true
-                };
+                    await roleManager.CreateAsync(new IdentityRole("SimpleUser"));
+                }
 
-                var user = await userManager.CreateAsync(userM, PasswordMember);
-                if (user.Succeeded)
+                //Check if the admin user exists and create it if not
+                //Add to the Admin role
+                var userA = await userManager.FindByEmailAsync(UserAdmin);
+
+                if (userA == null)
                 {
-                    await userManager.AddToRoleAsync(userM, "Member");
-                }                  
+                    userA = new ApplicationUser()
+                    {
+                        Email = UserAdmin,
+                        UserName = UserAdmin,
+                        EmailConfirmed = true
+                    };
+
+                    var newUser = await userManager.CreateAsync(userA, PasswordAdmin);
+
+                    if (newUser.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(userA, "Admin");
+                    }
+                }
+
+                //Check if the member user exists and create it if not
+                //Add to the Member role
+                var userM = await userManager.FindByEmailAsync(UserMember);
+
+                if (userM == null)
+                {
+                    userM = new ApplicationUser()
+                    {
+                        Email = UserMember,
+                        UserName = UserMember,
+                        EmailConfirmed = true
+                    };
+
+                    var user = await userManager.CreateAsync(userM, PasswordMember);
+                    if (user.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(userM, "Member");
+                    }
+                }
             }
         }
 
@@ -93,7 +111,7 @@ namespace Co_Partnership.Models
         //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         //    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         //    Task<IdentityResult> roleResult;
-            
+
 
         //    //Check that there is an Administrator role and create if not
         //    Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Admin");
@@ -131,6 +149,20 @@ namespace Co_Partnership.Models
         //    }
 
 
+        //}
+
+
+        //public static void Seed(IApplicationBuilder app)
+        //{
+        //    IServiceScopeFactory scopeFactory = 
+        //        app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+
+        //    using(IServiceScope scope = scopeFactory.CreateScope())
+        //    {
+        //        UserManager<ApplicationUser> userManager = 
+        //            scope.ServiceProvider
+        //            .GetRequiredService<UserManager<ApplicationUser>>();
+        //    }
         //}
     }
 }

@@ -73,15 +73,14 @@ namespace Co_Partnership
 
             // Add the item repository here
             services.AddTransient<IItemRepository, CItemRepository>();
-
-
+            
             services.AddMvc();
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -113,8 +112,8 @@ namespace Co_Partnership
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            Task result = IdentitySeedData.EnsurePopulated(serviceProvider);
-            result.Wait();
+            IdentitySeedData.EnsurePopulated(app);
+            
             //IdentitySeedData.CreateRoles(serviceProvider);
         }
     }
