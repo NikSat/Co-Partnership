@@ -37,8 +37,7 @@ namespace Co_Partnership
 
             services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-
-
+            
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings
@@ -112,9 +111,7 @@ namespace Co_Partnership
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            IdentitySeedData.EnsurePopulated(app);
-            
-            //IdentitySeedData.CreateRoles(serviceProvider);
+            IdentitySeedData.EnsurePopulated(app);            
         }
     }
 }

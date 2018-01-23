@@ -18,13 +18,8 @@ namespace Co_Partnership.Models
 
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
-            //public static async Task EnsurePopulated(IServiceProvider serviceProvider)
-            //{
-            //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            //    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
             IServiceScopeFactory scopeFactory =
-           app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
 
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
@@ -104,66 +99,6 @@ namespace Co_Partnership.Models
                 }
             }
         }
-
-        //public static void CreateRoles(IServiceProvider serviceProvider)
-        //{
-
-        //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        //    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        //    Task<IdentityResult> roleResult;
-
-
-        //    //Check that there is an Administrator role and create if not
-        //    Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Admin");
-        //    hasAdminRole.Wait();
-
-        //    if (!hasAdminRole.Result)
-        //    {
-        //        roleResult = roleManager.CreateAsync(new IdentityRole("Admin"));
-        //        roleResult.Wait();
-        //    }
-
-        //    //Check if the admin user exists and create it if not
-        //    //Add to the Administrator role
-
-        //    Task<ApplicationUser> userA = userManager.FindByEmailAsync(UserAdmin);
-        //    userA.Wait();
-
-        //    if (userA.Result == null)
-        //    {
-        //        ApplicationUser admin = new ApplicationUser()
-        //        {
-        //            Email = UserAdmin,
-        //            UserName = UserAdmin,
-        //            EmailConfirmed = true
-        //        };
-
-        //        Task<IdentityResult> newUser = userManager.CreateAsync(admin, PasswordAdmin);
-        //        newUser.Wait();
-
-        //        if (newUser.Result.Succeeded)
-        //        {
-        //            Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(admin, "Admin");
-        //            newUserRole.Wait();
-        //        }
-        //    }
-
-
-        //}
-
-
-        //public static void Seed(IApplicationBuilder app)
-        //{
-        //    IServiceScopeFactory scopeFactory = 
-        //        app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-
-        //    using(IServiceScope scope = scopeFactory.CreateScope())
-        //    {
-        //        UserManager<ApplicationUser> userManager = 
-        //            scope.ServiceProvider
-        //            .GetRequiredService<UserManager<ApplicationUser>>();
-        //    }
-        //}
     }
 }
 
