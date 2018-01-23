@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "_LayoutWithSide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid body-content">
+    <div class="row">
+        <div class="d-none d-md-block col-md-2">
+            @await Component.InvokeAsync("SideNavigationMenuComp")
+        </div>
+        <div class="col-12 col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+</div>

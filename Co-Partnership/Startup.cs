@@ -109,6 +109,17 @@ namespace Co_Partnership
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "category",
+                    template: "Products/Category/{category}/{productPage}",
+                    defaults: new { Controller = "Products", Action = "Index" }
+                    );
+                routes.MapRoute(
+                   name: "pagination",
+                   template: "Products/{productPage}",
+                   defaults: new { Controller = "Products", Action = "Index" }
+                   );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
