@@ -37,20 +37,21 @@ namespace Co_Partnership
 
             services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-            
+
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                // Password settings
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 2;
-                // Signin settings
-                options.SignIn.RequireConfirmedEmail = true;
-                // User settings
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+                {
+                    // Password settings
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 2;
+                    // Signin settings
+                    options.SignIn.RequireConfirmedEmail = true;
+                    // User settings
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             // Add the dbcontext here in the services in order to ba available
             services.AddDbContext<Co_PartnershipContext>(options =>
@@ -72,7 +73,8 @@ namespace Co_Partnership
 
             // Add the item repository here
             services.AddTransient<IItemRepository, CItemRepository>();
-            
+
+
             services.AddMvc();
 
             services.AddMemoryCache();
@@ -112,11 +114,20 @@ namespace Co_Partnership
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "category",
+                    template: "Products/Category/{category}/{productPage}",
+                    defaults: new { Controller = "Products", Action = "Index" }
+                    );
+                routes.MapRoute(
+                   name: "pagination",
+                   template: "Products/{productPage}",
+                   defaults: new { Controller = "Products", Action = "Index" }
+                   );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            IdentitySeedData.EnsurePopulated(app);            
         }
     }
 }

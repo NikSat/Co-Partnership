@@ -1,0 +1,14 @@
+﻿@model IEnumerable<string>
+@{
+    Layout = null;
+}
+
+<ul class="list-unstyled side pt-2">
+    <li >
+        <a id="alternative-link" class="list-group-item list-group-item-action @(ViewBag.CurrentCategory==null ? "active": "")")"  asp-route="pagination" asp-route-productPage="1">All</a>
+    </li>
+    @foreach (var categoryName in Model) { 
+        <li class="">
+        <a class="list-group-item list-group-item-action @(categoryName == ViewBag.CurrentCategory ? "active": "")" asp-route="category" asp-route-category="@categoryName" asp-route-productPage="1">@categoryName</a>
+    </li>
+}</ul>

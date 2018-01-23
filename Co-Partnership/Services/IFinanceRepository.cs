@@ -15,7 +15,7 @@ namespace Co_Partnership.Services
 
         void SaveTransaction(Transaction transaction);
 
-        Transaction DeleteTransaction(int transactionId);
+        Item DeleteTransaction(int transactionId);
 
     }
 }

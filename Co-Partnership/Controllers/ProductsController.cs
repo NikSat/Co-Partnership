@@ -7,44 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Co_Partnership.Data;
 using Co_Partnership.Models.Database;
+using Co_Partnership.Models;
 
 namespace Co_Partnership.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly Co_PartnershipContext _context;
-
+        public int PageSize = 6;
         public ProductsController(Co_PartnershipContext context)
         {
             _context = context;
         }
 
         // GET: All Products that are live
-        public async Task<ViewResult> Index()
+        public async Task<ViewResult> Index(string category = null, int productPage = 1)
         {
-            return View(await _context.Item.Where(p => (p.IsLive ?? false)).ToListAsync());
-        }
 
-        // GET: Category Products that are live
-        public async Task<IActionResult> Category(string category)
-        {
-            //
-            if (category == null)
+            return View(new ProductViewModel
             {
-                return RedirectToAction("Index");
-            }
+                Products= await _context.Item.Where(p => (p.IsLive ?? false)&&(category == null || p.Category == category))
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync(),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = productPage,
+                    TotalPages = (int)Math.Ceiling((double)_context.Item.Where(p => (p.IsLive ?? false) && (category == null || p.Category == category)).Count() / (double)PageSize)
+                },
 
-            var catProducts = await _context.Item
-                .Where(p => (p.IsLive ?? false) && p.Category == category)
-                .ToListAsync();
-
-            //
-            if (catProducts == null || catProducts.Count == 0)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return View("Index", catProducts);
+                CurrentCategory = category
+            });
         }
 
         // GET: One Product that is live

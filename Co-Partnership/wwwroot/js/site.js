@@ -7,14 +7,14 @@
                              $(context).find(expr)*/
             /*The first true variable in .stop(true, true); is called clearQueue. This true clears all queued animations, so they don't pile up and continue animating even after your user is done interacting with the element.
             The second true variable in .stop(true, true); is a bool that tells jQuery whether or not to jump to the end of the queue and just do the last animation that your user initiated.*/
-            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).slideDown("300");
-            $(this).toggleClass('open');
+            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).show();
+            $(this).addClass('open');
 
         },
         function () {
             if (window.innerWidth >= 768) {/*gia na mhn kleinei  se <768*/
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).delay(500).slideUp("slow");
-                $(this).toggleClass('open');
+                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).hide();
+                $(this).removeClass('open');
             }
         }
     );
