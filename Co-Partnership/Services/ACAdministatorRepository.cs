@@ -29,7 +29,7 @@ namespace Co_Partnership.Services
 
         public IQueryable<Message> Messages => db.Message;
 
-        public IQueryable<Transaction> Transactions => throw new NotImplementedException();
+        public IQueryable<Transaction> Transactions => db.Transaction;
 
 
         // This part deals with the items
@@ -63,49 +63,72 @@ namespace Co_Partnership.Services
 
 
 
-
-        #region Members
-        public Item DeleteMember(int userId)
+        // Users both members and clients
+        #region Users
+        public User DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            User user = db.User.FirstOrDefault(p => p.Id == userId);
+
+            if (user != null)
+            {
+                db.User.Remove(user);
+                db.SaveChanges();
+            }
+
+            return user;
         }
 
 
-        public void SaveMember(User user)
+        public void SaveUser(User user)
         {
-            throw new NotImplementedException();
+            db.User.Add(user);
+            db.SaveChanges();
         }
 
 
-        public void UpdateMember(User user)
+        public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            db.Update(user);
+            db.SaveChanges();
         }
         #endregion
 
 
         #region Finances
-        public Item DeleteTransaction(int transactionId)
+        public Transaction DeleteTransaction(int transactionId)
         {
-            throw new NotImplementedException();
+            Transaction transaction = db.Transaction.FirstOrDefault(p => p.Id == transactionId);
+
+            if (transaction != null)
+            {
+                db.Transaction.Remove(transaction);
+                db.SaveChanges();
+            }
+
+            return transaction;
+
+
         }
 
 
         public void SaveTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            db.Transaction.Add(transaction);
+            db.SaveChanges();
         }
 
         public void UpdateTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            db.Update(transaction);
+            db.SaveChanges();
         }
         #endregion
 
         #region Messages
         public void SaveMessage(Message message)
         {
-            throw new NotImplementedException();
+            db.Message.Add(message);
+            db.SaveChanges();
         }
         #endregion
 
