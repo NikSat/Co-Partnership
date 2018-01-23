@@ -75,6 +75,9 @@ namespace Co_Partnership
             
             services.AddMvc();
 
+            services.AddMemoryCache();
+            services.AddSession();
+
             services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
@@ -101,6 +104,8 @@ namespace Co_Partnership
             }
 
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseAuthentication();
 
