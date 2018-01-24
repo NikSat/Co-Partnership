@@ -1,0 +1,12 @@
+﻿@model IEnumerable<string>
+@{
+    Layout = null;
+}
+@foreach (var categoryName in Model)
+{
+<li class="depth-1">
+    <a class="dropdown-item" asp-route="category" asp-route-category="@categoryName" asp-route-productPage="1">@categoryName</a>
+</li>
+}
+
+

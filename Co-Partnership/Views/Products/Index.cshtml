@@ -1,44 +1,32 @@
-﻿@model IEnumerable<Co_Partnership.Models.Database.Item>
+﻿@model ProductViewModel
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWithSide.cshtml";
 }
 
-<h2>Index</h2>
 
+@{if (Model.CurrentCategory == null)
+    { <h2>All Products</h2> }
+    else
+    {
+        <h2>@Model.CurrentCategory</h2>
+    }
+}
 
-@*<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StockQuantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsLive)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-<<<<<<< HEAD
-    <tbody>*@
 <div class="row">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Products)
     {
 
-        <div class="mx-auto col-12 col-sm-6 col-lg-3">
+        <div class=" col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card text-center">
                 <a asp-action="Product" asp-route-id="@item.Id">
-                    <img class="card-img-top" src="~/images/potatoes.jpg" alt="Card image cap">
+                    <div class="wrapper">
+                        <div class="card-img-top" style="background-image:url('@item.Image');height:140px;">
+                            @*<img class="" src="" alt="Card image cap">*@
+                        </div>
+                    </div>
                 </a>
                 <div class="card-body">
                     <a asp-action="Product" asp-route-id="@item.Id">
@@ -47,38 +35,56 @@
 
                     <a href="@Url.Action("Category", "Products",new {category=@item.Category})" class="card-link" role="button"> @item.Category</a>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.UnitPrice) / @item.UnitType</p>
                     <div class="custom-position">
 
-                        @if ((bool)item.IsLive)
-        {
-                <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
-}
-else
-{
-                <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
+                        @if (item.StockQuantity > 0)
+                        {
+                            <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
 
-}
+                        }
                     </div>
                     @*onclick="location.href='<%: Url.Action("Action", "Cart") %>'"*@
                     <div class="btn-group d-flex" role="group">
                         <a href="" class="btn btn-secondary w-100">Like</a>
-                        @if ((bool)item.IsLive)
+                        @if (item.StockQuantity > 0)
                         {
-                    <a href="" class="btn btn-secondary w-100">Buy</a>
+                            <a href="" class="btn btn-secondary w-100">Buy</a>
                         }
                         else
                         {
-                            <a href=""  class="btn btn-secondary w-100 disabled">Buy</a>
+                            <a href="" class="btn btn-secondary w-100 disabled">Buy</a>
 
                         }
                     </div>
                 </div>
             </div>
+
+
+
         </div>
-
-
-
     }
+    <div class="col-12">
+        <nav class="btn-group">
+            @* Emfanizoume  ta hyperlinks twn selidwn mono an einai prossoteres apo mia *@
+            @for (int i = 1; i <= Model.PagingInfo.TotalPages && Model.PagingInfo.TotalPages > 1; i++)
+            {
+                @if (Model.CurrentCategory == null)
+                {
+                    <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="pagination" asp-route-productPage="@i">@i</a>
+                }
+                else
+                {
+                    <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="category" asp-route-category="@Model.CurrentCategory" asp-route-productPage="@i">@i</a>
+                }
+            }
+        </nav>
+    </div>
+
 </div>
 @*   <tr>
         <td>
