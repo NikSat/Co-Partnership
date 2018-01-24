@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Co_Partnership.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,94 +11,94 @@ namespace Co_Partnership.Models
 {
     public class IdentitySeedData
     {
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserRepository _userRepository;
+
         private const string UserAdmin = "admin@cooperation.com";
         private const string PasswordAdmin = "SecretAdmin1!";
 
         private const string UserMember = "member@cooperation.com";
         private const string PasswordMember = "SecretMember1!";
 
-        public static async void EnsurePopulated(IApplicationBuilder app)
+        public IdentitySeedData(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IUserRepository userRepository)
         {
-            IServiceScopeFactory scopeFactory =
-            app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            this.roleManager = roleManager;
+            this.userManager = userManager;
+            _userRepository = userRepository;
+        }
 
-            using (IServiceScope scope = scopeFactory.CreateScope())
+        public async Task EnsurePopulated()
+        {
+            //Check that there is an Admin role and create if not
+            var hasAdminRole = await roleManager.RoleExistsAsync("Admin");
+
+            if (!hasAdminRole)
             {
+                var roleresult = await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
 
-                RoleManager<IdentityRole> roleManager =
-                    scope.ServiceProvider
-                    .GetRequiredService<RoleManager<IdentityRole>>();
+            //Check that there is a Member role and create if not
+            var hasMemberRole = await roleManager.RoleExistsAsync("Member");
 
-                UserManager<ApplicationUser> userManager =
-                    scope.ServiceProvider
-                    .GetRequiredService<UserManager<ApplicationUser>>();
+            if (!hasMemberRole)
+            {
+                await roleManager.CreateAsync(new IdentityRole("Member"));
+            }
 
+            //Check that there is a SimpleUser role and create if not
+            var hasSimpleUserRole = await roleManager.RoleExistsAsync("SimpleUser");
 
-                //Check that there is an Admin role and create if not
-                var hasAdminRole = await roleManager.RoleExistsAsync("Admin");
+            if (!hasSimpleUserRole)
+            {
+                await roleManager.CreateAsync(new IdentityRole("SimpleUser"));
+            }
 
-                if (!hasAdminRole)
+            //Check if the admin user exists and create it if not
+            //Add to the Admin role
+            var userA = await userManager.FindByEmailAsync(UserAdmin);
+
+            if (userA == null)
+            {
+                userA = new ApplicationUser()
                 {
-                    var roleresult = await roleManager.CreateAsync(new IdentityRole("Admin"));
-                }
+                    Email = UserAdmin,
+                    UserName = "SuperAdmin",
+                    EmailConfirmed = true
+                };
 
-                //Check that there is a Member role and create if not
-                var hasMemberRole = await roleManager.RoleExistsAsync("Member");
+                var newUser = await userManager.CreateAsync(userA, PasswordAdmin);
 
-                if (!hasMemberRole)
+                if (newUser.Succeeded)
                 {
-                    await roleManager.CreateAsync(new IdentityRole("Member"));
-                }
-
-                //Check that there is a SimpleUser role and create if not
-                var hasSimpleUserRole = await roleManager.RoleExistsAsync("SimpleUser");
-
-                if (!hasSimpleUserRole)
-                {
-                    await roleManager.CreateAsync(new IdentityRole("SimpleUser"));
-                }
-
-                //Check if the admin user exists and create it if not
-                //Add to the Admin role
-                var userA = await userManager.FindByEmailAsync(UserAdmin);
-
-                if (userA == null)
-                {
-                    userA = new ApplicationUser()
-                    {
-                        Email = UserAdmin,
-                        UserName = UserAdmin,
-                        EmailConfirmed = true
-                    };
-
-                    var newUser = await userManager.CreateAsync(userA, PasswordAdmin);
-
-                    if (newUser.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(userA, "Admin");
-                    }
-                }
-
-                //Check if the member user exists and create it if not
-                //Add to the Member role
-                var userM = await userManager.FindByEmailAsync(UserMember);
-
-                if (userM == null)
-                {
-                    userM = new ApplicationUser()
-                    {
-                        Email = UserMember,
-                        UserName = UserMember,
-                        EmailConfirmed = true
-                    };
-
-                    var user = await userManager.CreateAsync(userM, PasswordMember);
-                    if (user.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(userM, "Member");
-                    }
+                    await userManager.AddToRoleAsync(userA, "Admin");
+                    int adminType = 3;
+                    await _userRepository.CreateUserAsync(userA.Id, adminType, "Super", "Admin");
                 }
             }
+
+            //Check if the member user exists and create it if not
+            //Add to the Member role
+            var userM = await userManager.FindByEmailAsync(UserMember);
+
+            if (userM == null)
+            {
+                userM = new ApplicationUser()
+                {
+                    Email = UserMember,
+                    UserName = "john",
+                    EmailConfirmed = true
+                };
+
+                var user = await userManager.CreateAsync(userM, PasswordMember);
+                if (user.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(userM, "Member");
+                    int memberType = 2;
+                    await _userRepository.CreateUserAsync(userM.Id, memberType, "John", "Smith");
+                }
+            }
+
         }
     }
 }

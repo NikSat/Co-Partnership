@@ -1,7 +1,7 @@
 ﻿using System;
+using Co_Partnership.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Data
 {
@@ -195,8 +195,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ExtId)
                     .HasColumnName("Ext_Id")
                     .IsUnicode(false);
