@@ -11,11 +11,11 @@ namespace Co_Partnership.Services
     {
         IQueryable<User> Users { get; }
 
-        void UpdateMember(User user);
+        void UpdateUser(User user);
 
-        void SaveMember(User user);
+        void SaveUser(User user);
 
-        Item DeleteMember(int userId);
+        User DeleteUser(int userId);
 
     }
 }
