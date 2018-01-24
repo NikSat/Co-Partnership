@@ -14,7 +14,7 @@ namespace Co_Partnership.Models.Database
         public int Id { get; set; }
         public DateTime? Date { get; set; }
         public int? OwnerId { get; set; }
-        public int RecipientId { get; set; }
+        public int? RecipientId { get; set; }
         public DateTime? DateProcessed { get; set; }
         public int? IsProcessed { get; set; }
         public decimal? Price { get; set; }

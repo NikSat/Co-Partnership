@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Co_Partnership.Models.Database;
 
-
 namespace Co_Partnership.Data
 {
     public partial class Co_PartnershipContext : DbContext
@@ -95,9 +94,7 @@ namespace Co_Partnership.Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UnitPrice)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
 
                 entity.Property(e => e.UnitType)
                     .HasMaxLength(50)
@@ -172,7 +169,6 @@ namespace Co_Partnership.Data
                 entity.HasOne(d => d.Recipient)
                     .WithMany(p => p.TransactionRecipient)
                     .HasForeignKey(d => d.RecipientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Transaction_Recepient");
             });
 

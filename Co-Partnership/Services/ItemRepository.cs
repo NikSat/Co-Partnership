@@ -7,13 +7,13 @@ using Co_Partnership.Data;
 
 namespace Co_Partnership.Services
 {
-    public class CItemRepository : IItemRepository
+    public class ItemRepository : IItemRepository
     {
         // Set the database needed to get the products
         private Co_PartnershipContext db;
 
         // The Constructor
-        public CItemRepository (Co_PartnershipContext db)
+        public ItemRepository (Co_PartnershipContext db)
         {
             this.db = db;
         }

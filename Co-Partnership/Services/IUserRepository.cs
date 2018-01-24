@@ -7,7 +7,7 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         IQueryable<User> Users { get; }
 
