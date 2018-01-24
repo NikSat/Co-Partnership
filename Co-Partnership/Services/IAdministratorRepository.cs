@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Co_Partnership.Services
 {
-    internal interface IAdministratorRepository : IFinanceRepository, IUserRepository, IItemRepository, IMessageInterface
+    public interface IAdministratorRepository : ITransactionRepository, IUserRepository, IItemRepository, IMessageInterface
     {
 
 

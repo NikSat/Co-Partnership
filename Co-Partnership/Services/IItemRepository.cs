@@ -7,7 +7,7 @@ using Co_Partnership.Models.Database;
 namespace Co_Partnership.Services
 {
     // A form of storage for the items to be used by the adminstrator
-    interface IItemRepository
+    public interface IItemRepository
     {
 
         IQueryable<Item> Items { get; }

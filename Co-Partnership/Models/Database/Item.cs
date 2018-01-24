@@ -19,7 +19,7 @@ namespace Co_Partnership.Models.Database
         public bool? IsLive { get; set; }
         public string Image { get; set; }
         public string UnitType { get; set; }
-        public string UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
 
         public ICollection<TransactionItem> TransactionItem { get; set; }
         public ICollection<WishList> WishList { get; set; }

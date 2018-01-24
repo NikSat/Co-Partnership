@@ -6,7 +6,7 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    interface IMessageInterface
+    public interface IMessageInterface
     {
         IQueryable<Message> Messages { get; }
 
