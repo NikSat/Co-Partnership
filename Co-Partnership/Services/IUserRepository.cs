@@ -11,11 +11,13 @@ namespace Co_Partnership.Services
     {
         IQueryable<User> Users { get; }
 
-        void UpdateUser(User user);
+        Task UpdateUserAsync(User user);
 
-        void SaveUser(User user);
+        Task SaveUserAsync(User user);
 
-        User DeleteUser(int userId);
+        Task<User> DeleteUserAsync(int userId);
+
+        Task CreateUserAsync(string extId, int userType, string fisrtName, string lastName);
 
     }
 }

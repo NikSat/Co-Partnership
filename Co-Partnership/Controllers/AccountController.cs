@@ -24,17 +24,20 @@ namespace Co_Partnership.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private IUserRepository _userRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IUserRepository user)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _userRepository = user;
         }
 
         [TempData]
@@ -235,8 +238,9 @@ namespace Co_Partnership.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "SimpleUser");
-                    
-                    //add user to co_operative DB
+                    int userType = 0;
+
+                    await _userRepository.CreateUserAsync(user.Id, userType, model.FirstName, model.LastName);
 
                     _logger.LogInformation("User created a new account with password.");
 

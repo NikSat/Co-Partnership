@@ -16,34 +16,43 @@ namespace Co_Partnership.Services
             this.db = db;
         }
 
+        public IQueryable<User> Users => db.User; 
 
-        public IQueryable<User> Users => db.User; //.Join(idedb.Users, p => p.Id , q=>q. )
+        public async Task CreateUserAsync(string extId,int userType, string fisrtName, string lastName)
+        {
+            User user = new User()
+            {
+                ExtId=extId,
+                UserType=userType,
+                FirstName=fisrtName,
+                LastName=lastName
+            };
+            await SaveUserAsync(user);
+        }
 
-        public User DeleteUser(int userId)
+        public async Task<User> DeleteUserAsync(int userId)
         {
             User user = db.User.FirstOrDefault(p => p.Id == userId);
 
             if (user != null)
             {
                 db.User.Remove(user);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
             return user;
         }
 
-
-        public void SaveUser(User user)
+        public async Task SaveUserAsync(User user)
         {
-            db.User.Add(user);
-            db.SaveChanges();
+            await db.User.AddAsync(user);
+            await db.SaveChangesAsync();
         }
 
-
-        public void UpdateUser(User user)
+        public async Task UpdateUserAsync(User user)
         {
             db.Update(user);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }
