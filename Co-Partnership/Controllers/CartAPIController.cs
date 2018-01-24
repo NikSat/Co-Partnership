@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Co_Partnership.Data;
 using Co_Partnership.Models;
+using Co_Partnership.Models.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,19 @@ namespace Co_Partnership.Controllers
     {
         private readonly Co_PartnershipContext _context;
         private Cart cart;
-        public CartAPIController()
-        {
 
+        public CartAPIController(Co_PartnershipContext context, Cart cartService)
+        {
+            _context = context;
+            cart = cartService;
         }
+
+        // GET: api/CartAPI
+        [HttpGet]
+        public List<TransactionItem> Get()
+        {
+            return cart.CartItems;
+        }
+
     }
 }
