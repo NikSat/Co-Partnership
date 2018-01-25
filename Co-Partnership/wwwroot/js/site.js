@@ -18,7 +18,7 @@
             }
         }
     );
-
+    //search overlay
     $(".search-trigger").click(
         function () {
             document.getElementById("overlay1").style.width = "100%";
@@ -30,6 +30,9 @@
             document.getElementById("overlay1").style.width = "0%";
         }
     );
+
+
+
 });
 
 (function ($) {
@@ -51,6 +54,16 @@
         .trigger('resize');
 })(jQuery);
 
+
+//$(window).on('load', function() {
+//    var heights1 = $(".equal-height1").map(function() {
+//        return $(this).height();
+//    }).get(),
+
+//    maxHeight1 = Math.max.apply(null, heights1);
+
+//    $(".equal-height1").height(maxHeight1);
+//});
 
 
 

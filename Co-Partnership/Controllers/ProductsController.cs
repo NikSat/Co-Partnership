@@ -29,7 +29,8 @@ namespace Co_Partnership.Controllers
                 Products= await _context.Item.Where(p => (p.IsLive ?? false)&&(category == null || p.Category == category))
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize)
-                .ToListAsync(),
+                .AsNoTracking()
+                .ToListAsync(),//Usage of NoTracking() is recommended when your query is meant for read operations. In these scenarios, you get back your entities but they are not tracked by your context.This ensures minimal memory usage and optimal performance
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,

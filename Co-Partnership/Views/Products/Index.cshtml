@@ -7,19 +7,19 @@
 
 
 @{if (Model.CurrentCategory == null)
-    { <h2>All Products</h2> }
+    { <h2 class=" text-center ">All Products</h2> }
     else
     {
-        <h2>@Model.CurrentCategory</h2>
+        <h2 class="text-center text-md-left">@Model.CurrentCategory</h2>
     }
 }
 
-<div class="row">
+<div class="row ml-auto">
 
     @foreach (var item in Model.Products)
     {
 
-        <div class=" col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class=" col-12 col-sm-6 col-md-4 col-lg-3 ">
             <div class="card text-center">
                 <a asp-action="Product" asp-route-id="@item.Id">
                     <div class="wrapper">
@@ -29,11 +29,14 @@
                     </div>
                 </a>
                 <div class="card-body">
-                    <a asp-action="Product" asp-route-id="@item.Id">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    </a>
-
-                    <a href="@Url.Action("Category", "Products",new {category=@item.Category})" class="card-link" role="button"> @item.Category</a>
+                    <div>
+                        <a class="fancy-underline d-inline-block" asp-action="Product" asp-route-id="@item.Id">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        </a>
+                    </div>
+                    <div>
+                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Category" asp-route-productPage="1" > @item.Category</a>
+                    </div>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.UnitPrice) / @item.UnitType</p>
                     <div class="custom-position">
@@ -68,7 +71,7 @@
 
         </div>
     }
-    <div class="col-12">
+    <div class="col-12 mt-4">
         <nav class="btn-group">
             @* Emfanizoume  ta hyperlinks twn selidwn mono an einai prossoteres apo mia *@
             @for (int i = 1; i <= Model.PagingInfo.TotalPages && Model.PagingInfo.TotalPages > 1; i++)
