@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/side.css"  type="text/css"/>
+        <link rel="stylesheet" href="~/css/Adminside.css"  type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </environment>
@@ -22,24 +22,41 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <link rel="stylesheet" href="~/css/side.css"  type="text/css"/>
+        <link rel="stylesheet" href="~/css/Adminside.css"  type="text/css"/>
     </environment>
 </head>
 
 <body>
-    @*<div class="bg-info p-2">
+
+    <div class="container-fluid body-content">
+        <div class="row">
+            <div class="d-none d-md-block col-md-2">
+                @await Component.InvokeAsync("AdminSide")
+            </div>
+            <div class="col-12 col-md-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
+
+    @*
+        <div class="bg-info p-2">
             <h4>Administrator - @ViewBag.Title panel</h4>
         </div>
-    *@
+   
 
     <div class="wrapper">
 
-  @*
-        @Html.Partial("AdminSide")
-      *@
+        
+            @Html.Partial("AdminSide")
+        
 
         @RenderBody()
     </div>
-        <script src="~/js/side.js"></script>
+    *@
+
+    <script src="~/js/side.js"></script>
 </body>
 </html>
