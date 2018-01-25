@@ -31,7 +31,7 @@
     <div class="container-fluid body-content">
         <div class="row">
             <div class="d-none d-md-block col-md-2">
-                @await Component.InvokeAsync("AdminSide")
+                @Html.Partial("AdminSide")
             </div>
             <div class="col-12 col-md-10">
                 @RenderBody()
@@ -57,6 +57,6 @@
     </div>
     *@
 
-    <script src="~/js/side.js"></script>
+    <script src="~/js/Adminside.js"></script>
 </body>
 </html>

@@ -18,9 +18,9 @@ namespace Co_Partnership.Controllers
     {
         // This creates the apis for the financial panel
 
-        private IAdministratorRepository financeRepository;
+        private ITransactionRepository financeRepository;
 
-        public FinanceController(IAdministratorRepository repository)
+        public FinanceController(ITransactionRepository repository)
         {
             financeRepository = repository;
         }
