@@ -72,8 +72,14 @@ namespace Co_Partnership
             services.AddTransient<IEmailSender, EmailSender>();
 
             // Add the item repository here
-            services.AddTransient<IItemRepository, CItemRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<ITransactionRepository,TransactionRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMessageInterface, MessageInterface>();
 
+
+            //services.AddTransient<IAdministratorRepository, ACAdministatorRepository>();
+            services.AddTransient<IdentitySeedData, IdentitySeedData>();
 
             services.AddMvc();
 
@@ -84,7 +90,7 @@ namespace Co_Partnership
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IdentitySeedData identitySeedData)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -129,7 +135,7 @@ namespace Co_Partnership
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            IdentitySeedData.EnsurePopulated(app);
+            identitySeedData.EnsurePopulated().Wait();            
         }
     }
 }

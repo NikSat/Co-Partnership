@@ -7,7 +7,7 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    interface IFinanceRepository
+    public interface ITransactionRepository
     {
         IQueryable<Transaction> Transactions { get; }
 
@@ -15,7 +15,7 @@ namespace Co_Partnership.Services
 
         void SaveTransaction(Transaction transaction);
 
-        Item DeleteTransaction(int transactionId);
+        Transaction DeleteTransaction(int transactionId);
 
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
+using Co_Partnership.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Co_Partnership.Models.Database;
-
 
 namespace Co_Partnership.Data
 {
@@ -95,9 +94,7 @@ namespace Co_Partnership.Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UnitPrice)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
 
                 entity.Property(e => e.UnitType)
                     .HasMaxLength(50)
@@ -172,7 +169,6 @@ namespace Co_Partnership.Data
                 entity.HasOne(d => d.Recipient)
                     .WithMany(p => p.TransactionRecipient)
                     .HasForeignKey(d => d.RecipientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Transaction_Recepient");
             });
 
@@ -199,8 +195,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ExtId)
                     .HasColumnName("Ext_Id")
                     .IsUnicode(false);

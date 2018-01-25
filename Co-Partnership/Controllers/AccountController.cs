@@ -24,17 +24,20 @@ namespace Co_Partnership.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private IUserRepository _userRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IUserRepository user)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _userRepository = user;
         }
 
         [TempData]
@@ -61,6 +64,8 @@ namespace Co_Partnership.Controllers
             {
                 // Require the user to have a confirmed email before they can log on.
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
+
                 if (user != null)
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -71,7 +76,9 @@ namespace Co_Partnership.Controllers
                 }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -230,11 +237,14 @@ namespace Co_Partnership.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "SimpleUser");
+                    int simpleUserType = 1;
+
+                    await _userRepository.CreateUserAsync(user.Id, simpleUserType, model.FirstName, model.LastName);
 
                     _logger.LogInformation("User created a new account with password.");
 

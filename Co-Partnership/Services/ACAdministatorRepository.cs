@@ -7,7 +7,7 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    public class ACAdministatorRepository : IAdministratorRepository
+    public class ACAdministatorRepository //: IAdministratorRepository
     {
 
 

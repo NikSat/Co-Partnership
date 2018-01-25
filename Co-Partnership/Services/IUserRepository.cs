@@ -7,15 +7,17 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         IQueryable<User> Users { get; }
 
-        void UpdateMember(User user);
+        Task UpdateUserAsync(User user);
 
-        void SaveMember(User user);
+        Task SaveUserAsync(User user);
 
-        Item DeleteMember(int userId);
+        Task<User> DeleteUserAsync(int userId);
+
+        Task CreateUserAsync(string extId, int userType, string fisrtName, string lastName);
 
     }
 }
