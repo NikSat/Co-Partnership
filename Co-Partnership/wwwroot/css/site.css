@@ -44,6 +44,28 @@
 /*.navbar-dark .navbar-brand {
     color: #ecdcab;
 }*/
+.breadcrumb {
+    position: relative;
+    left: -50%;
+    top:-55px;
+    font-size: 0.86rem;
+    background-color: transparent;
+    color: #6c685d;
+    margin-bottom:0;
+    font-weight:500;
+}
+
+.breadcrumb-item.active {
+    color: #6c685d;
+    /*font-weight: 500;*/
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #6c685d;
+    content: ">";
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+}
 
 a {
     color: #ddd;
@@ -93,7 +115,7 @@ a {
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding: 50px 15px;
-    min-height: 56.4vh
+    min-height: 61.49vh
 }
 
 
@@ -375,6 +397,12 @@ nav ul li:hover > a {
     left: 0.75rem;
 }
 
+.custom-position-right {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.75rem;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
@@ -403,6 +431,20 @@ nav ul li:hover > a {
     font-size: 1.5rem
 }
 
+.fa-heart {
+    color: #dae0e5;
+}
+
+
+
+    /*full-heart color: #dae0e5;*/
+.animated .fa-heart:hover {
+    color: #696863;
+    /*#cfc6ac*/
+}
+.animated .fa-heart {
+    color: #a7a7a7;
+}
 
 /*search-overlay on xs sm*/
 .overlay {
@@ -444,6 +486,15 @@ nav ul li:hover > a {
     right: 45px;
     font-size: 60px;
 }
+
+.row>dt{
+    text-align:right;
+}
+
+.row > dd {
+    text-align: left;
+}
+
 /*footer*/
 .footer {
     background-color: #9e8f60;

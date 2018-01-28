@@ -5,15 +5,14 @@
         function () {/*$(expr, context)
                         Is just equivalent to use the find method:
                              $(context).find(expr)*/
-            /*The first true variable in .stop(true, true); is called clearQueue. This true clears all queued animations, so they don't pile up and continue animating even after your user is done interacting with the element.
-            The second true variable in .stop(true, true); is a bool that tells jQuery whether or not to jump to the end of the queue and just do the last animation that your user initiated.*/
-            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).show();
+            
+            $('.dropdown-menu', this).not('.in .dropdown-menu').show();
             $(this).addClass('open');
 
         },
         function () {
             if (window.innerWidth >= 768) {/*gia na mhn kleinei  se <768*/
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true, true).hide();
+                $('.dropdown-menu', this).not('.in .dropdown-menu').hide();
                 $(this).removeClass('open');
             }
         }
@@ -32,8 +31,27 @@
     );
 
 
+    
+
+
 
 });
+
+$(function () {
+    $(".card").mouseenter(function () {
+        $this = $(this);
+        var event2 = $this.find(".custom-position-right");
+        event2.addClass("faa-pulse");
+        event2.addClass("animated");
+    }).mouseleave(function () {
+        $this = $(this);
+        var event2 = $this.find(".custom-position-right");
+        event2.removeClass("faa-pulse");
+        event2.removeClass("animated");
+
+    });
+});
+
 
 (function ($) {
     var $window = $(window);

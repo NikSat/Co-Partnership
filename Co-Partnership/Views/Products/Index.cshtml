@@ -4,6 +4,23 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutWithSide.cshtml";
 }
+<div style="position: absolute; left: 50%;">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        @{ if (Model.CurrentCategory == null)
+            {
+                <li class="breadcrumb-item active">Products</li>
+            }
+            else
+            {
+                <li class="breadcrumb-item "><a asp-controller="Products" asp-action="Index" asp-route-category="" asp-route-productPage="1">Products</a></li>
+                <li class="breadcrumb-item ">Category</li>
+                <li class="breadcrumb-item active">@Model.CurrentCategory</li>
+            }
+        }
+
+    </ul>
+</div>
 
 
 @{if (Model.CurrentCategory == null)
@@ -35,9 +52,10 @@
                         </a>
                     </div>
                     <div>
-                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Category" asp-route-productPage="1" > @item.Category</a>
+                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Category" asp-route-productPage="1"> @item.Category</a>
                     </div>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text d-block text-truncate" style="max-width: 150px;">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text d-none">@Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.UnitPrice) / @item.UnitType</p>
                     <div class="custom-position">
 
@@ -51,19 +69,22 @@
 
                         }
                     </div>
-                    @*onclick="location.href='<%: Url.Action("Action", "Cart") %>'"*@
-                    <div class="btn-group d-flex" role="group">
-                        <a href="" class="btn btn-secondary w-100">Like</a>
+                    <div class="custom-position-right">
+                        <a href="~/images/feta.jpg"> <span class="fa fa-heart " aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>
+                    </div>
+
+
+                    
                         @if (item.StockQuantity > 0)
                         {
-                            <a href="" class="btn btn-secondary w-100">Buy</a>
+                    <a href="" class="btn btn-secondary w-100">Add to <span class="fa fa-shopping-cart "></span></a>
                         }
                         else
                         {
                             <a href="" class="btn btn-secondary w-100 disabled">Buy</a>
 
                         }
-                    </div>
+                    
                 </div>
             </div>
 
@@ -89,27 +110,3 @@
     </div>
 
 </div>
-@*   <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsLive)
-        </td>
-        <td>
-            <a asp-action="Product" asp-route-id="@item.Id">Details</a> |
-            <a>Add to Cart</a> |
-            <a>Add to WishList</a>
-        </td>
-    </tr>*@
-
-
