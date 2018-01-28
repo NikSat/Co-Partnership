@@ -35,10 +35,23 @@
 
         for (i = 0; i < titles.length; i++) {
             let cell = document.createElement('th');
-            cell.classList.add("col-3");
+            cell.classList.add("col-2");
             cell.innerHTML = titles[i];
             row.appendChild(cell);
         }
+        // Create a cell that holds two buttons               
+        let wrapcell = document.createElement('th');
+        wrapcell.classList.add("col-4");
+        //Create two buttons view all and process all
+        let masvie = document.createElement('button');
+        masvie.innerText = "View All";
+        wrapcell.appendChild(masvie);
+        let maspro = document.createElement('button');
+        maspro.innerText = "Process All";
+        wrapcell.appendChild(maspro);
+        row.appendChild(wrapcell);
+
+
         head.appendChild(row);
 
         tbl.appendChild(head);
@@ -66,7 +79,7 @@
 
     let getOrders = () => {
         $.ajax({
-            url: "api/Finance",
+            url: "api/Finance/Order",
             contentType: "application/json",
             method: "GET",
             success: (data) => {
