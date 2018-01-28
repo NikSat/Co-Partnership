@@ -33,6 +33,10 @@ namespace Co_Partnership.Controllers
             return financeRepository.Transactions.Where(x => x.IsProcessed == 1);
         }
 
+
+
+
+
         
     }
 }
