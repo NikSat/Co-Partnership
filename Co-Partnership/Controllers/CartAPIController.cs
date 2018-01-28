@@ -26,7 +26,7 @@ namespace Co_Partnership.Controllers
 
         // GET: api/CartAPI
         [HttpGet]
-        public List<TransactionItem> Get()
+        public IEnumerable<TransactionItem> Get()
         {
             return cart.CartItems;
         }

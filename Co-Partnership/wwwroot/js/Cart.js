@@ -28,12 +28,14 @@
     };
 
     let addTableRow = (cartItem) => {
+        
+        let itemPrice = cartItem.item.unitPrice * cartItem.quantinty;
         $("table tbody").append(
             `<tr>
                 <td class="col-3">${cartItem.item.name}</td>
                 <td class="col-3">${cartItem.item.unitPrice}</td>
-                <td class="col-3">${cartItem.quantity}</td>
-                <td class="col-3">${cartItem.item.unitPrice * cartItem.quantity}</td>
+                <td class="col-3">${cartItem.quantinty}</td>
+                <td class="col-3">${itemPrice}</td>
             </tr>`
         );
 
@@ -53,7 +55,7 @@
                 }
                 else {
                     makeTable();
-                    data.array.forEach(element => addTableRow(x));
+                    data.forEach(x => addTableRow(x));
                 }
             }
         });

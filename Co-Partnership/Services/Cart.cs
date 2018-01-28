@@ -18,6 +18,7 @@ namespace Co_Partnership.Services
             var product = cartItems
                 .Where(i => i.Item.Id == item.Id)
                 .SingleOrDefault(); 
+
             
             if (product == null)
             {
