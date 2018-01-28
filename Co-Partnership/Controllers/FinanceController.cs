@@ -13,7 +13,7 @@ using Co_Partnership.Models.Database;
 namespace Co_Partnership.Controllers
 {
     [Produces("application/json")]
-    [Route("Admin/api/Finance")]
+    //[Route("Admin/api/Finance")]
     public class FinanceController : Controller
     {
         // This creates the apis for the financial panel
@@ -27,11 +27,16 @@ namespace Co_Partnership.Controllers
 
         // This function gets the orders that are not reviewed yet
         // GET: Admin/api/financies
+        [Route("Admin/api/Finance/Order")]
         [HttpGet]
         public IEnumerable<Transaction> Get()
         {
             return financeRepository.Transactions.Where(x => x.IsProcessed == 1);
         }
+
+
+
+
 
         
     }
