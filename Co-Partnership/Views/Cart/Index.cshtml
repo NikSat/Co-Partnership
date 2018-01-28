@@ -20,7 +20,7 @@
             <tr>
                 <td>@item.Item.Name</td>
                 <td class="text-center">x @item.Quantinty</td>
-                <td class="text-right">@item.Item.UnitPrice.Value * Convert.ToDecimal(item.Quantinty)</td>
+                <td class="text-right">@Model.ComputeItemValue(item)</td>
             </tr>
         }
     </tbody>

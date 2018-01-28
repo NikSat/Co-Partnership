@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Co_Partnership.Services
 {
-    public class Cart:ICart
+    public class Cart: ICart
     {
         private List<TransactionItem> cartItems = new List<TransactionItem>();
 
@@ -37,6 +37,19 @@ namespace Co_Partnership.Services
         public virtual void RemoveItem(Item item)
         {
             cartItems.RemoveAll(i => i.Item.Id == item.Id);
+        }
+
+        public virtual decimal? ComputeItemValue(TransactionItem cartItem)
+        {
+            var product = cartItems
+                .Where(i => i.Item.Id == cartItem.ItemId)
+                .SingleOrDefault();
+            if (product == null)
+            {
+                return 0;
+            }
+
+            return product.Item.UnitPrice * Convert.ToDecimal(product.Quantinty);
         }
 
         public virtual decimal ComputeTotalValue() => cartItems.Sum(e => e.Item.UnitPrice.Value * Convert.ToDecimal(e.Quantinty));

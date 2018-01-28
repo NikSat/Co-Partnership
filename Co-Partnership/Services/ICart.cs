@@ -14,6 +14,8 @@ namespace Co_Partnership.Services
         
         decimal ComputeTotalValue();
 
+        decimal? ComputeItemValue(TransactionItem cartItem);
+
         void Clear();
     }
 }

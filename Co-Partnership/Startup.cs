@@ -36,7 +36,7 @@ namespace Co_Partnership
                 //options.Filters.Add(new RequireHttpsAttribute());
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
 
@@ -77,7 +77,7 @@ namespace Co_Partnership
             services.AddTransient<ITransactionRepository,TransactionRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMessageInterface, MessageInterface>();
-            
+
 
 
             //services.AddTransient<IAdministratorRepository, ACAdministatorRepository>();
@@ -134,13 +134,18 @@ namespace Co_Partnership
                    template: "Products/{productPage}",
                    defaults: new { Controller = "Products", Action = "Index" }
                    );
+                routes.MapRoute(
+                   name: "cart",
+                   template: "Cart",
+                   defaults: new { Controller = "Cart", Action = "Index" }
+                   );
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            identitySeedData.EnsurePopulated().Wait();            
+            identitySeedData.EnsurePopulated().Wait();
         }
     }
 }
