@@ -14,7 +14,7 @@ namespace Co_Partnership.Controllers
     public class ProductsController : Controller
     {
         private readonly Co_PartnershipContext _context;
-        public int PageSize = 6;
+        public int PageSize = 8;
         public ProductsController(Co_PartnershipContext context)
         {
             _context = context;
