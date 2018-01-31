@@ -1,14 +1,105 @@
 ﻿
 @{
     ViewData["Title"] = "_LayoutContained";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
-<div class="container  body-content">
-    <div class="row">
-        <div class="col-12">
-            @RenderBody()
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Co_Partnership</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/font-awesome-animation.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/shame.css" />
+
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+
+    @Html.Partial("_Header")
+
+    <div class="container  body-content">
+        <div class="row">
+            <div class="col-12">
+                @RenderBody()
+            </div>
         </div>
     </div>
-</div>
 
-@RenderSection("Scripts", required: false)
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row py-4 ">
+                <div class="col-sm-4 text-sm-center">
+                    <a href="">Terms & Conditions</a>
+                </div>
+                <div class="col-sm-4 d-flex">
+                    <div class="mx-md-auto">
+                        <h4>Contact</h4>
+                        <div>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="fa fa-phone mr-2" aria-hidden="true"></span>
+                                    <a href="tel:+302103330740">2810 330740</a>
+                                </li>
+                                <li class="text-nowrap">
+                                    <span class="fa fa-send mr-1"></span>
+                                    <a href="mailto:info@bachari.gr">info[at]copartership.gr</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4  text-sm-center">
+                    <a href="http://www.afdemp.org/"><img class="rounded" src="~/images/afdemp.png" /></a>
+                </div>
+            </div>
+            <div class="footer-btm">&copy; 2018 - Co_Partnership</div>
+        </div>
+
+    </footer>
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        @*<script src="~/lib/tether/dist/js/tether.min.js"></script>*@
+        <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/hover-menu-aim/dist/hover-menu-aim.min.js"></script>
+        <script src="~/lib/hover-menu-aim/hover-menu-aim.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+
+</body>
+</html>
+
+

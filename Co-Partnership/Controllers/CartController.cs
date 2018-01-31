@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Co_Partnership.Data;
 using Co_Partnership.Models;
 using Co_Partnership.Models.Database;
+using Co_Partnership.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Co_Partnership.Controllers
@@ -25,16 +26,16 @@ namespace Co_Partnership.Controllers
             return View(cart);
         }
 
-        //public RedirectToRouteResult AddToCart(int itemId, string returnUrl)
-        //{
-        //    Item item = _context.Item.SingleOrDefault(i => i.Id == itemId);
+        public IActionResult AddToCart(int itemId, string returnUrl)
+        {
+            Item item = _context.Item.SingleOrDefault(i => i.Id == itemId);
 
-        //    if (item != null)
-        //    {
-        //        cart.AddItem(item, 1);
-        //    }
-        //    TempData["returnUrl"] = returnUrl;
-        //    return RedirectToRoute("cart");
-        //}
+            if (item != null)
+            {
+                cart.AddItem(item, 1);
+            }
+            //TempData["returnUrl"] = returnUrl;
+            return Redirect(returnUrl);
+        }
     }
 }

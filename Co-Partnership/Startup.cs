@@ -15,6 +15,7 @@ using Co_Partnership.Models.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Co_Partnership
 {
@@ -32,10 +33,10 @@ namespace Co_Partnership
         {
             services.Configure<MvcOptions>(options =>
             {
-                options.Filters.Add(new RequireHttpsAttribute());
+                //options.Filters.Add(new RequireHttpsAttribute());
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
 
@@ -79,8 +80,12 @@ namespace Co_Partnership
             services.AddTransient<ICompAccountRepository, CompanyAccountRepository>();
 
 
+
             //services.AddTransient<IAdministratorRepository, ACAdministatorRepository>();
             services.AddTransient<IdentitySeedData, IdentitySeedData>();
+
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddMvc();
 
@@ -96,10 +101,10 @@ namespace Co_Partnership
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            var options = new RewriteOptions()
-               .AddRedirectToHttps();
+            //var options = new RewriteOptions()
+            //   .AddRedirectToHttps();
 
-            app.UseRewriter(options);
+            //app.UseRewriter(options);
 
             if (env.IsDevelopment())
             {
@@ -130,13 +135,18 @@ namespace Co_Partnership
                    template: "Products/{productPage}",
                    defaults: new { Controller = "Products", Action = "Index" }
                    );
+                routes.MapRoute(
+                   name: "cart",
+                   template: "Cart",
+                   defaults: new { Controller = "Cart", Action = "Index" }
+                   );
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            identitySeedData.EnsurePopulated().Wait();            
+            identitySeedData.EnsurePopulated().Wait();
         }
     }
 }

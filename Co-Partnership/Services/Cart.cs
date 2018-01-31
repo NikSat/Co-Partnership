@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Co_Partnership.Models
+namespace Co_Partnership.Services
 {
-    public class Cart
+    public class Cart: ICart
     {
         private List<TransactionItem> cartItems = new List<TransactionItem>();
 
@@ -39,7 +39,20 @@ namespace Co_Partnership.Models
             cartItems.RemoveAll(i => i.Item.Id == item.Id);
         }
 
-        public virtual decimal ComputeTotalValue() => 0; //items.Sum(e => e.Item.UnitPrice * e.Quantinty);
+        public virtual decimal? ComputeItemValue(TransactionItem cartItem)
+        {
+            var product = cartItems
+                .Where(i => i.Item.Id == cartItem.ItemId)
+                .SingleOrDefault();
+            if (product == null)
+            {
+                return 0;
+            }
+
+            return product.Item.UnitPrice * Convert.ToDecimal(product.Quantinty);
+        }
+
+        public virtual decimal ComputeTotalValue() => cartItems.Sum(e => e.Item.UnitPrice.Value * Convert.ToDecimal(e.Quantinty));
 
         public virtual void Clear() => cartItems.Clear();
        
