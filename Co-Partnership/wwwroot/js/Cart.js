@@ -2,9 +2,10 @@
 
     let makeTable = () => {
         // Make the table
-        let tbl = document.createElement('table');
-        tbl.classList.add("table");
-        tbl.classList.add("table-fixed");
+        let table = document.createElement('table');
+        table.classList.add("table");
+        table.classList.add("table-fixed");
+        table.id = "cartTable";
         // Make the head
         let head = document.createElement('thead');
         let row = document.createElement('tr');
@@ -19,27 +20,77 @@
 
         head.appendChild(row);
 
-        tbl.appendChild(head);
+        table.appendChild(head);
         let targ = document.getElementById("cart");
-        targ.appendChild(tbl);
+        targ.appendChild(table);
         let tbody = document.createElement('tbody');
         tbody.id = "CartBody";
-        tbl.appendChild(tbody);
+        table.appendChild(tbody);
     };
 
     let addTableRow = (cartItem) => {
-        
-        let itemPrice = cartItem.item.unitPrice * cartItem.quantinty;
-        $("table tbody").append(
-            `<tr>
-                <td class="col-3">${cartItem.item.name}</td>
-                <td class="col-3">${cartItem.item.unitPrice}</td>
-                <td class="col-3">${cartItem.quantinty}</td>
-                <td class="col-3">${itemPrice}</td>
-            </tr>`
-        );
 
+        let quantityInput = document.createElement('input');
+        quantityInput.type = "number";
+        quantityInput.value = cartItem.quantinty;
+        quantityInput.name = "quantity";
+        quantityInput.classList.add("quantityInput");
+        //quantityInput.disabled = true;
+        quantityInput.min = 1;
+        quantityInput.max = cartItem.item.stockQuantity;
+        quantityInput.required = true;
+        let previous;
+        $('.quantityInput').focus(() => {
+            previous = this.value;
+        }).change((e) => {
+            if (!quantityInput.checkValidity()) {
+                document.getElementById("error").innerHTML = quantityInput.validationMessage;
+                this.value = previous;
+            }
+            else {
+                cartItem.quantinty = this.value;
+                cartItem = updateQuantity(cartItem);
+                let p = e.target.parentNode.nextSibling;
+                p.innerHTML = itemPrice(cartItem);
+            }
+        });
+        //quantityInput.addEventListener("change", (e) => {
+        //    if (!quantityInput.checkValidity()) {
+        //        document.getElementById("error").innerHTML = quantityInput.validationMessage;
+        //    }
+        //    else {
+        //        let p = e.target.parentNode.nextSibling;
+        //        p.innerHTML = itemPrice(cartItem);
+        //    }
+        //});
+
+
+        let unitPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(cartItem.item.unitPrice);
+        let table = document.getElementById('cartTable');
+        table.appendChild(row = document.createElement('tr'));
+        row.id = cartItem.id;
+
+        row.appendChild(td1 = document.createElement('td'));
+        td1.id = "itemName" + String(cartItem.id);
+        td1.innerHTML = cartItem.item.name;
+
+        row.appendChild(td2 = document.createElement('td'));
+        td2.id = "unitPrice" + String(cartItem.id);
+        td2.innerHTML = unitPrice;
+
+        row.appendChild(td3 = document.createElement('td'));
+        td3.id = "quantity" + String(cartItem.id);
+        td3.appendChild(quantityInput);
+
+        row.appendChild(td4 = document.createElement('td'));
+        td1.id = "itemPrice" + String(cartItem.id);
+        td4.innerHTML = itemPrice(cartItem);
     };
+
+    let itemPrice = (cartItem) => {
+        let price = cartItem.item.unitPrice * cartItem.quantinty;
+        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(price);
+    }
 
     let getCartItems = () => {
         $.ajax({
@@ -60,6 +111,42 @@
             }
         });
     };
+
+    let updateQuantity = (cartItem) => {
+        $.ajax({
+            url: "api/Cart",
+            contentType: "application/json",
+            method: "POST",
+            data: JSON.stringify({
+                itemId: cartItem.itemId,
+                quntinty: cartItem.quantinty
+            }),
+            success: (data) => {
+                
+            }
+        });
+    }
+
+
+
+    //let quantityInput = document.getElementsByClassName("quantityInput");
+    //quantityInput.onclick((e) => {
+    //    e.preventDefault();
+    //    if(e.check)
+
+    //    $ajax({
+    //        url: "api/Cart",
+    //        contentType: "application/json",
+    //        method: "POST",
+    //        data: JSON.stringify({
+    //            quantinty: e.target.element['quantity'].value
+    //        }),
+    //        success: (data) => {
+    //            //let cell = e.target.
+    //        }
+    //    });
+    //});
+
 
     getCartItems();
 });

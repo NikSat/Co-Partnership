@@ -31,5 +31,16 @@ namespace Co_Partnership.Controllers
             return cart.CartItems;
         }
 
+        [HttpPost]
+        public TransactionItem Post(int itemId, int quantinty)
+        {
+            if (quantinty==null || quantinty <= 0)
+            {
+                quantinty = 1;
+            }
+
+            return cart.AddItem(itemId, quantinty);
+        }
+
     }
 }

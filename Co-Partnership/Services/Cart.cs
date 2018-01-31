@@ -8,31 +8,32 @@ namespace Co_Partnership.Services
 {
     public class Cart: ICart
     {
+
         private List<TransactionItem> cartItems = new List<TransactionItem>();
 
         public List<TransactionItem> CartItems => cartItems;
 
-        public virtual void AddItem(Item item, int quantity)
+        public virtual TransactionItem AddItem(int itemId, int quantity)
         {
             //if the item already exists inside the cart save it in product else null
-            var product = cartItems
-                .Where(i => i.Item.Id == item.Id)
+            var cartItem = cartItems
+                .Where(i => i.Item.Id == itemId)
                 .SingleOrDefault(); 
 
             
-            if (product == null)
+            if (cartItem == null)
             {
                 cartItems.Add(new TransactionItem()
                 {
-                    ItemId = item.Id,
-                    Item = item,
+                    ItemId = itemId,                   
                     Quantinty = quantity
-                });
+                }.include(Item));
             }
             else
             {
-                product.Quantinty += quantity;
+                cartItem.Quantinty += quantity;
             }
+            return cartItem;
         }
 
         public virtual void RemoveItem(Item item)

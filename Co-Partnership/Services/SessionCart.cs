@@ -29,10 +29,11 @@ namespace Co_Partnership.Services
             }
         }
 
-        public override void AddItem(Item item, int quantity)
+        public override TransactionItem AddItem(int itemId, int quantity)
         {
-            base.AddItem(item, quantity);
+            var cartItem = base.AddItem(itemId, quantity);
             session.SetString(sessionKey, JsonConvert.SerializeObject(this));
+            return cartItem;
         }
 
         public override void RemoveItem(Item item)
