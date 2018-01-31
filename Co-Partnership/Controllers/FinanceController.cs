@@ -36,15 +36,15 @@ namespace Co_Partnership.Controllers
         {
             return financeRepository.ListTransactions(1);
         }
-
+        
         // This function gets the items from each order
         [Route("Admin/api/Finance/Order/Details")]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IEnumerable<Object> Get(int id)
         {
             return financeRepository.ListItems(id);
         }
-
+        
         // This function updates the orders 
         [Route("Admin/api/Finance/Order/Update")]
         [HttpPost]
