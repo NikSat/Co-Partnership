@@ -9,7 +9,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
         <link rel="stylesheet" href="~/css/Adminside.css"  type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,13 +29,13 @@
 <body>
 
     <div class="container-fluid body-content">
-        <div class="row">
-            <div class="d-none d-md-block col-md-2">
-                @Html.Partial("AdminSide")
-            </div>
-            <div class="col-10 col-md-10">
+        <div >
+            
+             @Html.Partial("AdminSide")
+            
+            
                 @RenderBody()
-            </div>
+           
         </div>
     </div>
 

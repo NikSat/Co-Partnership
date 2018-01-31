@@ -31,7 +31,13 @@
     );
 
 
-    
+    //$("#exampleFormControlSelect1").change(function (e) {
+        
+    //    var baseUrl = 'Products';
+    //    location.href = baseUrl + '?sortOrder=' + $(this).val();
+    //    e.preventDefault();
+    //}
+    //);
 
 
 

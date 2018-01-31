@@ -33,7 +33,9 @@
         <div class="collapse navbar-collapse flex-column-reverse ml-4" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown " >
-                    <a class="nav-link d-none d-md-block dropdown-toggle" asp-route="pagination" asp-route-productPage="1" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
+
+                    <a class="nav-link d-none d-md-block dropdown-toggle" onclick="location.href='@Url.Action("Index", "Products",new {id= "1"} )'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
+
 
                     <ul class="dropdown-menu px-0">                      
                             @await Component.InvokeAsync("NavigationMenuComp")                        
@@ -45,7 +47,7 @@
             </ul>
             <div class="navbar-nav w-100 d-flex justify-content-between align-items-md-center">
                 <form class="form-inline pl-2 my-2 my-lg-0  d-none d-md-block">
-                    <input class="form-control mr-sm-1" type="text" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-1" type="text" name="SearchString" value="@ViewData["currentFilter"]"   aria-label="Search">
                     <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <div>

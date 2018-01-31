@@ -20,13 +20,58 @@ namespace Co_Partnership.Controllers
             _context = context;
         }
 
+        //[HttpPost]
+        //public void Index(string searchString, string sortOrder)
+        //{
+        //    Index(searchString, sortOrder);
+        //}
+
         // GET: All Products that are live
-        public async Task<ViewResult> Index(string category = null, int productPage = 1)
+        public async Task<ViewResult> Index(string searchString, string sortOrder = null,string category = null, int productPage = 1)
         {
+           // ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+           // ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+            //ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? sortOrder : "";
+            //ViewData["PriceSortDesc"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+
+            var sortPar = _context.Item.Where(p => (p.IsLive ?? false) && (category == null || p.Category == category));
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                sortPar = sortPar.Where(s => s.Name.Contains(searchString)
+               
+                );//pros evaluation to sygkekrimeno
+            }
+
+            switch (sortOrder)
+            {
+                //case "name_desc":
+                //    sortPar = sortPar.OrderByDescending(s => s.Name);
+                //    break;
+                //case "Price":
+                //    sortPar = sortPar.OrderBy(s => ((decimal?)s.UnitPrice));//den exei ylopoih8ei to price swsta akoma
+                //    ViewBag.CurrentSorting = sortOrder;
+                //    break;
+                //case "price_desc":
+                //    sortPar = sortPar.OrderByDescending(s => ((decimal?)s.UnitPrice));//den exei ylopoih8ei to price swsta akoma
+                //    ViewBag.CurrentSorting = sortOrder;
+                //    break;
+                //case "Date":
+                //            sortPar = sortPar.OrderBy(s => s.);//den exei ylopoih8ei to date akoma
+                //    break;
+                //case "date_desc":
+                //            sortPar = sortPar.OrderByDescending(s => s.EnrollmentDate);
+                //    break;
+                default:
+                    sortPar = sortPar.OrderBy(s => s.Name);//auto prepei na to vgalv an apofsisv na mhn exw allo sorting
+                    ViewBag.CurrentSorting = null;
+                    break;
+            }
+            
 
             return View(new ProductViewModel
             {
-                Products= await _context.Item.Where(p => (p.IsLive ?? false)&&(category == null || p.Category == category))
+                Products = await sortPar
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize)
                 .AsNoTracking()
