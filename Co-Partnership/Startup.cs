@@ -76,6 +76,7 @@ namespace Co_Partnership
             services.AddTransient<ITransactionRepository,TransactionRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMessageInterface, MessageInterface>();
+            services.AddTransient<ICompAccountRepository, CompanyAccountRepository>();
 
 
             //services.AddTransient<IAdministratorRepository, ACAdministatorRepository>();

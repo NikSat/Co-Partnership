@@ -21,6 +21,41 @@
 
     }
     */
+
+
+
+    let Delete = (id) => {
+
+        let elem = document.getElementById(id);
+
+        elem.parentNode.removeChild(elem);
+
+
+    }
+
+
+
+
+
+    let updateOrder = (id) => {
+        $.ajax({
+            url: `api/Finance/Order/Update`,
+            contentType: "application/json",
+            method: "POST",
+            data: id.toString(),
+            success: () => {
+
+                window.setTimeout(Delete(id), 500);
+
+            },
+        })
+    }
+
+
+
+
+
+
     let makeTable = () => {
         // Make the table
         let tbl = document.createElement('table');
@@ -35,18 +70,16 @@
 
         for (i = 0; i < titles.length; i++) {
             let cell = document.createElement('th');
-            cell.classList.add("col-2");
+            cell.classList.add("sizeone");
             cell.innerHTML = titles[i];
             row.appendChild(cell);
         }
         // Create a cell that holds two buttons               
         let wrapcell = document.createElement('th');
-        wrapcell.classList.add("col-4");
-        //Create two buttons view all and process all
-        let masvie = document.createElement('button');
-        masvie.innerText = "View All";
-        wrapcell.appendChild(masvie);
+        wrapcell.classList.add("sizetwo");
+
         let maspro = document.createElement('button');
+        maspro.classList.add("bstyle");
         maspro.innerText = "Process All";
         wrapcell.appendChild(maspro);
         row.appendChild(wrapcell);
@@ -63,16 +96,41 @@
     };
 
     let addTableRow = (order) => {
-        $("table tbody").append(
-            `<tr>
-                        <td class="col-3">${order.id}</td>
-                        <td class="col-3">${order.ownerId}</td>
-                        <td class="col-3">${order.price}</td>
-                        <td class="col-3">${order.date}</td>
+        let fullName;
+        // Check fullname
+        if (order.senderName == null) {
+            fullName ="Unknown";
+        } else {
+            fullName = order.senderName;
+        };
 
+                       
+        $("table tbody").append(
+            `<tr id=${order.orderId}>
+                        <td class="sizeone">${order.orderId}</td>
+                        <td class="sizeone">${fullName}</td>
+                        <td class="sizeone">${order.orderPrice}</td>
+                        <td class="sizeone">${order.orderDate}</td>
                     </tr>`
         );
 
+
+        // Create a cell that holds two buttons               
+        let wrapcell = document.createElement('td');
+        wrapcell.classList.add("sizetwo");
+
+        let pro = document.createElement('button');
+        pro.classList.add("bstyle");
+        pro.innerText = "Process";
+        wrapcell.appendChild(pro);
+        pro.addEventListener("click", function () {
+            updateOrder(order.orderId);
+        })
+
+        // Append it to the row
+        let ttr = document.getElementById(order.orderId);
+        ttr.appendChild(wrapcell);
+        
     };
 
 
@@ -101,6 +159,13 @@
     };
 
 
+
+
+
+
+
+
+    
     getOrders();
 
 

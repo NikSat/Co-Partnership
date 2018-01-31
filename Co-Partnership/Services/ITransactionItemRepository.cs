@@ -6,7 +6,7 @@ using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
 {
-    interface ITransactionItemRepository
+    public interface ITransactionItemRepository
     {
         IQueryable<TransactionItem> TIRepository { get; }
 

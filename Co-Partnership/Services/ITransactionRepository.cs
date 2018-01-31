@@ -17,5 +17,9 @@ namespace Co_Partnership.Services
 
         Transaction DeleteTransaction(int transactionId);
 
+        IEnumerable<Object> ListTransactions(int type);
+
+        IEnumerable<Object> ListItems(int orderId);
+
     }
 }
