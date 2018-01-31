@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse flex-column-reverse ml-4" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown " >
-                    <a class="nav-link d-none d-md-block dropdown-toggle" onclick="location.href='@Url.Action("Index", "Products",new {id= "1"} )'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
+                    <a class="nav-link d-none d-md-block dropdown-toggle" onclick="location.href='@Url.Action("Index", "Products",new {category="",id= "1"} )'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
 
                     <ul class="dropdown-menu px-0">                      
                             @await Component.InvokeAsync("NavigationMenuComp")                        
