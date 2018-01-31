@@ -18,11 +18,13 @@
     </environment>
 </head>
 <body>
-    
+
     @Html.Partial("_Header")
+
     @RenderBody()
 
-    <footer class="footer">
+    @Html.Partial("_Footer")
+    @*<footer class="footer">
         <div class="container">
             <div class="row py-4 ">
                 <div class="col-sm-4 text-sm-center">
@@ -52,7 +54,7 @@
             <div class="footer-btm">&copy; 2018 - Co_Partnership</div>
         </div>
 
-    </footer>
+    </footer>*@
 
 
     <environment include="Development">

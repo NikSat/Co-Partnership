@@ -31,9 +31,21 @@
     }
 }
 
-<div class="row ml-auto">
+        <div class="row ml-auto">
+            @*<div class="" style="position:absolute; right:0;">
+                <a asp-action="Index" asp-route-sortOrder="Price" asp-route-currentFilter="@ViewData["CurrentFilter"]">Price</a>
+                <a asp-action="Index" asp-route-sortOrder="price_desc" asp-route-currentFilter="@ViewData["CurrentFilter"]">Price-desc</a>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Example select</label>
+                <select  asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="form-control" id="exampleFormControlSelect1"  method="get">
+                    <option value="" (Model.CurrentSorting  == null ? Html.Raw("selected"):Html.Raw("")) >Alphabetically</option>
+                    <option value="Price"   @(Model.CurrentSorting  == "Price" ? Html.Raw("selected"):Html.Raw("")) >Price-Ascending</option>
+                    <option value="price_desc"  @(Model.CurrentSorting  == "price_desc" ? Html.Raw("selected"):Html.Raw("")) >Price-Descending</option>
+                </select>
+            </div>*@
 
-    @foreach (var item in Model.Products)
+            @foreach (var item in Model.Products)
     {
 
         <div class=" col-12 col-sm-6 col-md-4 col-lg-3 ">
@@ -60,53 +72,53 @@
                     <div class="custom-position">
 
                         @if (item.StockQuantity > 0)
-                        {
-                            <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
-                        }
-                        else
-                        {
-                            <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
+                {
+                    <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
+        }
+        else
+        {
+            <span class="fa fa-times-circle-o" aria-hidden="true" data-toggle="tooltip" title="Unavailable"></span>
 
-                        }
+}
                     </div>
                     <div class="custom-position-right">
                         <a href="~/images/feta.jpg"> <span class="fa fa-heart " aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>
                     </div>
 
 
-                    
-                        @if (item.StockQuantity > 0)
-                        {
-                    <a  class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-secondary w-100 disabled">Buy</a>
 
-                        }
-                    
+                    @if (item.StockQuantity > 0)
+            {
+                <a class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+    }
+    else
+    {
+        <a class="btn btn-secondary w-100 disabled">Buy</a>
+
+}
+
                 </div>
             </div>
 
 
 
         </div>
-    }
-    <div class="col-12 mt-4">
-        <nav class="btn-group">
-            @* Emfanizoume  ta hyperlinks twn selidwn mono an einai prossoteres apo mia *@
-            @for (int i = 1; i <= Model.PagingInfo.TotalPages && Model.PagingInfo.TotalPages > 1; i++)
+}
+            <div class="col-12 mt-4">
+                <nav class="btn-group">
+                    @* Emfanizoume  ta hyperlinks twn selidwn mono an einai prossoteres apo mia *@
+                    @for (int i = 1; i <= Model.PagingInfo.TotalPages && Model.PagingInfo.TotalPages > 1; i++)
             {
                 @if (Model.CurrentCategory == null)
-                {
-                    <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="pagination" asp-route-productPage="@i">@i</a>
-                }
-                else
-                {
-                    <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="category" asp-route-category="@Model.CurrentCategory" asp-route-productPage="@i">@i</a>
-                }
-            }
-        </nav>
-    </div>
+        {
+            <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="pagination" asp-route-productPage="@i">@i</a>
+}
+else
+{
+        <a class="btn @(i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary")" asp-route="category" asp-route-category="@Model.CurrentCategory" asp-route-productPage="@i">@i</a>
+}
+    }
+                </nav>
+            </div>
 
-</div>
+        </div>
