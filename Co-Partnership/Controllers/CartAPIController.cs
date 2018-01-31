@@ -8,6 +8,7 @@ using Co_Partnership.Models.Database;
 using Co_Partnership.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Co_Partnership.Controllers
 {
@@ -15,12 +16,12 @@ namespace Co_Partnership.Controllers
     [Route("api/Cart")]
     public class CartAPIController : Controller
     {
-        private readonly Co_PartnershipContext _context;
+        private IItemRepository _itemRepository;
         private Cart cart;
 
-        public CartAPIController(Co_PartnershipContext context, Cart cartService)
+        public CartAPIController(IItemRepository itemRepository, Cart cartService)
         {
-            _context = context;
+            _itemRepository = itemRepository;
             cart = cartService;
         }
 
@@ -32,14 +33,23 @@ namespace Co_Partnership.Controllers
         }
 
         [HttpPost]
-        public TransactionItem Post(int itemId, int quantinty)
+        public IActionResult Post(int cartItemId, int quantinty)
         {
             if (quantinty==null || quantinty <= 0)
             {
                 quantinty = 1;
             }
+            if(cartItemId==null || cartItemId < 0)
+            {
+                return null;
+            }           
 
-            return cart.AddItem(itemId, quantinty);
+            var cartItem = cart.UpdateQuantity(cartItemId, quantinty);
+            if(cartItem != null)
+            {
+                return Ok();
+            }
+            return null;
         }
 
     }

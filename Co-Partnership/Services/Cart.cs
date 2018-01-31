@@ -1,23 +1,26 @@
 ﻿using Co_Partnership.Models.Database;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Co_Partnership.Services
 {
-    public class Cart: ICart
+    public class Cart
     {
 
         private List<TransactionItem> cartItems = new List<TransactionItem>();
 
         public List<TransactionItem> CartItems => cartItems;
 
-        public virtual TransactionItem AddItem(int itemId, int quantity)
+        public virtual TransactionItem AddItem(Item item, int quantity)
         {
             //if the item already exists inside the cart save it in product else null
             var cartItem = cartItems
-                .Where(i => i.Item.Id == itemId)
+                .Where(i => i.Item.Id == item.Id)
                 .SingleOrDefault(); 
 
             
@@ -25,15 +28,27 @@ namespace Co_Partnership.Services
             {
                 cartItems.Add(new TransactionItem()
                 {
-                    ItemId = itemId,                   
+                    ItemId = item.Id,
+                    Item = item,
                     Quantinty = quantity
-                }.include(Item));
+                });
             }
             else
             {
                 cartItem.Quantinty += quantity;
             }
             return cartItem;
+        }
+
+        public virtual TransactionItem UpdateQuantity(int cartItemId, int quantity)
+        {
+            var cartItem = cartItems.SingleOrDefault(c => c.Id == cartItemId);
+            if(cartItem != null)
+            {
+                cartItem.Quantinty = quantity;
+                return cartItem;
+            }
+            return null;
         }
 
         public virtual void RemoveItem(Item item)

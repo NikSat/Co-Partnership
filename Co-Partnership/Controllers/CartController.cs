@@ -12,11 +12,11 @@ namespace Co_Partnership.Controllers
 {
     public class CartController : Controller
     {
-        private readonly Co_PartnershipContext _context;
+        private IItemRepository _itemRepository;
         private Cart cart;
-        public CartController(Co_PartnershipContext context, Cart cartService)
+        public CartController(IItemRepository itemRepository, Cart cartService)
         {
-            _context = context;
+            _itemRepository = itemRepository;
             cart = cartService;
         }
 
@@ -26,16 +26,16 @@ namespace Co_Partnership.Controllers
             return View(cart);
         }
 
-        //public IActionResult AddToCart(int itemId, string returnUrl)
-        //{
-        //    Item item = _context.Item.SingleOrDefault(i => i.Id == itemId);
+        public IActionResult AddToCart(int itemId, string returnUrl)
+        {
+            Item item = _itemRepository.Items.SingleOrDefault(i => i.Id == itemId);
 
-        //    if (item != null)
-        //    {
-        //        cart.AddItem(itemId, 1);
-        //    }
-        //    //TempData["returnUrl"] = returnUrl;
-        //    return Redirect(returnUrl);
-        //}
+            if (item != null)
+            {
+                cart.AddItem(item, 1);
+            }
+            //TempData["returnUrl"] = returnUrl;
+            return Redirect(returnUrl);
+        }
     }
 }

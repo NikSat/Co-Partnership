@@ -40,6 +40,7 @@
         quantityInput.max = cartItem.item.stockQuantity;
         quantityInput.required = true;
         let previous;
+
         $('.quantityInput').focus(() => {
             previous = this.value;
         }).change((e) => {
@@ -50,20 +51,8 @@
             else {
                 cartItem.quantinty = this.value;
                 cartItem = updateQuantity(cartItem);
-                let p = e.target.parentNode.nextSibling;
-                p.innerHTML = itemPrice(cartItem);
             }
         });
-        //quantityInput.addEventListener("change", (e) => {
-        //    if (!quantityInput.checkValidity()) {
-        //        document.getElementById("error").innerHTML = quantityInput.validationMessage;
-        //    }
-        //    else {
-        //        let p = e.target.parentNode.nextSibling;
-        //        p.innerHTML = itemPrice(cartItem);
-        //    }
-        //});
-
 
         let unitPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(cartItem.item.unitPrice);
         let table = document.getElementById('cartTable');
@@ -79,7 +68,7 @@
         td2.innerHTML = unitPrice;
 
         row.appendChild(td3 = document.createElement('td'));
-        td3.id = "quantity" + String(cartItem.id);
+        td3.id = "quantity" + String(cartItem.item.id);
         td3.appendChild(quantityInput);
 
         row.appendChild(td4 = document.createElement('td'));
@@ -119,34 +108,14 @@
             method: "POST",
             data: JSON.stringify({
                 itemId: cartItem.itemId,
-                quntinty: cartItem.quantinty
+                quantinty: cartItem.quantinty
             }),
             success: (data) => {
-                
+                let p = document.getElementById("itemPrice" + String(cartItem.id));
+                p.innerHTML = itemPrice(cartItem);
             }
         });
     }
-
-
-
-    //let quantityInput = document.getElementsByClassName("quantityInput");
-    //quantityInput.onclick((e) => {
-    //    e.preventDefault();
-    //    if(e.check)
-
-    //    $ajax({
-    //        url: "api/Cart",
-    //        contentType: "application/json",
-    //        method: "POST",
-    //        data: JSON.stringify({
-    //            quantinty: e.target.element['quantity'].value
-    //        }),
-    //        success: (data) => {
-    //            //let cell = e.target.
-    //        }
-    //    });
-    //});
-
 
     getCartItems();
 });
