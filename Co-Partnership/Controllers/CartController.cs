@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Co_Partnership.Controllers
 {
+    
     public class CartController : Controller
     {
         private IItemRepository _itemRepository;
@@ -20,6 +21,7 @@ namespace Co_Partnership.Controllers
             cart = cartService;
         }
 
+        [Route("Cart")]
         public ViewResult Index()
         {
             ViewBag.ReturnUrl = TempData["returnUrl"];

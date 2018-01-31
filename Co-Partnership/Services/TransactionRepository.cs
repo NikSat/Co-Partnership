@@ -113,6 +113,12 @@ namespace Co_Partnership.Services
         {
             // Get the transaction
             Transaction transaction = Transactions.FirstOrDefault(a => a.Id == orderId);
+            if (transaction == null)
+            {
+                return null;
+            }
+
+
             // From this transaction get the items, quantity, price, total price etc 
             var ItemList =
                from TransactionItem in transaction.TransactionItem

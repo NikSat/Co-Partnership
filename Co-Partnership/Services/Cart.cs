@@ -40,9 +40,9 @@ namespace Co_Partnership.Services
             return cartItem;
         }
 
-        public virtual TransactionItem UpdateQuantity(int cartItemId, int quantity)
+        public virtual TransactionItem UpdateQuantity(int ItemId, int quantity)
         {
-            var cartItem = cartItems.SingleOrDefault(c => c.Id == cartItemId);
+            var cartItem = cartItems.SingleOrDefault(c => c.ItemId == ItemId);
             if(cartItem != null)
             {
                 cartItem.Quantinty = quantity;

@@ -9,6 +9,7 @@ using Co_Partnership.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Co_Partnership.Controllers
 {
@@ -33,19 +34,21 @@ namespace Co_Partnership.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(int cartItemId, int quantinty)
+        public IActionResult Post([FromBody] TransactionItem item)//[FromBody]int ItemId, [FromBody]int quantinty)
         {
-            if (quantinty==null || quantinty <= 0)
+            var quantinty = (int)item.Quantinty;
+            var itemId = (int)item.ItemId;
+            if (quantinty <= 0)
             {
                 quantinty = 1;
             }
-            if(cartItemId==null || cartItemId < 0)
+            if (itemId < 0)
             {
                 return null;
-            }           
+            }
 
-            var cartItem = cart.UpdateQuantity(cartItemId, quantinty);
-            if(cartItem != null)
+            var cartItem = cart.UpdateQuantity(itemId, quantinty);
+            if (cartItem != null)
             {
                 return Ok();
             }

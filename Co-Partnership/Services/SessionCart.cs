@@ -36,9 +36,9 @@ namespace Co_Partnership.Services
             return cartItem;
         }
 
-        public override TransactionItem UpdateQuantity(int cartItemId, int quantity)
+        public override TransactionItem UpdateQuantity(int ItemId, int quantity)
         {
-            var cartItem = base.UpdateQuantity(cartItemId, quantity);
+            var cartItem = base.UpdateQuantity(ItemId, quantity);
             if(cartItem != null)
             {
                 session.SetString(sessionKey, JsonConvert.SerializeObject(this));
