@@ -21,5 +21,9 @@ namespace Co_Partnership.Services
 
         IEnumerable<Object> ListItems(int orderId);
 
+        double? CountItems(int type);
+
+        int NewTransactionCount(int type);
+
     }
 }
