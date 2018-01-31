@@ -2,6 +2,7 @@
     DEMO STYLE
 */
 @import "https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700";
+@import url('adminside.css');
 
 
 body {
@@ -220,4 +221,40 @@ a.article, a.article:hover {
             background-color: #88f39f;
             border-color: #dbeef3;
         }
-  
+
+.sizeone {
+    width: 16%;
+}
+
+.sizetwo {
+    width: 36%;
+}
+
+.bstyle {
+    width: 40%;
+    margin-right: 0.7rem;
+    margin-left: 0.7rem;
+}
+
+
+.hold{
+    display:block
+}
+
+#founds{
+    width: 30%;
+    height:80px;
+}
+
+
+#newOrders {
+    width: 30%;
+    height:80px;
+}
+
+
+#newOffers {
+    width: 30%;
+    height:80px;
+}
+
