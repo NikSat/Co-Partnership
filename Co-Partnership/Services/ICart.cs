@@ -8,7 +8,7 @@ namespace Co_Partnership.Services
 {
     public interface ICart
     {
-        void AddItem(Item item, int quantity);
+        TransactionItem AddItem(int itemId, int quantity);
         
         void RemoveItem(Item item);
         
