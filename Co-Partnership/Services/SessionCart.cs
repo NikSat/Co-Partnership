@@ -48,9 +48,9 @@ namespace Co_Partnership.Services
 
         }
 
-        public override void RemoveItem(Item item)
+        public override void RemoveItem(int itemId)
         {
-            base.RemoveItem(item);
+            base.RemoveItem(itemId);
             session.SetString(sessionKey, JsonConvert.SerializeObject(this));
         }
 

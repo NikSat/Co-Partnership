@@ -55,5 +55,16 @@ namespace Co_Partnership.Controllers
             return null;
         }
 
+        [HttpPut]
+        public IActionResult Put([FromBody] int itemId)
+        {
+            if (itemId <= 0)
+            {
+                return null;
+            }
+            cart.RemoveItem(itemId);
+            return Ok();
+        }
+
     }
 }

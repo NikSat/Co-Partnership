@@ -6,39 +6,10 @@
 }
 
 <h2>My cart</h2>
-@*<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th class="text-right">Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CartItems)
-        {
-            <tr>
-                <td>@item.Item.Name</td>
-                <td class="text-center">x @item.Quantinty</td>
-                <td class="text-right">@Model.ComputeItemValue(item)</td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="2" class="text-right">Total:</td>
-            <td class="text-right">@Model.ComputeTotalValue().ToString("c")</td>
-        </tr>
-    </tfoot>
-</table>
-@if (ViewBag.ReturnUrl != null)
-{
-    <div class="text-center">
-        <a class="btn btn-primary" href="@ViewBag.ReturnUrl">Continue shopping</a>
-        <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Checkout</a>
-    </div>
-}*@
-<p id="error"></p>
+
+<div style="height:50px" id="validation">
+    <span id="error" style="color:red"></span>
+</div>
 <form id="cart"></form>
 
 @section Scripts {<script type="text/javascript" src="~/js/Cart.js"></script>}
