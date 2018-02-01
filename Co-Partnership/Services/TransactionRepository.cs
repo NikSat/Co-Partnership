@@ -87,7 +87,6 @@ namespace Co_Partnership.Services
         // This function returns the total items in all unprocessed transactions of the same type
         public double? CountItems (int type)
         {
-            /// To implement later
             double? count = 0;
             var ListTrans =
                 from Transaction in Transactions
