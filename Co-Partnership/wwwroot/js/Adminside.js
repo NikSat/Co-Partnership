@@ -60,7 +60,7 @@
         // Make the table
         let tbl = document.createElement('table');
         tbl.classList.add("table");
-        tbl.classList.add("table-fixed");
+        //tbl.classList.add("table-fixed");
         // Make the head
         let head = document.createElement('thead');
         let row = document.createElement('tr');
@@ -107,9 +107,9 @@
                        
         $("table tbody").append(
             `<tr id=${order.orderId}>
-                        <td class="sizeone">${order.orderId}</td>
-                        <td class="sizeone">${fullName}</td>
-                        <td class="sizeone">${order.orderPrice}</td>
+                        <td class="sizeone" >${order.orderId}</td>
+                        <td class="sizeone" >${fullName}</td>
+                        <td class="sizeone" >${order.orderPrice}</td>
                         <td class="sizeone">${order.orderDate}</td>
                     </tr>`
         );

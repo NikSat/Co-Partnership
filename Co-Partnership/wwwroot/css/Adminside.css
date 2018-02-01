@@ -50,13 +50,14 @@ a, a:hover, a:focus {
     SIDEBAR STYLE
 ----------------------------------------------------- */
 #sidebar {
-    width: 250px;
+    width: 20%;
+    min-width:200px;
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
     z-index: 999;
-    background: #7386D5;
+    background: #0b2529;
     color: #fff;
     transition: all 0.3s;
 }
@@ -67,7 +68,7 @@ a, a:hover, a:focus {
 
     #sidebar .sidebar-header {
         padding: 20px;
-        background: #6d7fcc;
+        background: #0b424a;
     }
 
     #sidebar ul.components {
@@ -87,8 +88,8 @@ a, a:hover, a:focus {
     }
 
         #sidebar ul li a:hover {
-            color: #7386D5;
-            background: #fff;
+            color: #aad4fd;
+            background: #152f33;
         }
 
     #sidebar ul li.active > a, a[aria-expanded="true"] {
@@ -165,96 +166,158 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
+
+@media(min-width:889px)
+{
+    #admin-body {
+        margin-left: 22%;
+        margin-right: 2%;
     }
+}
 
-        #sidebar.active {
-            margin-left: 0;
-        }
-
-    #content {
-        width: 100%;
-    }
-
-        #content.active {
-            width: calc(100% - 250px);
-        }
-
-    #sidebarCollapse span {
-        display: none;
+@media (min-width: 768px)and (max-width: 888px) {
+    #admin-body{
+        margin-left:28%;
     }
 }
 
 
-/*
+    @media (max-width: 768px) {
+        /*#sidebar {
+            margin-left: -250px;
+        }*/
+
+        .body-content{
+            margin-top:200px;
+        }
+
+        .container-fluid{
+            padding-left:2px;
+            padding-right:2px;
+        }
+
+            #sidebar.active {
+                margin-left: 0;
+            }
+        #sidebar {
+            width: 100%;
+            position:absolute;
+            height:auto;
+        }
+
+        #content {
+            width: 100%;
+        }
+
+            #content.active {
+                width: calc(100% - 250px);
+            }
+
+        #sidebarCollapse span {
+            display: none;
+        }
+
+        .components {
+            text-align: center;
+        }
+
+        .components li{
+            display:inline-block;
+           
+        }
+    }
+
+@media (max-width: 402px) {
+    .body-content{
+        margin-top:280px;
+    }
+}
+
+
+    /*finance*/
+#finannce-order {
+    border: 1px solid #d8e6f5;
+}
+
+    /*
     Table aesthetics
 */
 
 
-.table-fixed {
-    width: 100%;
-    background-color: #f3f3f3;
-}
-
-    .table-fixed tbody {
-        height: 200px;
-        overflow-y: auto;
+    .table-fixed {
         width: 100%;
+        background-color: #f3f3f3;
     }
 
-    .table-fixed thead,
-    .table-fixed tbody,
-    .table-fixed tr,
-    .table-fixed td,
-    .table-fixed th {
-        display: block;
+        .table-fixed tbody {
+            height: 200px;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        .table-fixed thead,
+        .table-fixed tbody,
+        .table-fixed tr,
+        .table-fixed td,
+        .table-fixed th {
+            display: block;
+        }
+
+thead {
+    border-left: 1px solid #b5b5b5;
+    border-right: 1px solid #aeafaf;
+}
+
+    /*.table-fixed tbody td {
+            float: left;
+        }*/
+
+    .table thead tr th {
+        /*float: left;*/
+        background-color: #73b8c2;
+        border-color: #dbeef3;
     }
 
-        .table-fixed tbody td {
-            float: left;
-        }
+    .table .sizetwo {
+        padding-bottom: 0.55rem;
+        padding-top: 0.55rem;
+    }
 
-        .table-fixed thead tr th {
-            float: left;
-            background-color: #88f39f;
-            border-color: #dbeef3;
-        }
+    .sizeone {
+        text-align: right
+    }
 
-.sizeone {
-    width: 16%;
-}
+    .sizetwo {
+        width: 36%;
+        text-align: center
+    }
 
-.sizetwo {
-    width: 36%;
-}
-
-.bstyle {
-    width: 40%;
-    margin-right: 0.7rem;
-    margin-left: 0.7rem;
-}
+    .bstyle {
+        width:96px
+        /*width: 40%;
+        margin-right: 0.7rem;
+        margin-left: 0.7rem;*/
+    }
 
 
-.hold{
-    display:block
-}
+    .hold {
+        display: block
+    }
 
-#founds{
-    width: 30%;
-    height:80px;
-}
-
-
-#newOrders {
-    width: 30%;
-    height:80px;
-}
+    #founds {
+        width: 30%;
+        height: 80px;
+    }
 
 
-#newOffers {
-    width: 30%;
-    height:80px;
-}
+    #newOrders {
+        width: 30%;
+        height: 80px;
+    }
+
+
+    #newOffers {
+        width: 30%;
+        height: 80px;
+    }
 
