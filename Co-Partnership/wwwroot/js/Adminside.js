@@ -31,7 +31,7 @@
         elem.parentNode.removeChild(elem);
 
 
-    }
+    };
 
 
 
@@ -47,9 +47,9 @@
 
                 window.setTimeout(Delete(id), 500);
 
-            },
-        })
-    }
+            }
+        });
+    };
 
 
 
@@ -98,11 +98,11 @@
     let addTableRow = (order) => {
         let fullName;
         // Check fullname
-        if (order.senderName == null) {
+        if (order.senderName === null) {
             fullName ="Unknown";
         } else {
             fullName = order.senderName;
-        };
+        }
 
                        
         $("table tbody").append(
@@ -125,7 +125,7 @@
         wrapcell.appendChild(pro);
         pro.addEventListener("click", function () {
             updateOrder(order.orderId);
-        })
+        });
 
         // Append it to the row
         let ttr = document.getElementById(order.orderId);
