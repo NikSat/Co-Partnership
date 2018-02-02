@@ -97,9 +97,26 @@ $(function () {
 /*
 *
 *       This handles the requests for the wishlist
-*
+*       Nickolas added stuff here BEWARE OF MERGE CONFLICTS
 *
 */
+
+
+// Toggle favor 
+let ToggleFavor = (id) => {
+    $.ajax({
+        url: "api/Wishlist",
+        contentType: "application/json",
+        method: "POST",
+        data: JSON.stringify({
+            itemId: id
+        }),
+        success: () => {
+            ToggleColor(id);
+        }
+    });
+};
+
 
 
 // Put this item in the wishlist
@@ -153,9 +170,9 @@ let ApplyAll = () => {
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
     if ($(`#${id} span`).hasClass("grey")) {
-        Favor(id);
+        ToggleFavor(id);
     }
     else {
-        UnFavor(id);
+        ToggleFavor(id);
     }
 };

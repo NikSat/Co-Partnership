@@ -56,6 +56,7 @@ namespace Co_Partnership.Controllers
         [HttpGet]
         public async Task<IEnumerable<Object>> Get()
         {
+
             var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
 
             int BId = await GetUserId();
@@ -80,8 +81,21 @@ namespace Co_Partnership.Controllers
         public async void Post([FromBody]WishList wish)
         {
             int userid = await GetUserId();
-            wish.UserId = userid;
-            wishRepository.SaveWish(wish);
+            // Check if this wished item already exist in the wishlist
+            var checkwish = wishRepository.Wishes.FirstOrDefault(a=> a.ItemId==wish.ItemId && a.UserId==userid);
+            if (checkwish == null)
+            {
+                // If it does not exist add it to the list 
+                wish.UserId = userid;
+                wishRepository.SaveWish(wish);
+            }
+            else
+            {
+                // If it exists delete it
+                wishRepository.DeleteWish(wish.Id, userid);
+            }
+
+
         }
 
         // This one deletes the list item based on the item id and current user
