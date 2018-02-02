@@ -99,23 +99,22 @@ namespace Co_Partnership.Controllers
                     if (incomplete != null) // if cart exists
                     {
                         var transactionId = incomplete.Id;
-                        var items = _transactionItems.GetTransactionItems(transactionId); // get cartItems
+                        var items = _transactionItems.GetTransactionItems(transactionId); // get cartItems from DB
                        
                         foreach (var item in items)// foreach item add to cart or update if exists
                         {
-                            var itemExists = _transactionItems.GetItem(transactionId, (int)item.ItemId);
+                            var itemExists = _cart.GetCartItem((int)item.ItemId); //if it exists in current cart
                             if (itemExists != null && item.Quantinty != itemExists.Quantinty)
                             {
                                 var quantity = (item.Quantinty > itemExists.Quantinty) ? item.Quantinty : itemExists.Quantinty;
                                 _cart.UpdateQuantity((int)item.ItemId, (int)quantity);
                             }
-                            else
+                            else if (itemExists == null)
                             {
                                 _cart.AddItem(item.Item, (int)item.Quantinty);
                             }
                         }
-                    }
-                    
+                    }                    
                     return RedirectToLocal(returnUrl);
                 }
                 //if (result.RequiresTwoFactor)

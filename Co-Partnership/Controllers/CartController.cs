@@ -77,7 +77,7 @@ namespace Co_Partnership.Controllers
         public async Task SaveCartAsync()
         {            
             var userid = await GetUserId();
-            var incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // incomplete transaction = cart saved 
+            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // incomplete transaction = cart saved 
             //if there isn't an incomplete transaction create an new one
             if (incomplete == null)
             {
@@ -89,7 +89,7 @@ namespace Co_Partnership.Controllers
                     IsProcessed = 0
                 };
                 _transactionRepository.SaveTransaction(incTransaction); // save new transaction to db
-                incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // get incomplete trasnaction
+                incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // get incomplete transaction
             }
             var transactionId = incomplete.Id;         
 
@@ -97,22 +97,28 @@ namespace Co_Partnership.Controllers
             // if they already exist update them
             foreach(var item in _cart.CartItems)
             {
-                //item.Id = null;
-                item.TransactionId = transactionId;
-                item.Acceptance = true;
-                var itemExists = _transactionItems.TIRepository.FirstOrDefault(ti => ti.Id == transactionId && ti.ItemId == item.ItemId);
-                if(itemExists != null)
+                var transactionItem = new TransactionItem()
                 {
-                    _transactionItems.UpdateItem(item);
+                    TransactionId = transactionId,
+                    ItemId = item.ItemId,
+                    Quantinty = item.Quantinty,
+                    Acceptance = true
+                };
+
+                var itemExists = _transactionItems.GetItem(transactionId, (int)transactionItem.ItemId);
+
+                if (itemExists != null)
+                {
+                    _transactionItems.UpdateItem(transactionItem);
                 }
                 else
                 {
-                    _transactionItems.SaveItem(item);
+                    _transactionItems.SaveItem(transactionItem);
                 }
             }
 
             // get items for incomplete transaction
-            List<TransactionItem> items = _transactionItems.TIRepository.Where(ti => ti.TransactionId == transactionId).ToList();
+            List<TransactionItem> items = _transactionItems.GetTransactionItems(transactionId);
             // calculate price
             var price = items.Select(i => (decimal)i.Quantinty * i.Item.UnitPrice).Sum();// without VAT
 

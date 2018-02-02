@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Co_Partnership.Models;
 using Co_Partnership.Data;
 using Microsoft.EntityFrameworkCore;
+using Co_Partnership.Services;
 
 namespace Co_Partnership.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly Co_PartnershipContext _context;
-        public HomeController(Co_PartnershipContext context)
+        private readonly IItemRepository _context;
+        public HomeController(IItemRepository context)
         {
             _context = context;
         }
         public async Task<ViewResult>  Index()
         {
-            return View(await _context.Item.Where(p => (p.IsLive ?? false)).ToListAsync());
+            return View(await _context.GetTop().Where(p => (p.Product.IsLive ?? false)).ToListAsync());
         }
 
         public IActionResult About()

@@ -19,6 +19,8 @@ namespace Co_Partnership.Services
 
         Task CreateUserAsync(string extId, int userType, string fisrtName, string lastName);
 
-        int GetUserFromIdentity(string userId);
+
+        Task<User> RetrieveByExternalAsync(string extId);
+
     }
 }

@@ -77,8 +77,10 @@ namespace Co_Partnership
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<ITransactionItemRepository, TransactionItemRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IMessageInterface, MessageInterface>();
             services.AddTransient<ICompAccountRepository, CompanyAccountRepository>();
+            services.AddTransient<IWishRepository, WishRepository>();
 
 
 
@@ -136,11 +138,11 @@ namespace Co_Partnership
                    template: "Products/{productPage}",
                    defaults: new { Controller = "Products", Action = "Index" }
                    );
-                routes.MapRoute(
-                   name: "sorting",
-                   template: "Products/{productPage}",
-                   defaults: new { Controller = "Products", Action = "Index" }
-                   );
+                //routes.MapRoute(
+                //   name: "sorting",
+                //   template: "Products/{productPage}",
+                //   defaults: new { Controller = "Products", Action = "Index" }
+                //   );
                 routes.MapRoute(
                    name: "cart",
                    template: "Cart",

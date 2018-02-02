@@ -96,27 +96,43 @@ $(function () {
 
 /*
 *
-*       Nikolas added stuff here BEWARE OF MERGE CONFLICT
-*
+*       This handles the requests for the wishlist
+*       Nickolas added stuff here BEWARE OF MERGE CONFLICTS
 *
 */
+
+
+// Toggle favor 
+let PostToggle = (id) => {
+    $.ajax({
+        url: "api/Wishlist",
+        contentType: "application/json",
+        method: "POST",
+        data: JSON.stringify({
+            itemId: id
+        }),
+        success: () => {
+            ToggleColor(id);
+        }
+    });
+};
 
 
 
 // Put this item in the wishlist
 let Favor = (id) => {
     $.ajax({
-        url: "api/Wishlist/",
+        url: "api/Wishlist",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
             itemId: id
         }),
-        success:  ()  => {
-            ToggleColor(id)
+        success: () => {
+            ToggleColor(id);
         }
     });
-}  
+};
 
 
 // Remove this item from the wishlist
@@ -126,30 +142,33 @@ let UnFavor = (id) => {
         contentType: "application/json",
         method: "DELETE",
         success: () => {
-            ToggleColor(id)
+            ToggleColor(id);
         }
     });
-    
-}
+
+};
 
 // Change Colors accordingly
 let ToggleColor = (id) => {
     $("#id span").toggleClass('red grey');
-}
+};
+
+
 
 // Apply the event listeners to all the heart spans and give them the parent's id
 let ApplyAll = () => {
-    let one = document.querySelector(".fa-heart");
-    one.addEventListener("click", ToggleFavor(document.querySelector("span.fa-heart").parentNode.id));        
-}
+    let one = $('span.fa-heart');
+    one.each((index, value) => {
+        value.parentNode.addEventListener("click", function (e) {
+            ToggleFavor(value.parentNode.id);
+            e.preventDefault();
+        });
+    });
+};
 
 
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
-    if ($(`#${id} span`).hasClass("grey")) {
-        Favor(id);
-    }
-    else {
-        UnFavor(id);
-    }
-}
+    PostToggle(id);
+    ToggleColor(id);
+};

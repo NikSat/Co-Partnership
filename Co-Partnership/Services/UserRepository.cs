@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Co_Partnership.Models.Database;
 using Co_Partnership.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Co_Partnership.Services
 {
@@ -41,6 +42,12 @@ namespace Co_Partnership.Services
             }
 
             return user;
+        }
+
+        public async Task<User> RetrieveByExternalAsync(string extId)
+        {
+            return await Users.FirstOrDefaultAsync(a => a.ExtId == extId);
+
         }
 
         public async Task SaveUserAsync(User user)

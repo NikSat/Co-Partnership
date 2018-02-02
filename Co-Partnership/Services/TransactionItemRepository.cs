@@ -60,7 +60,7 @@ namespace Co_Partnership.Services
         //Gets an item if it exists inside a transaction
         public TransactionItem GetItem(int transactionId, int itemId)
         {
-             return TIRepository.FirstOrDefault(ti => ti.Id == transactionId && ti.ItemId == itemId);
+             return TIRepository.FirstOrDefault(ti => ti.TransactionId == transactionId && ti.ItemId == itemId);
         }
     }
 }

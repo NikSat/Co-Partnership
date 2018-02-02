@@ -16,6 +16,11 @@ namespace Co_Partnership.Services
 
         public List<TransactionItem> CartItems => cartItems;
 
+        public virtual TransactionItem GetCartItem(int itemId)
+        {
+            return cartItems.FirstOrDefault(ci => ci.ItemId == itemId);
+        }
+
         public virtual TransactionItem AddItem(Item item, int quantity)
         {
             //if the item already exists inside the cart save it in product else null

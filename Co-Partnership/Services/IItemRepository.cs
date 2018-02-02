@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Co_Partnership.Models;
 using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Services
@@ -17,6 +18,7 @@ namespace Co_Partnership.Services
         void SaveItem(Item item);
 
         Item DeleteItem(int itemId);
+        IQueryable<TopProductsModel> GetTop();
     }
 
     

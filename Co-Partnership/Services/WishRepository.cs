@@ -27,14 +27,14 @@ namespace Co_Partnership.Services
 
         // Might not be needed, we will see
 
-        public WishList DeleteWish(int wishId)
+        public async Task<WishList> DeleteWishAsync(int wishId)
         {
-            WishList wish = db.WishList.FirstOrDefault(p => p.Id == wishId);
+            WishList wish = await db.WishList.FirstOrDefaultAsync(p => p.Id == wishId);
 
             if (wish != null)
             {
                 db.WishList.Remove(wish);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
             return wish;
@@ -42,25 +42,34 @@ namespace Co_Partnership.Services
         }
 
         // This function deletes the item from the wishlist depending on the id of the item
-        public WishList DeleteWish(int itemId, int userId)
+        public async Task<WishList> DeleteWishAsync(int itemId, int userId)
         {
-            WishList wish = db.WishList.FirstOrDefault(p => p.ItemId == itemId && p.UserId == userId);
+            WishList wish = await db.WishList.FirstOrDefaultAsync(p => p.ItemId == itemId && p.UserId == userId);
 
             if (wish != null)
             {
                 db.WishList.Remove(wish);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
             return wish;
 
         }
 
+        // This function deletes the item from the wishlist - accepts wishlist as item input
+        public async Task DeleteWishAsync(WishList weee)
+        {
+            db.WishList.Remove(weee);
+            await db.SaveChangesAsync();
+        }
+
+
+
         //This function takes a wishlist and saves it
-        public void SaveWish(WishList wish)
+        public async Task SaveWishAsync(WishList wish)
         {
             db.WishList.Add(wish);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
         }
     }

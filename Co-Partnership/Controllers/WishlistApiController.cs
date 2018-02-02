@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+
 
 using Co_Partnership.Models;
 using Co_Partnership.Services;
@@ -18,7 +20,7 @@ namespace Co_Partnership.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Wishlist")]
+    [Route("/Products/Index/api/Wishlist")]
     public class WishlistApiController : Controller
     {
 
@@ -41,8 +43,11 @@ namespace Co_Partnership.Controllers
         // This function gets the user Id
         public async Task<int> GetUserId()
         {
-            var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
-            return userep.Users.FirstOrDefault(a => a.ExtId == user.Id).Id;
+            var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
+
+
+            var use= await userep.RetrieveByExternalAsync(currentuser.Id);
+            return use.Id;
         } 
 
 
@@ -52,6 +57,9 @@ namespace Co_Partnership.Controllers
         [HttpGet]
         public async Task<IEnumerable<Object>> Get()
         {
+
+            var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
+
             int BId = await GetUserId();
 
             return wishRepository.Wishes.Where(a => a.UserId == BId);
@@ -64,7 +72,7 @@ namespace Co_Partnership.Controllers
         public async Task<Object> Get(int itemid)
         {
             int userid = await GetUserId();
-            return wishRepository.Wishes.FirstOrDefault(a => a.ItemId==itemid  && a.UserId == userid);
+            return await wishRepository.Wishes.FirstOrDefaultAsync(a => a.ItemId==itemid  && a.UserId == userid);
         }
         
 
@@ -74,8 +82,21 @@ namespace Co_Partnership.Controllers
         public async void Post([FromBody]WishList wish)
         {
             int userid = await GetUserId();
-            wish.UserId = userid;
-            wishRepository.SaveWish(wish);
+            // Check if this wished item already exist in the wishlist
+            var checkwish = await wishRepository.Wishes.FirstOrDefaultAsync(a=> a.ItemId==wish.ItemId && a.UserId==userid);
+            if (checkwish == null)
+            {
+                // If it does not exist add it to the list 
+                wish.UserId = userid;
+                await wishRepository.SaveWishAsync(wish);
+            }
+            else
+            {
+                // If it exists delete it
+                await wishRepository.DeleteWishAsync(checkwish);
+            }
+
+
         }
 
         // This one deletes the list item based on the item id and current user
@@ -84,7 +105,7 @@ namespace Co_Partnership.Controllers
         public async void Delete(int id)
         {
             int userid = await GetUserId();
-            wishRepository.DeleteWish(id,userid);
+            await wishRepository.DeleteWishAsync(id,userid);
 
         }
     }

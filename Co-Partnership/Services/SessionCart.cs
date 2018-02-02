@@ -32,7 +32,11 @@ namespace Co_Partnership.Services
         public override TransactionItem AddItem(Item item, int quantity)
         {
             var cartItem = base.AddItem(item, quantity);
-            session.SetString(sessionKey, JsonConvert.SerializeObject(this));
+            session.SetString(sessionKey, JsonConvert.SerializeObject(this,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
             return cartItem;
         }
 
@@ -41,7 +45,11 @@ namespace Co_Partnership.Services
             var cartItem = base.UpdateQuantity(ItemId, quantity);
             if(cartItem != null)
             {
-                session.SetString(sessionKey, JsonConvert.SerializeObject(this));
+                session.SetString(sessionKey, JsonConvert.SerializeObject(this,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
                 return cartItem;
             }
             return null;
@@ -51,7 +59,11 @@ namespace Co_Partnership.Services
         public override void RemoveItem(int itemId)
         {
             base.RemoveItem(itemId);
-            session.SetString(sessionKey, JsonConvert.SerializeObject(this));
+            session.SetString(sessionKey, JsonConvert.SerializeObject(this,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
         }
 
         public override void Clear()
