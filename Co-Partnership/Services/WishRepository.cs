@@ -41,7 +41,7 @@ namespace Co_Partnership.Services
 
         }
 
-
+        // This function deletes the item from the wishlist depending on the id of the item
         public WishList DeleteWish(int itemId, int userId)
         {
             WishList wish = db.WishList.FirstOrDefault(p => p.ItemId == itemId && p.UserId == userId);
@@ -56,6 +56,7 @@ namespace Co_Partnership.Services
 
         }
 
+        //This function takes a wishlist and saves it
         public void SaveWish(WishList wish)
         {
             db.WishList.Add(wish);

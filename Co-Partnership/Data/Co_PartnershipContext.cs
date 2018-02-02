@@ -25,8 +25,6 @@ namespace Co_Partnership.Data
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Address1)
                     .HasColumnName("Address")
                     .HasMaxLength(50)
@@ -78,8 +76,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<Item>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Category)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -103,8 +99,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.DateProcessed).HasColumnType("datetime");
 
                 entity.Property(e => e.DateSent).HasColumnType("datetime");
@@ -148,8 +142,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<Transaction>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.DateProcessed).HasColumnType("datetime");
@@ -174,8 +166,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<TransactionItem>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ItemId).HasColumnName("Item_Id");
 
                 entity.Property(e => e.TransactionId).HasColumnName("Transaction_Id");
@@ -210,8 +200,6 @@ namespace Co_Partnership.Data
 
             modelBuilder.Entity<WishList>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ItemId).HasColumnName("Item_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");

@@ -40,6 +40,8 @@
     //);
 
 
+    ApplyAll();
+
 
 });
 
@@ -92,4 +94,85 @@ $(function () {
 
 
 
+/*
+*
+*       This handles the requests for the wishlist
+*       Nickolas added stuff here BEWARE OF MERGE CONFLICTS
+*
+*/
 
+
+// Toggle favor 
+let ToggleFavor = (id) => {
+    $.ajax({
+        url: "api/Wishlist",
+        contentType: "application/json",
+        method: "POST",
+        data: JSON.stringify({
+            itemId: id
+        }),
+        success: () => {
+            ToggleColor(id);
+        }
+    });
+};
+
+
+
+// Put this item in the wishlist
+let Favor = (id) => {
+    $.ajax({
+        url: "api/Wishlist",
+        contentType: "application/json",
+        method: "POST",
+        data: JSON.stringify({
+            itemId: id
+        }),
+        success: () => {
+            ToggleColor(id);
+        }
+    });
+};
+
+
+// Remove this item from the wishlist
+let UnFavor = (id) => {
+    $.ajax({
+        url: `api/Wishlist/${id}`,
+        contentType: "application/json",
+        method: "DELETE",
+        success: () => {
+            ToggleColor(id);
+        }
+    });
+
+};
+
+// Change Colors accordingly
+let ToggleColor = (id) => {
+    $("#id span").toggleClass('red grey');
+};
+
+
+
+// Apply the event listeners to all the heart spans and give them the parent's id
+let ApplyAll = () => {
+    let one = $('span.fa-heart');
+    one.each((index, value) => {
+        value.parentNode.addEventListener("click", function (e) {
+            ToggleFavor(value.parentNode.id);
+            e.preventDefault();
+        });
+    });
+};
+
+
+// This function favors an item or unfavors it if it is already liked
+let ToggleFavor = (id) => {
+    if ($(`#${id} span`).hasClass("grey")) {
+        ToggleFavor(id);
+    }
+    else {
+        ToggleFavor(id);
+    }
+};

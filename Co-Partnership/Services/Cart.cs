@@ -51,9 +51,9 @@ namespace Co_Partnership.Services
             return null;
         }
 
-        public virtual void RemoveItem(Item item)
+        public virtual void RemoveItem(int itemId)
         {
-            cartItems.RemoveAll(i => i.Item.Id == item.Id);
+            cartItems.RemoveAll(i => i.Item.Id == itemId);
         }
 
         public virtual decimal? ComputeItemValue(TransactionItem cartItem)

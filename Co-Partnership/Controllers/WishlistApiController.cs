@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+
 
 using Co_Partnership.Models;
 using Co_Partnership.Services;
@@ -18,7 +20,7 @@ namespace Co_Partnership.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Wishlist")]
+    [Route("/Products/Index/api/Wishlist")]
     public class WishlistApiController : Controller
     {
 
@@ -41,8 +43,10 @@ namespace Co_Partnership.Controllers
         // This function gets the user Id
         public async Task<int> GetUserId()
         {
-            var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
-            return userep.Users.FirstOrDefault(a => a.ExtId == user.Id).Id;
+            var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
+
+            var users = userep.Users;
+            return users.SingleOrDefault(a => a.ExtId == currentuser.Id).Id;
         } 
 
 
@@ -52,6 +56,9 @@ namespace Co_Partnership.Controllers
         [HttpGet]
         public async Task<IEnumerable<Object>> Get()
         {
+
+            var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
+
             int BId = await GetUserId();
 
             return wishRepository.Wishes.Where(a => a.UserId == BId);
@@ -74,8 +81,21 @@ namespace Co_Partnership.Controllers
         public async void Post([FromBody]WishList wish)
         {
             int userid = await GetUserId();
-            wish.UserId = userid;
-            wishRepository.SaveWish(wish);
+            // Check if this wished item already exist in the wishlist
+            var checkwish = wishRepository.Wishes.FirstOrDefault(a=> a.ItemId==wish.ItemId && a.UserId==userid);
+            if (checkwish == null)
+            {
+                // If it does not exist add it to the list 
+                wish.UserId = userid;
+                wishRepository.SaveWish(wish);
+            }
+            else
+            {
+                // If it exists delete it
+                wishRepository.DeleteWish(wish.Id, userid);
+            }
+
+
         }
 
         // This one deletes the list item based on the item id and current user
