@@ -324,9 +324,9 @@ nav ul li:hover > a {
 
 /*carousel item*/
 .carousel-item {
-    height: 100vh;
-    min-height: 300px;
-    background: no-repeat bottom scroll;
+    height: 30vh;
+    min-height: 150px;
+    background: no-repeat center scroll;
     /*-webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;*/
