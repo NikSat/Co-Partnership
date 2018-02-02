@@ -103,7 +103,7 @@ $(function () {
 
 
 // Toggle favor 
-let ToggleFavor = (id) => {
+let PostToggle = (id) => {
     $.ajax({
         url: "api/Wishlist",
         contentType: "application/json",
@@ -169,10 +169,6 @@ let ApplyAll = () => {
 
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
-    if ($(`#${id} span`).hasClass("grey")) {
-        ToggleFavor(id);
-    }
-    else {
-        ToggleFavor(id);
-    }
+    PostToggle(id);
+    ToggleColor(id);
 };

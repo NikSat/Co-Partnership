@@ -45,8 +45,9 @@ namespace Co_Partnership.Controllers
         {
             var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
 
-            var users = userep.Users;
-            return users.SingleOrDefault(a => a.ExtId == currentuser.Id).Id;
+
+            var use= await userep.RetrieveByExternalAsync(currentuser.Id);
+            return use.Id;
         } 
 
 
@@ -71,7 +72,7 @@ namespace Co_Partnership.Controllers
         public async Task<Object> Get(int itemid)
         {
             int userid = await GetUserId();
-            return wishRepository.Wishes.FirstOrDefault(a => a.ItemId==itemid  && a.UserId == userid);
+            return await wishRepository.Wishes.FirstOrDefaultAsync(a => a.ItemId==itemid  && a.UserId == userid);
         }
         
 
@@ -82,17 +83,17 @@ namespace Co_Partnership.Controllers
         {
             int userid = await GetUserId();
             // Check if this wished item already exist in the wishlist
-            var checkwish = wishRepository.Wishes.FirstOrDefault(a=> a.ItemId==wish.ItemId && a.UserId==userid);
+            var checkwish = await wishRepository.Wishes.FirstOrDefaultAsync(a=> a.ItemId==wish.ItemId && a.UserId==userid);
             if (checkwish == null)
             {
                 // If it does not exist add it to the list 
                 wish.UserId = userid;
-                wishRepository.SaveWish(wish);
+                await wishRepository.SaveWishAsync(wish);
             }
             else
             {
                 // If it exists delete it
-                wishRepository.DeleteWish(wish.Id, userid);
+                await wishRepository.DeleteWishAsync(checkwish);
             }
 
 
@@ -104,7 +105,7 @@ namespace Co_Partnership.Controllers
         public async void Delete(int id)
         {
             int userid = await GetUserId();
-            wishRepository.DeleteWish(id,userid);
+            await wishRepository.DeleteWishAsync(id,userid);
 
         }
     }

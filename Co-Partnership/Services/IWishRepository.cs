@@ -12,12 +12,13 @@ namespace Co_Partnership.Services
         IQueryable<WishList> Wishes { get; }
 
         // Two functions: to add and to remove items from this list
-        void SaveWish(WishList wish);
+        Task SaveWishAsync(WishList wish);
 
-        WishList DeleteWish(int wishId);
+        Task<WishList> DeleteWishAsync(int wishId);
 
-        WishList DeleteWish(int itemId, int userId);
+        Task<WishList> DeleteWishAsync(int itemId, int userId);
 
+        Task DeleteWishAsync(WishList weee);
 
     }
 }
