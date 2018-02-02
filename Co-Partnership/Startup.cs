@@ -137,11 +137,11 @@ namespace Co_Partnership
                    template: "Products/{productPage}",
                    defaults: new { Controller = "Products", Action = "Index" }
                    );
-                routes.MapRoute(
-                   name: "sorting",
-                   template: "Products/{productPage}",
-                   defaults: new { Controller = "Products", Action = "Index" }
-                   );
+                //routes.MapRoute(
+                //   name: "sorting",
+                //   template: "Products/{productPage}",
+                //   defaults: new { Controller = "Products", Action = "Index" }
+                //   );
                 routes.MapRoute(
                    name: "cart",
                    template: "Cart",
