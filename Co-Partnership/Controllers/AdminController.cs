@@ -10,7 +10,11 @@ namespace Co_Partnership.Controllers
     {
         public IActionResult Finance()
         {
-            return View();
+            return View("Finance");
+        }
+        public IActionResult Products()
+        {
+            return View("Products");
         }
     }
 }
