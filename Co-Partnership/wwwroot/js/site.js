@@ -42,6 +42,13 @@
 
     ApplyAll();
 
+    $(window).on("beforeunload", () => {
+        $.ajax({
+            url: "/api/SaveCart",
+            contentType: "application/json",
+            method: "POST"
+        });
+    })
 
 });
 
