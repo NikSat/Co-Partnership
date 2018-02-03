@@ -41,7 +41,18 @@
 
 
     ApplyAll();
+<<<<<<< HEAD
     ApplytoButton();
+=======
+
+    $(window).on("beforeunload", () => {
+        $.ajax({
+            url: "/api/SaveCart",
+            contentType: "application/json",
+            method: "POST"
+        });
+    })
+>>>>>>> 28c3cae1603df404c41dc55838f1348bd0c21d1b
 
 });
 

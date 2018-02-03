@@ -9,11 +9,11 @@ using Co_Partnership.Models;
 using Co_Partnership.Services;
 using Co_Partnership.Models.Database;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
-{
+{   [Authorize]
     [Produces("application/json")]
-    [Route("Admin/api/MessageBoard")]
     public class MessageBoardController : Controller
     {
         // This controller creates Apis for the message panel
@@ -28,13 +28,20 @@ namespace Co_Partnership.Controllers
             this.messageInterface = messageInterface;
         }
 
-
+        // This  function gets all the messages
         // GET: api/MessageBoard
+        [Route("Admin/api/MessageBoard")]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Message> Get()
         {
-            return new string[] { "value1", "value2" };
+            return messageInterface.Messages;
         }
+
+
+        // This function gets all the messages in a specific time window
+
+
+
 
         // GET: api/MessageBoard/5
         [HttpGet("{id}", Name = "Get")]
