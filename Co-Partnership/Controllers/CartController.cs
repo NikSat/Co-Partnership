@@ -15,6 +15,7 @@ namespace Co_Partnership.Controllers
     
     public class CartController : Controller
     {
+        private SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
         private IUserRepository _userRepository;
         private IItemRepository _itemRepository;
@@ -23,6 +24,7 @@ namespace Co_Partnership.Controllers
         private Cart _cart;
 
         public CartController(
+            SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IUserRepository userRepository,
             IItemRepository itemRepository,
@@ -30,6 +32,7 @@ namespace Co_Partnership.Controllers
             ITransactionItemRepository transactionItems,
             Cart cartService)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
             _userRepository = userRepository;
             _itemRepository = itemRepository;
@@ -64,8 +67,26 @@ namespace Co_Partnership.Controllers
             {
                 return RedirectToAction("AuthorizeIndex");
             }
-            await SaveCartAsync();
+            var id = await GetUserId();
+            
+            _transactionItems.SaveCartToDB(id);
             return View();
+        }
+
+        public async Task<IActionResult> SaveLogout()
+        {
+            var user = HttpContext.User.Identity.Name;
+            if (user == null)
+            {
+                return RedirectToAction("AuthorizeIndex");
+            }
+            var id = await GetUserId();
+
+            _transactionItems.SaveCartToDB(id);
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Index");
+            //return RedirectToRoute("{controller=Account}/{action=Logout}");
         }
 
         [Authorize]
@@ -74,63 +95,13 @@ namespace Co_Partnership.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task SaveCartAsync()
-        {            
-            var userid = await GetUserId();
-            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // incomplete transaction = cart saved 
-            //if there isn't an incomplete transaction create an new one
-            if (incomplete == null)
-            {
-                var incTransaction = new Transaction()
-                {
-                    OwnerId = userid,
-                    Date = DateTime.Now,
-                    Type = 0,
-                    IsProcessed = 0
-                };
-                _transactionRepository.SaveTransaction(incTransaction); // save new transaction to db
-                incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // get incomplete transaction
-            }
-            var transactionId = incomplete.Id;         
-
-            // save cartItems to TransactionItems table
-            // if they already exist update them
-            foreach(var item in _cart.CartItems)
-            {
-                var transactionItem = new TransactionItem()
-                {
-                    TransactionId = transactionId,
-                    ItemId = item.ItemId,
-                    Quantinty = item.Quantinty,
-                    Acceptance = true
-                };
-
-                var itemExists = _transactionItems.GetItem(transactionId, (int)transactionItem.ItemId);
-
-                if (itemExists != null)
-                {
-                    _transactionItems.UpdateItem(transactionItem);
-                }
-                else
-                {
-                    _transactionItems.SaveItem(transactionItem);
-                }
-            }
-
-            // get items for incomplete transaction
-            List<TransactionItem> items = _transactionItems.GetTransactionItems(transactionId);
-            // calculate price
-            var price = items.Select(i => (decimal)i.Quantinty * i.Item.UnitPrice).Sum();// without VAT
-
-            //save price into transaction
-            incomplete.Price = price;
-            _transactionRepository.UpdateTransaction(incomplete);
-        }
-
         public async Task<int> GetUserId()
         {
-            var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            return _userRepository.Users.FirstOrDefault(a => a.ExtId == user.Id).Id;
+            var currentuser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
+
+            return _userRepository.GetUserFromIdentity(currentuser.Id);
         }
+
+
     }
 }

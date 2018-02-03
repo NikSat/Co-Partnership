@@ -299,8 +299,15 @@ namespace Co_Partnership.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var id = _userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
+            
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            // save cart when logout
+            _transactionItems.SaveCartToDB(id);
+
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -397,6 +404,8 @@ namespace Co_Partnership.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+                await _signInManager.SignInAsync(user,true);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

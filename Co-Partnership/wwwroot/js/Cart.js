@@ -203,6 +203,10 @@
         $(`#buyBtn`).click(() => {
             window.location.href = "/Cart/CheckOut";
         });
+        $(`#savebtn`).click(() => {
+            window.location.href = "/Cart/SaveLogout";
+        });
+
     };
     
     let getCartItems = () => {
