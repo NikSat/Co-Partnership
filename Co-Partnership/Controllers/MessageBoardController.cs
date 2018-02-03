@@ -39,7 +39,16 @@ namespace Co_Partnership.Controllers
 
 
         // This function gets all the messages in a specific time window
-
+        [Route("Admin/api/MessageBoard")]
+        [HttpGet]
+        public IEnumerable<Message> Get(DateTime start,DateTime end)
+        {
+            if (end == null)
+            {
+                end = DateTime.Now;
+            }
+            return messageInterface.Messages.Where(a => a.DateSent==start && (a.DateProcessed==end || a.DateProcessed==null));
+        }
 
 
 
