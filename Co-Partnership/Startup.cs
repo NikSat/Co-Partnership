@@ -49,7 +49,7 @@ namespace Co_Partnership
                     // Signin settings
                     options.SignIn.RequireConfirmedEmail = true;
                     // User settings
-                    options.User.RequireUniqueEmail = true;
+                    options.User.RequireUniqueEmail = true;                   
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

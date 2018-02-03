@@ -8,7 +8,6 @@ using Co_Partnership.Models.Database;
 using Co_Partnership.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace Co_Partnership.Controllers

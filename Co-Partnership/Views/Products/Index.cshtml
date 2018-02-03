@@ -50,28 +50,28 @@
 
         <div class=" col-12 col-sm-6 col-md-4 col-lg-3 ">
             <div class="card text-center">
-                <a asp-action="Product" asp-route-id="@item.Id">
+                <a asp-action="Product" asp-route-id="@item.BaseItem.Id">
                     <div class="wrapper">
-                        <div class="card-img-top" style="background-image:url('@item.Image');height:140px;">
+                        <div class="card-img-top" style="background-image:url('@item.BaseItem.Image');height:140px;">
                             @*<img class="" src="" alt="Card image cap">*@
                         </div>
                     </div>
                 </a>
                 <div class="card-body">
                     <div>
-                        <a class="fancy-underline d-inline-block" asp-action="Product" asp-route-id="@item.Id">
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <a class="fancy-underline d-inline-block" asp-action="Product" asp-route-id="@item.BaseItem.Id">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.BaseItem.Name)</h5>
                         </a>
                     </div>
                     <div>
-                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Category" asp-route-productPage="1"> @item.Category</a>
+                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.BaseItem.Category" asp-route-productPage="1"> @item.BaseItem.Category</a>
                     </div>
-                    <p class="card-text d-block text-truncate" style="max-width: 150px;">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <p class="card-text d-none">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.UnitPrice) / @item.UnitType</p>
+                    <p class="card-text d-block text-truncate" style="max-width: 150px;">@Html.DisplayFor(modelItem => item.BaseItem.Description)</p>
+                    <p class="card-text d-none">@Html.DisplayFor(modelItem => item.BaseItem.Description)</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.BaseItem.UnitPrice) / @item.BaseItem.UnitType</p>
                     <div class="custom-position">
 
-                        @if (item.StockQuantity > 0)
+                        @if (item.BaseItem.StockQuantity > 0)
                 {
                     <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
         }
@@ -82,14 +82,18 @@
 }
                     </div>
                     <div class="custom-position-right">
-                        <a id=@item.Id>  <span class="fa fa-heart grey" aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>
+                          @if (item.IsLiked)
+    {<a id=@item.BaseItem.Id> <span class="fa fa-heart red" aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>}
+else
+{ <a id=@item.BaseItem.Id><span class="fa fa-heart grey" aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>}
+
                     </div>
 
 
 
-                    @if (item.StockQuantity > 0)
+                    @if (item.BaseItem.StockQuantity > 0)
             {
-                <a class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+                <a class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
     }
     else
     {

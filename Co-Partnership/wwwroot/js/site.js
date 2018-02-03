@@ -105,7 +105,7 @@ $(function () {
 // Toggle favor 
 let PostToggle = (id) => {
     $.ajax({
-        url: "api/Wishlist",
+        url: "/api/Wishlist",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
@@ -113,8 +113,14 @@ let PostToggle = (id) => {
         }),
         success: () => {
             ToggleColor(id);
+        },
+        error: (xhr) => {
+            if (xhr.status === 401) {
+                var parentUrl = encodeURIComponent(window.location.href);
+                window.location.href = "/Account/Login?ReturnUrl=" + parentUrl;
+            }
         }
-    });
+     });
 };
 
 
@@ -150,7 +156,14 @@ let UnFavor = (id) => {
 
 // Change Colors accordingly
 let ToggleColor = (id) => {
-    $("#id span").toggleClass('red grey');
+    let current = document.querySelector("#" + CSS.escape(id)+ " span");
+    if (current.classList.contains("grey")) {
+        current.classList.replace("grey","red");
+    }
+    else
+    {
+        current.classList.replace("red", "grey");
+    }
 };
 
 
@@ -170,5 +183,5 @@ let ApplyAll = () => {
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
     PostToggle(id);
-    ToggleColor(id);
+
 };

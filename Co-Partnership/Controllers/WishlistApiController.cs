@@ -20,7 +20,7 @@ namespace Co_Partnership.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("/Products/Index/api/Wishlist")]
+    [Route("/api/Wishlist")]
     public class WishlistApiController : Controller
     {
 
@@ -58,7 +58,6 @@ namespace Co_Partnership.Controllers
         public async Task<IEnumerable<Object>> Get()
         {
 
-            var user = await manager.FindByNameAsync(HttpContext.User.Identity.Name);
 
             int BId = await GetUserId();
 
@@ -79,7 +78,7 @@ namespace Co_Partnership.Controllers
         // This one creates a new wishlist item from a selection 
         // POST: api/ProductsApi
         [HttpPost]
-        public async void Post([FromBody]WishList wish)
+        public async Task Post([FromBody]WishList wish)
         {
             int userid = await GetUserId();
             // Check if this wished item already exist in the wishlist
@@ -102,7 +101,7 @@ namespace Co_Partnership.Controllers
         // This one deletes the list item based on the item id and current user
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             int userid = await GetUserId();
             await wishRepository.DeleteWishAsync(id,userid);
