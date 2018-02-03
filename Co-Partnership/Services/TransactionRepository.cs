@@ -133,7 +133,13 @@ namespace Co_Partnership.Services
                };
             return ItemList;
         }
-        
+
+        // This function returns the cart or the incomplete order
+        public Transaction GetIncompleteTransaction(int userId)
+        {
+            var incomplete = Transactions.FirstOrDefault(t => t.OwnerId == userId && t.Type == 0);
+            return incomplete;
+        }
 
     }
 }

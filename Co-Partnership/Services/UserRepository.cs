@@ -61,5 +61,11 @@ namespace Co_Partnership.Services
             db.Update(user);
             await db.SaveChangesAsync();
         }
+
+        //Get user from identity table
+        public int GetUserFromIdentity(string userId)
+        {
+            return Users.FirstOrDefault(u => u.ExtId == userId).Id;
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace Co_Partnership.Services
 
         TransactionItem DeleteItem(int itemId);
 
+        List<TransactionItem> GetTransactionItems(int transactionId);
+
+        TransactionItem GetItem(int transactionId, int itemId);
+
+        void SaveCartToDB(int userid);
     }
 }

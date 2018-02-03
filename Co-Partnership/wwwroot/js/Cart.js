@@ -96,7 +96,7 @@
                 quantitychanged(e, quantityInput, cartItem);
             })
             .keypress((e) => { //enter should not refresh 
-                if (e.which == 13) {
+                if (e.which === 13) {
                     quantitychanged(e, quantityInput, cartItem);
                 }
             });
@@ -150,12 +150,12 @@
         td45.id = "totalVATprice";
 
         getTotals();
-    }
+    };
 
     let getTotals = () => {
         let sum = 0;
         $(".itemPrice").each((index, element) => {
-            if ($(element).innerHTML != "") {
+            if ($(element).innerHTML !== "") {
                 let str = element.innerText;
                 str = str.substring(0, str.length - 2).replace(",", ".");
                 let p = Number(str);
@@ -170,7 +170,7 @@
 
         totalcell.innerText = total;
         totalVATcell.innerText = totalVAT;
-    }
+    };
 
     let addButtons = () => {
         let targ = document.getElementById("cart");
@@ -195,17 +195,20 @@
         let saveBtn = document.createElement('input');
         saveBtn.type = "button";
         saveBtn.id = "savebtn";
-        saveBtn.value = "Save Cart";
+        saveBtn.value = "Save Cart & Log Out";
         saveBtn.style = "float: right;";
         div.appendChild(saveBtn);
-                
+
         //add events
         $(`#buyBtn`).click(() => {
-            window.location.href = "https://localhost:44328/";
-        })
+            window.location.href = "/Cart/CheckOut";
+        });
+        $(`#savebtn`).click(() => {
+            window.location.href = "/Cart/SaveLogout";
+        });
 
-    }
-
+    };
+    
     let getCartItems = () => {
         $.ajax({
             url: "api/Cart",
@@ -247,7 +250,7 @@
                 getTotals();
             }
         });
-    }
+    };
 
     let clear = (itemId) => {
         $.ajax({
@@ -260,7 +263,7 @@
                 if (child !== null)
                     child.parentElement.removeChild(child);
                 getTotals();
-                if (document.getElementById('CartBody').childElementCount == 0) {
+                if (document.getElementById('CartBody').childElementCount === 0) {
                     let table = document.getElementById('cartTable');
                     table.parentElement.removeChild(table);
                     let div = document.getElementById("buttons");
@@ -272,7 +275,7 @@
                 }
             }
         });
-    }
+    };
 
     getCartItems();
 

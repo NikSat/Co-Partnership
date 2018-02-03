@@ -25,5 +25,6 @@ namespace Co_Partnership.Services
 
         int NewTransactionCount(int type);
 
+        Transaction GetIncompleteTransaction(int userId);
     }
 }
