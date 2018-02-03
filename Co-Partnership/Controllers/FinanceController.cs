@@ -63,13 +63,7 @@ namespace Co_Partnership.Controllers
             return Ok();
 
         }
-
-
-
-
-
-
-
+        
 
     }
 }

@@ -41,7 +41,7 @@
 
 
     ApplyAll();
-
+    ApplytoButton();
 
 });
 
@@ -101,7 +101,7 @@ $(function () {
 *
 */
 
-
+//////////////API SENDING FUNCTIONS
 // Toggle favor 
 let PostToggle = (id) => {
     $.ajax({
@@ -123,36 +123,39 @@ let PostToggle = (id) => {
      });
 };
 
-
-
-// Put this item in the wishlist
-let Favor = (id) => {
+// Toggle favor for buttons
+let PostButtonToggle = (id) => {
     $.ajax({
-        url: "api/Wishlist",
+        url: "/api/Wishlist",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
             itemId: id
         }),
         success: () => {
-            ToggleColor(id);
+            ToggleInner(id);
+        },
+        error: (xhr) => {
+            if (xhr.status === 401) {
+                var parentUrl = encodeURIComponent(window.location.href);
+                window.location.href = "/Account/Login?ReturnUrl=" + parentUrl;
+            }
         }
     });
 };
 
-
-// Remove this item from the wishlist
-let UnFavor = (id) => {
-    $.ajax({
-        url: `api/Wishlist/${id}`,
-        contentType: "application/json",
-        method: "DELETE",
-        success: () => {
-            ToggleColor(id);
-        }
-    });
-
+//////ON SUCCESS FUNCTIONS
+// Change inner html accordingly
+let ToggleInner = (id) => {
+    let current = document.querySelector("#" + CSS.escape(id));
+    if (current.innerHTML==="Like") {
+        current.innerHTML = "Liked";
+    }
+    else {
+        current.innerHTML = "Like";
+    }
 };
+
 
 // Change Colors accordingly
 let ToggleColor = (id) => {
@@ -166,7 +169,7 @@ let ToggleColor = (id) => {
     }
 };
 
-
+//////////////////EVENT LISTENERS
 
 // Apply the event listeners to all the heart spans and give them the parent's id
 let ApplyAll = () => {
@@ -179,9 +182,27 @@ let ApplyAll = () => {
     });
 };
 
+// Apply event listener to one button specificaly
+let ApplytoButton = () => {
+    $('a.likebutton').each((index, value) => {
+        value.addEventListener("click", function (e) {
+            ToggleButton(value.id);
+            e.preventDefault();
+        });
+    });
 
+};
+
+
+////////////FUNCTIONS CALLED BY EVENT LISTENERS
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
     PostToggle(id);
 
+};
+
+
+// This function does as the previous one only it applies to like buttons
+let ToggleButton = (id) => {
+    PostButtonToggle(id);
 };
