@@ -41,7 +41,9 @@
 
 
     ApplyAll();
+
     ApplytoButton();
+
 
     $(window).on("beforeunload", () => {
         $.ajax({
@@ -49,22 +51,30 @@
             contentType: "application/json",
             method: "POST"
         });
-    });
+
+
+    })
+
 
 });
 
 $(function () {
     $(".card").mouseenter(function () {
         $this = $(this);
-        var event2 = $this.find(".custom-position-right");
-        event2.addClass("faa-pulse");
-        event2.addClass("animated");
+        var event2 = $this.find(".fa-heart");
+        console.log(event2[0].classList.contains("grey"));
+        if (event2[0].classList.contains("grey")) {  
+            console.log("here");
+           event2.addClass("faa-pulse");
+           event2.addClass("animated");
+       }
     }).mouseleave(function () {
         $this = $(this);
-        var event2 = $this.find(".custom-position-right");
-        event2.removeClass("faa-pulse");
-        event2.removeClass("animated");
-
+        var event2 = $this.find(".fa-heart");
+        if (event2[0].classList.contains("grey")) {
+            event2.removeClass("faa-pulse");
+            event2.removeClass("animated");
+        }
     });
 });
 
@@ -169,11 +179,14 @@ let ToggleInner = (id) => {
 let ToggleColor = (id) => {
     let current = document.querySelector("#" + CSS.escape(id)+ " span");
     if (current.classList.contains("grey")) {
-        current.classList.replace("grey","red");
+        current.classList.replace("grey", "red");
+        current.classList.remove("faa-pulse");
+        current.classList.remove("animated");
     }
     else
     {
         current.classList.replace("red", "grey");
+        
     }
 };
 
