@@ -18,7 +18,7 @@
     };
 
     // Get messages from specific date
-    let GetAll = (start,end) => {
+    let GetAllByDate = (start,end) => {
         $.ajax({
             url: "/api/Wishlist/Date/",
             contentType: "application/json",
@@ -41,7 +41,7 @@
 
 
     // This function makes a test table 
-    let CreateTestTable(){
+    let CreateTestTable =()=>{
     
     }
 

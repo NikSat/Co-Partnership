@@ -1,5 +1,5 @@
 ﻿@*IEnumerable<Co_Partnership.Models.Database.Item>*@
-@model IEnumerable<TopProductsModel>
+@model List<TopLikeItem>
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
@@ -59,28 +59,28 @@
 
         <div class=" col-12 col-sm-6 col-md-4 col-lg-3 ">
             <div class="card text-center">
-                <a asp-action="Product" asp-route-id="@item.Product.Id">
+                <a asp-action="Product" asp-route-id="@item.Product.Product.Id">
                     <div class="wrapper">
-                        <div class="card-img-top" style="background-image:url('@item.Product.Image');height:140px;">
+                        <div class="card-img-top" style="background-image:url('@item.Product.Product.Image');height:140px;">
                             @*<img class="" src="" alt="Card image cap">*@
                         </div>
                     </div>
                 </a>
                 <div class="card-body">
                     <div>
-                        <a class="fancy-underline d-inline-block" asp-action="Product" asp-route-id="@item.Product.Id">
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Product.Name)</h5>
+                        <a class="fancy-underline d-inline-block" asp-action="Product" asp-route-id="@item.Product.Product.Id">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Product.Product.Name)</h5>
                         </a>
                     </div>
                     <div>
-                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Product.Category" asp-route-productPage="1"> @item.Product.Category</a>
+                        <a class="fancy-underline d-inline-block card-link" asp-route="category" asp-route-category="@item.Product.Product.Category" asp-route-productPage="1"> @item.Product.Product.Category</a>
                     </div>
-                    <p class="card-text d-block text-truncate" style="max-width: 150px;">@Html.DisplayFor(modelItem => item.Product.Description)</p>
-                    <p class="card-text d-none">@Html.DisplayFor(modelItem => item.Product.Description)</p>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Product.UnitPrice) / @item.Product.UnitType</p>
+                    <p class="card-text d-block text-truncate" style="max-width: 150px;">@Html.DisplayFor(modelItem => item.Product.Product.Description)</p>
+                    <p class="card-text d-none">@Html.DisplayFor(modelItem => item.Product.Product.Description)</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Product.Product.UnitPrice) / @item.Product.Product.UnitType</p>
                     <div class="custom-position">
 
-                        @if (item.Product.StockQuantity > 0)
+                        @if (item.Product.Product.StockQuantity > 0)
                     {
                         <span class="fa fa-check-circle-o" aria-hidden="true" data-toggle="tooltip" title="Available"></span>
                 }
@@ -91,14 +91,17 @@
             }
                     </div>
                     <div class="custom-position-right">
-                        <a href="~/images/feta.jpg"> <span class="fa fa-heart " aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>
+                        @if (item.IsLiked)
+    {<a id=@item.Product.Product.Id> <span class="fa fa-heart red" aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>}
+else
+{ <a id=@item.Product.Product.Id><span class="fa fa-heart grey" aria-hidden="true" data-toggle="tooltip" title="Add to Wishlist"></span></a>}
                     </div>
 
 
 
-                    @if (item.Product.StockQuantity > 0)
+                    @if (item.Product.Product.StockQuantity > 0)
                 {
-                    <a class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.Product.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+                    <a class="btn btn-secondary w-100" asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@item.Product.Product.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
             }
             else
             {

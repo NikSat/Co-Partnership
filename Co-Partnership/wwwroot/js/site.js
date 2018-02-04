@@ -49,7 +49,7 @@
             contentType: "application/json",
             method: "POST"
         });
-    })
+    });
 
 });
 
