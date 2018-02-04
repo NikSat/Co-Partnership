@@ -16,5 +16,11 @@ namespace Co_Partnership.Controllers
         {
             return View("Products");
         }
+
+        public IActionResult MessageBoard()
+        {
+            return View();
+        }
+
     }
 }

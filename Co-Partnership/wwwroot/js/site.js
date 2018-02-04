@@ -42,21 +42,37 @@
 
     ApplyAll();
 
+    ApplytoButton();
+
+
+    $(window).on("beforeunload", () => {
+        $.ajax({
+            url: "/api/SaveCart",
+            contentType: "application/json",
+            method: "POST"
+        });
+    })
+
 
 });
 
 $(function () {
     $(".card").mouseenter(function () {
         $this = $(this);
-        var event2 = $this.find(".custom-position-right");
-        event2.addClass("faa-pulse");
-        event2.addClass("animated");
+        var event2 = $this.find(".fa-heart");
+        console.log(event2[0].classList.contains("grey"));
+        if (event2[0].classList.contains("grey")) {  
+            console.log("here");
+           event2.addClass("faa-pulse");
+           event2.addClass("animated");
+       }
     }).mouseleave(function () {
         $this = $(this);
-        var event2 = $this.find(".custom-position-right");
-        event2.removeClass("faa-pulse");
-        event2.removeClass("animated");
-
+        var event2 = $this.find(".fa-heart");
+        if (event2[0].classList.contains("grey")) {
+            event2.removeClass("faa-pulse");
+            event2.removeClass("animated");
+        }
     });
 });
 
@@ -101,7 +117,7 @@ $(function () {
 *
 */
 
-
+//////////////API SENDING FUNCTIONS
 // Toggle favor 
 let PostToggle = (id) => {
     $.ajax({
@@ -123,50 +139,56 @@ let PostToggle = (id) => {
      });
 };
 
-
-
-// Put this item in the wishlist
-let Favor = (id) => {
+// Toggle favor for buttons
+let PostButtonToggle = (id) => {
     $.ajax({
-        url: "api/Wishlist",
+        url: "/api/Wishlist",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
             itemId: id
         }),
         success: () => {
-            ToggleColor(id);
+            ToggleInner(id);
+        },
+        error: (xhr) => {
+            if (xhr.status === 401) {
+                var parentUrl = encodeURIComponent(window.location.href);
+                window.location.href = "/Account/Login?ReturnUrl=" + parentUrl;
+            }
         }
     });
 };
 
-
-// Remove this item from the wishlist
-let UnFavor = (id) => {
-    $.ajax({
-        url: `api/Wishlist/${id}`,
-        contentType: "application/json",
-        method: "DELETE",
-        success: () => {
-            ToggleColor(id);
-        }
-    });
-
+//////ON SUCCESS FUNCTIONS
+// Change inner html accordingly
+let ToggleInner = (id) => {
+    let current = document.querySelector("#" + CSS.escape(id));
+    if (current.innerHTML==="Like") {
+        current.innerHTML = "Liked";
+    }
+    else {
+        current.innerHTML = "Like";
+    }
 };
+
 
 // Change Colors accordingly
 let ToggleColor = (id) => {
     let current = document.querySelector("#" + CSS.escape(id)+ " span");
     if (current.classList.contains("grey")) {
-        current.classList.replace("grey","red");
+        current.classList.replace("grey", "red");
+        current.classList.remove("faa-pulse");
+        current.classList.remove("animated");
     }
     else
     {
         current.classList.replace("red", "grey");
+        
     }
 };
 
-
+//////////////////EVENT LISTENERS
 
 // Apply the event listeners to all the heart spans and give them the parent's id
 let ApplyAll = () => {
@@ -179,9 +201,27 @@ let ApplyAll = () => {
     });
 };
 
+// Apply event listener to one button specificaly
+let ApplytoButton = () => {
+    $('a.likebutton').each((index, value) => {
+        value.addEventListener("click", function (e) {
+            ToggleButton(value.id);
+            e.preventDefault();
+        });
+    });
 
+};
+
+
+////////////FUNCTIONS CALLED BY EVENT LISTENERS
 // This function favors an item or unfavors it if it is already liked
 let ToggleFavor = (id) => {
     PostToggle(id);
 
+};
+
+
+// This function does as the previous one only it applies to like buttons
+let ToggleButton = (id) => {
+    PostButtonToggle(id);
 };

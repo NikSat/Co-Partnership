@@ -172,20 +172,46 @@ namespace Co_Partnership.Controllers
         // GET: One Product that is live
         public async Task<IActionResult> Product(int? id)
         {
+            // Checks if the item exists
             if (id == null)
             {
                 return NotFound();
             }
 
             var item = await itemRepository.Items
-                .SingleOrDefaultAsync(m => (m.IsLive ?? false) && m.Id == id);
+                                           .SingleOrDefaultAsync(m => (m.IsLive ?? false) && m.Id == id);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            return View(item);
+
+            // Now check if there is a user 
+
+            var name = HttpContext.User.Identity.Name;
+            if (name != null)
+            {
+                var currentuser = await manager.FindByNameAsync(name).ConfigureAwait(false);
+
+                // Get the id from this database and check if this object is in the wishlist
+                var use = await userep.RetrieveByExternalAsync(currentuser.Id);
+                bool isLiked = await wishRepository.Wishes.AnyAsync(a => a.UserId == use.Id && a.ItemId == id);
+                if (isLiked)
+                {
+                    return View(new LikeItem(item,true));
+                }
+                else
+                {
+                   return View(new LikeItem(item, false));
+                }
+
+            }
+            else
+            {
+                return View(new LikeItem(item, false));
+            }
+            
         }
 
     }

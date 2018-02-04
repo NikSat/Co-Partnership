@@ -15,8 +15,7 @@ namespace Co_Partnership.Services
         {
             this.db = db;
         }
-
-
+        
         public IQueryable<Message> Messages => db.Message;
 
         public void SaveMessage(Message message)
@@ -24,5 +23,26 @@ namespace Co_Partnership.Services
             db.Message.Add(message);
             db.SaveChanges();
         }
+
+        public Message DeleteItem(int mesId)
+        {
+            Message mes = db.Message.FirstOrDefault(p => p.Id == mesId);
+
+            if (mes != null)
+            {
+                db.Message.Remove(mes);
+                db.SaveChanges();
+            }
+
+            return mes;
+
+        }
+
+        public void UpdateMessage(Message message)
+        {
+            db.Update(message);
+            db.SaveChanges();
+        }
+        
     }
 }

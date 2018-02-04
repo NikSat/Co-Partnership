@@ -1,4 +1,5 @@
-﻿@model Co_Partnership.Models.Database.Item
+﻿@model Co_Partnership.Models.LikeItem
+
 
 @{
     ViewData["Title"] = "Details";
@@ -9,14 +10,14 @@
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item "><a asp-controller="Products" asp-action="Index" asp-route-productPage="1">Products</a></li>
         <li class="breadcrumb-item "><a asp-controller="Products" asp-action="Index" asp-route-productPage="1">Product</a></li>
-        <li class="breadcrumb-item active">@Model.Id</li>
+        <li class="breadcrumb-item active">@Model.BaseItem.Id</li>
     </ul>
 </div>
 
     <div class="row mx-auto">
         <div class="col-12 col-md-6 mb-5 mb-md-0 text-center text-md-left">
             <h2>Details</h2>
-            <img class="img-fluid rounded" width="400" src="@Html.DisplayFor(model => model.Image)" />
+            <img class="img-fluid rounded" width="400" src="@Html.DisplayFor(model => model.BaseItem.Image)" />
         </div>
 
         <div class="col-12 col-md-6 ">
@@ -24,22 +25,22 @@
             <hr />
             <dl class="row mb-4 text-center">
                 <dt class="col-6">
-                    @Html.DisplayNameFor(model => model.Name):
+                    @Html.DisplayNameFor(model => model.BaseItem.Name):
                 </dt>
                 <dd  class="col-6">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.BaseItem.Name)
                 </dd>
                 <dt  class="col-6">
-                    @Html.DisplayNameFor(model => model.Category):
+                    @Html.DisplayNameFor(model => model.BaseItem.Category):
                 </dt>
                 <dd  class="col-6">
-                    <a class="fancy-underline d-inline-block" asp-route="category" asp-route-category="@Model.Category" asp-route-productPage="1">@Html.DisplayFor(model => model.Category)</a>
+                    <a class="fancy-underline d-inline-block" asp-route="category" asp-route-category="@Model.BaseItem.Category" asp-route-productPage="1">@Html.DisplayFor(model => model.BaseItem.Category)</a>
                 </dd>
                 <dt  class="col-6">
-                    @Html.DisplayNameFor(model => model.Description):
+                    @Html.DisplayNameFor(model => model.BaseItem.Description):
                 </dt>
                 <dd  class="col-6">
-                    @Html.DisplayFor(model => model.Description)
+                    @Html.DisplayFor(model => model.BaseItem.Description)
                 </dd>
                 @*<dt>
                         @Html.DisplayNameFor(model => model.StockQuantity)
@@ -53,7 +54,14 @@
             <div class="d-flex flex-row justify-content-between mt-5">
                 <div class="btn-group d-flex" role="group">
                     <a href="" class="btn btn-secondary ">Buy</a>
-                    <a href="" class="btn btn-secondary">Like</a>
+                    @if (Model.IsLiked)
+                    {
+                          <a href="" id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Liked!</a>
+                    }
+                    else
+                    {
+                          <a href="" id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
+                    }
                 </div>
                 <a class="btn btn btn-secondary" asp-action="Index">Back to List</a>
             </div>
