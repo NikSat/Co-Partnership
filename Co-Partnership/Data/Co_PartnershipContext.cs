@@ -18,7 +18,7 @@ namespace Co_Partnership.Data
         public virtual DbSet<WishList> WishList { get; set; }
 
         public Co_PartnershipContext(DbContextOptions<Co_PartnershipContext> options)
-            : base(options)
+           : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -111,6 +111,8 @@ namespace Co_Partnership.Data
 
                 entity.Property(e => e.SenderId).HasColumnName("Sender_Id");
 
+                entity.Property(e => e.Title).IsUnicode(false);
+
                 entity.HasOne(d => d.Receiver)
                     .WithMany(p => p.MessageReceiver)
                     .HasForeignKey(d => d.ReceiverId)
@@ -202,18 +204,16 @@ namespace Co_Partnership.Data
             {
                 entity.Property(e => e.ItemId).HasColumnName("Item_Id");
 
-                entity.Property(e => e.UserId).HasColumnName("User_Id");
+                entity.Property(e => e.UserId).HasColumnName("User_id");
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.WishList)
                     .HasForeignKey(d => d.ItemId)
-                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_WishList_Item");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.WishList)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_WishList_User");
             });
         }

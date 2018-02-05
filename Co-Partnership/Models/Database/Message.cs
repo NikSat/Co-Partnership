@@ -11,6 +11,7 @@ namespace Co_Partnership.Models.Database
         public DateTime? DateSent { get; set; }
         public bool? Processed { get; set; }
         public DateTime? DateProcessed { get; set; }
+        public string Title { get; set; }
         public string Message1 { get; set; }
 
         public User Receiver { get; set; }

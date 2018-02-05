@@ -15,6 +15,9 @@ namespace Co_Partnership.Services
         Message DeleteItem(int mesId);
         
         void UpdateMessage(Message message);
-        
+
+        IQueryable<Object> GetMessageSummary();
+
+        Object GetDetailed(int id);
     }
 }

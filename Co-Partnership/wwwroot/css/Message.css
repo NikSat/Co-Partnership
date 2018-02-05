@@ -132,3 +132,7 @@ p {
     display: block;
     padding: 2em;
 }
+
+.thick {
+    font-weight:700;
+}

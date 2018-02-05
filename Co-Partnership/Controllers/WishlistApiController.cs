@@ -40,7 +40,7 @@ namespace Co_Partnership.Controllers
         }
 
 
-        // This function gets the user Id
+        // This function gets the user Id of the current user
         public async Task<int> GetUserId()
         {
             var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);

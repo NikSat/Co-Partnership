@@ -10,36 +10,40 @@ using Co_Partnership.Services;
 using Co_Partnership.Models.Database;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Co_Partnership.Controllers
-{   [Authorize]
+{   //[Authorize]
     [Produces("application/json")]
     public class MessageBoardController : Controller
     {
         // This controller creates Apis for the message panel
 
-        //It requires the message repository
+        //It requires the message repository, user repository  and usermanager to get current user
         private IMessageInterface messageInterface;
-       
+        private IUserRepository userep;
+        private UserManager<ApplicationUser> manager;
 
         // Constructor
-        public MessageBoardController(IMessageInterface messageInterface)
+        public MessageBoardController(UserManager<ApplicationUser> mngr, IMessageInterface wRpstr, IUserRepository us)
         {
-            this.messageInterface = messageInterface;
+            manager = mngr;
+            messageInterface = wRpstr;
+            userep = us;
         }
 
-        // This  function gets all the messages
+        // This  function gets the message summaries for all items
         // GET: api/MessageBoard
-        [Route("Admin/api/MessageBoard")]
+        [Route("/api/MessageBoard")]
         [HttpGet]
-        public IEnumerable<Message> Get()
+        public IEnumerable<Object> Get()
         {
-            return messageInterface.Messages;
+            return messageInterface.GetMessageSummary();
         }
 
-
+        /*
         // This function gets all the messages in a specific time window
-        [Route("Admin/api/MessageBoard")]
+        [Route("/api/MessageBoard")]
         [HttpGet]
         public IEnumerable<Message> Get(DateTime start,DateTime end)
         {
@@ -49,20 +53,34 @@ namespace Co_Partnership.Controllers
             }
             return messageInterface.Messages.Where(a => a.DateSent==start && (a.DateProcessed==end || a.DateProcessed==null));
         }
-
+        */
 
 
         // GET: api/MessageBoard/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [Route("/api/MessageBoard")]
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(messageInterface.GetDetailed(id));
         }
-        
-        // POST: api/MessageBoard
+
+        // This function marks this message as read
+        [Route("/api/MessageBoard/Read")]
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void ToggleRead([FromBody]Message message)
         {
+            int id = message.Id;
+
+
+        }
+
+        // POST: api/MessageBoard
+        [Route("/api/MessageBoard/Detail")]
+        [HttpPost]
+        public Object Post([FromBody]Message message)
+        {
+            int id = message.Id;
+            return Ok(messageInterface.GetDetailed(id));
         }
         
         // PUT: api/MessageBoard/5
