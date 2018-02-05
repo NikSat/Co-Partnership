@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Co_Partnership.Models;
 using Co_Partnership.Models.AccountViewModels;
 using Co_Partnership.Services;
+using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Controllers
 {
@@ -92,29 +93,68 @@ namespace Co_Partnership.Controllers
                 {
                     _logger.LogInformation("User logged in.");
 
+                    //GET CART
+                    //summary:
+                    // if there is a cart in DB merge it with session cart: 
+                    // 1. if dbitem exists in session, take max quantity and update both
+                    // 2. if dbitem doenst exist in session, add to session
+                    // then (3.) if session item doesnt exist in DB sav it in db
+                    //
+                   
+
                     // take cart if it already exists and merge it with anonymous
-                    var id =_userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
+                    var id = _userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
 
                     var incomplete = _transactionRepository.GetIncompleteTransaction(id); // get cart if it exists
-                    if (incomplete != null) // if cart exists
+                    if (incomplete != null) // if cart exists in DB --> MERGE
                     {
                         var transactionId = incomplete.Id;
-                        var items = _transactionItems.GetTransactionItems(transactionId); // get cartItems from DB
-                       
-                        foreach (var item in items)// foreach item add to cart or update if exists
+                        var dbItems = _transactionItems.GetTransactionItems(transactionId); // get cartItems from DB
+
+                        foreach (var dbItem in dbItems)// foreach item in DB add to cart or update if exists in session
                         {
-                            var itemExists = _cart.GetCartItem((int)item.ItemId); //if it exists in current cart
-                            if (itemExists != null && item.Quantinty != itemExists.Quantinty)
+                            var cart = _cart.CartItems;
+                            var itemExistsInS = _cart.GetCartItem((int)dbItem.ItemId);
+                            if (itemExistsInS != null) //if it exists in current cart
                             {
-                                var quantity = (item.Quantinty > itemExists.Quantinty) ? item.Quantinty : itemExists.Quantinty;
-                                _cart.UpdateQuantity((int)item.ItemId, (int)quantity);
+                                if(dbItem.Quantinty > itemExistsInS.Quantinty)
+                                {
+                                    _cart.UpdateQuantity((int)dbItem.ItemId, (int)dbItem.Quantinty);
+                                }
+                                else if(dbItem.Quantinty < itemExistsInS.Quantinty)
+                                {
+                                    dbItem.Quantinty = itemExistsInS.Quantinty;
+                                    _transactionItems.UpdateItem(dbItem);
+                                }
                             }
-                            else if (itemExists == null)
+                            else if (itemExistsInS == null) // if it doenst exist in current cart
                             {
-                                _cart.AddItem(item.Item, (int)item.Quantinty);
+                                _cart.AddItem(dbItem.Item, (int)dbItem.Quantinty);
                             }
                         }
-                    }                    
+
+                        var cartItems = _cart.CartItems; // get cart Items from session
+
+                        foreach (var cItem in cartItems)
+                        {
+                            var itemExistsInDb = _transactionItems.GetItem(transactionId, cItem.ItemId);
+                            if (itemExistsInDb == null) // if session item doenst exist in DB
+                            {
+                                var transactionItem = new TransactionItem()
+                                {
+                                    TransactionId = transactionId,
+                                    ItemId = cItem.ItemId,
+                                    Quantinty = cItem.Quantinty,
+                                    Acceptance = true
+                                };
+                                _transactionItems.AddOrUpdate(transactionItem);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _transactionItems.CreateDbCart(id);                       
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 //if (result.RequiresTwoFactor)
@@ -284,7 +324,7 @@ namespace Co_Partnership.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                    
+
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -301,7 +341,7 @@ namespace Co_Partnership.Controllers
         {
             var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             var id = _userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
-            
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
 
@@ -405,7 +445,7 @@ namespace Co_Partnership.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
-                await _signInManager.SignInAsync(user,true);
+                await _signInManager.SignInAsync(user, true);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

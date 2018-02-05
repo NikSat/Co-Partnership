@@ -12,13 +12,15 @@ namespace Co_Partnership.Services
 
         void UpdateItem(TransactionItem item);
 
-        void SaveItem(TransactionItem item);
+        void AddOrUpdate(TransactionItem item);
 
-        TransactionItem DeleteItem(int itemId);
+        TransactionItem DeleteItem(TransactionItem item);
 
         List<TransactionItem> GetTransactionItems(int transactionId);
 
-        TransactionItem GetItem(int transactionId, int itemId);
+        TransactionItem GetItem(int transactionId, int? itemId);
+
+        void CreateDbCart(int userid);
 
         void SaveCartToDB(int userid);
     }

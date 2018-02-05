@@ -18,10 +18,11 @@ namespace Co_Partnership.Services
         }
 
 
-        public IQueryable<Transaction> Transactions => db.Transaction
-                                                               .Include(a => a.Owner)
-                                                               .Include(b => b.TransactionItem)
-                                                                    .ThenInclude(TransactionItem =>TransactionItem.Item);
+        public IQueryable<Transaction> Transactions
+            => db.Transaction
+            .Include(a => a.Owner)
+            .Include(b => b.TransactionItem)
+            .ThenInclude(c => c.Item);
 
         public Transaction DeleteTransaction(int transactionId)
         {
@@ -32,10 +33,7 @@ namespace Co_Partnership.Services
                 db.Transaction.Remove(transaction);
                 db.SaveChanges();
             }
-
-            return transaction;
-
-
+            return transaction;            
         }
 
 
@@ -68,8 +66,6 @@ namespace Co_Partnership.Services
             return ListOrder;
         }
 
-
-
         // This function counts the new transactions by type
         public int NewTransactionCount(int type)
         {
@@ -78,14 +74,10 @@ namespace Co_Partnership.Services
                 where transaction.Type == type && transaction.IsProcessed == 0
                 select transaction;
             return ListTrans.Count();
-
         }
 
-
-
-
         // This function returns the total items in all unprocessed transactions of the same type
-        public double? CountItems (int type)
+        public double? CountItems(int type)
         {
             double? count = 0;
             var ListTrans =
@@ -99,13 +91,8 @@ namespace Co_Partnership.Services
                     count += transitem.Quantinty;
                 }
             }
-
             return count;
-
         }
-
-
-        
 
         // This function returns the items of each order or offer
         public IEnumerable<Object> ListItems(int orderId)
@@ -117,7 +104,6 @@ namespace Co_Partnership.Services
                 return null;
             }
 
-
             // From this transaction get the items, quantity, price, total price etc 
             var ItemList =
                from TransactionItem in transaction.TransactionItem
@@ -127,9 +113,9 @@ namespace Co_Partnership.Services
                    ItemCategory = TransactionItem.Item.Category,
                    ItemQuantity = TransactionItem.Quantinty.Value,
                    ItemPrice = TransactionItem.Item.UnitPrice.Value,
-                   ItemType= TransactionItem.Item.UnitType,
+                   ItemType = TransactionItem.Item.UnitType,
                    ItemFullPrice = (decimal)TransactionItem.Quantinty.Value * TransactionItem.Item.UnitPrice.Value,
-                   ItemAcceptance=TransactionItem.Acceptance
+                   ItemAcceptance = TransactionItem.Acceptance
                };
             return ItemList;
         }

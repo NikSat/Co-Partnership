@@ -206,6 +206,16 @@
         $(`#savebtn`).click(() => {
             window.location.href = "/Cart/SaveLogout";
         });
+        $(`#backbtn`).click(() => {
+            //window.history.back();
+            let ex = document.referrer;
+            if (ex.endsWith("/Cart/CheckOut")) {
+                window.location.href = "/Products/1";
+            }
+            else {
+                window.location.href = ex;
+            }
+        });
 
     };
     
@@ -248,6 +258,8 @@
                 let itemPrice = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(price);
                 p.innerHTML = itemPrice;
                 getTotals();
+
+                saveCartToDB();
             }
         });
     };
@@ -272,11 +284,27 @@
                     let al = document.createElement('div');
                     al.innerHTML = "The Cart is empty..";
                     targ.appendChild(al);
+
+                    saveCartToDB();
                 }
             }
         });
+
     };
+
+    let saveCartToDB = () => {
+        $.ajax({
+            url: "/api/SaveCart",
+            contentType: "application/json",
+            method: "POST",
+            success: console.log("Cart saved")
+        });
+    }
 
     getCartItems();
 
+   //$(window)
+    //    .on("beforeunload", saveCartToDB())
+    //    .on("pagehide", saveCartToDB())
+    //    .on("unload", saveCartToDB());
 });
