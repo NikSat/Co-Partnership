@@ -45,7 +45,8 @@
         let quantityInput = document.createElement('input');
         quantityInput.type = "number";
         quantityInput.value = cartItem.quantinty;
-        quantityInput.name = "quantity";
+        quantityInput.name = "quantityIn";
+        quantityInput.classList.add("itemQuantity");
         quantityInput.id = "quantityInput" + String(cartItem.itemId);
         quantityInput.min = 1;
         quantityInput.max = cartItem.item.stockQuantity;
@@ -91,7 +92,7 @@
         td5.appendChild(clearButton);
 
         //Events for Quantity Inputs
-        $(`#quantityInput${cartItem.itemId}`)           
+        $(`#quantityInput${cartItem.itemId}`)
             .change((e) => {
                 quantitychanged(e, quantityInput, cartItem);
             })
@@ -170,6 +171,18 @@
 
         totalcell.innerText = total;
         totalVATcell.innerText = totalVAT;
+
+        let numberOfItems = 0;
+        $(".itemQuantity").each((index, element) => {            
+                let strQ = element.value;                
+                let pQ = Number(strQ);
+                numberOfItems += pQ;
+        });
+
+        let cartSummary = String(numberOfItems) + " item(s) " + String(totalVAT);
+        $("span.refreshCart").each((index, element) => {
+            element.innerText = cartSummary;
+        });            
     };
 
     let addButtons = () => {
@@ -218,7 +231,7 @@
         });
 
     };
-    
+
     let getCartItems = () => {
         $.ajax({
             url: "api/Cart",
@@ -303,7 +316,7 @@
 
     getCartItems();
 
-   //$(window)
+    //$(window)
     //    .on("beforeunload", saveCartToDB())
     //    .on("pagehide", saveCartToDB())
     //    .on("unload", saveCartToDB());
