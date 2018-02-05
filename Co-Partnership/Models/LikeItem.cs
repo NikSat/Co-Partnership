@@ -19,5 +19,12 @@ namespace Co_Partnership.Models
 
         }
 
+        public LikeItem(Item item, bool isLiked)
+        {
+            BaseItem = item;
+            IsLiked = isLiked;
+        }
+
+
     }
 }

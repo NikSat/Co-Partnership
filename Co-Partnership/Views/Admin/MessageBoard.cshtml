@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Message Board";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="messageBox">
+    <aside class="messageSide">
+        <div class="UserName">
+            <span>Mark</span>
+        </div>
+        <div class="btn-wrap">
+            <a id="Compose" class="btn-compose">Compose</a>
+        </div>
+        <div class="actions">
+            <ul>
+                <li id="actionInbox">
+                    Inbox
+                </li>
+                <li id="actionSent">
+                    Sent
+                </li>
+            </ul>
+
+        </div>
+
+    </aside>
+
+    <div class="messageBody">
+
+    </div>
+
+
+</div>
+
+
+@section Scripts {<script type="text/javascript" src="~/js/Message.js"></script>}
