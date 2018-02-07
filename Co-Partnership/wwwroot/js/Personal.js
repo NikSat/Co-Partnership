@@ -71,7 +71,7 @@
     // Making a list of favorite objects
     let CreateFavoriteTable = () => {
         $("#history").append(
-            `<table class="historytable">
+            `<table class="table historytable">
     <tr>
         <th>Order</th>
         <th>Date</th>
@@ -136,7 +136,7 @@
     let CreateHistoryTable = () => {
 
         $("#wishes").append(
-            `<table class="wishtable">
+            `<table class="table wishtable">
     <tr>
         <th>Item</th>
         <th>Category</th>
