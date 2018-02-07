@@ -2,25 +2,39 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-
+@{ string[] choices = { "Finance", "Products", "MessageBoard" }; }   @*na proste8ei kai to members, otan ginei*@
 <nav class=" d-block " id="sidebar">
     <div class="sidebar-header">
         <h3 class="text-center text-md-left">Administrator Panel</h3>
     </div>
+
     <ul class="list-unstyled components">
-        <li>
-            <a href="#">Finance</a>
+        @foreach (var choice in choices)
+        {
+            <li>
+                @{string MenuChoice = choice;
+                }
+                <a class="menu @(MenuChoice == ViewBag.CurrentChoice ? "active" : "")" asp-controller="Admin" asp-action="@MenuChoice">@MenuChoice</a>
 
-        </li>
-        <li>
-            <a href="#">Messages</a>
-        </li>
+            </li>
 
-        <li>
-            <a href="#">Products</a>
-        </li>
-        <li>
-            <a href="#">Messages</a>
-        </li>
+        }
+
+        @*<li>
+                @{string MenuChoice = "Finance";}
+                <a class="@(MenuChoice == ViewBag.CurrentChoice ? "active" : "")" asp-controller="Admin" asp-action="@MenuChoice">@MenuChoice</a>
+
+            </li>
+            <li>
+                <a href="#">Members</a>
+            </li>
+
+            <li>
+                @{string MenuEIihfufce = "Products";}
+                <a class="@(MenuChoice == ViewBag.CurrentChoice ? "active" : "")" asp-controller="Admin" asp-action="Products">Products</a>
+            </li>
+            <li>
+                <a asp-controller="Admin" asp-action="MessageBoard">Messages</a>
+            </li>*@
     </ul>
-    </nav>
+</nav>

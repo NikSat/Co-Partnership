@@ -62,18 +62,23 @@ a, a:hover, a:focus {
     transition: all 0.3s;
 }
 
-    #sidebar.active {
-        margin-left: -250px;
-    }
+.menu.active, #sidebar ul li .menu.active:hover {
+    color: #041215;
+    background-color: #c5dde0;
+}
+
 
     #sidebar .sidebar-header {
         padding: 20px;
-        background: #0b424a;
+        background: #124850;
+        border-right: 1px solid #094d58;
     }
 
     #sidebar ul.components {
-        padding: 20px 0;
-        border-bottom: 1px solid #47748b;
+        padding: 0;
+        border-bottom: 1px solid #36585f;
+        border-top: 1px solid #36585f;
+        background-color: black;
     }
 
     #sidebar ul p {
@@ -82,14 +87,14 @@ a, a:hover, a:focus {
     }
 
     #sidebar ul li a {
-        padding: 10px;
+        padding: 15px;
         font-size: 1.1em;
         display: block;
     }
 
         #sidebar ul li a:hover {
-            color: #aad4fd;
-            background: #152f33;
+            color: #c9dbec;
+            background: #1e2627;
         }
 
     #sidebar ul li.active > a, a[aria-expanded="true"] {
@@ -175,6 +180,15 @@ a.article, a.article:hover {
     }
 }
 
+@media (min-width:768px){
+    .menu.active, #sidebar ul li .menu.active:hover {
+        border-right: 1px solid #c0e4e4;
+    }
+    .menu {
+        border-right: 1px solid transparent;
+    }
+}
+
 @media (min-width: 768px)and (max-width: 888px) {
     #admin-body{
         margin-left:28%;
@@ -236,7 +250,7 @@ a.article, a.article:hover {
 
     /*finance*/
 #finannce-order {
-    border: 1px solid #d8e6f5;
+    border: 1px solid #c2c7cc;
 }
 
     /*
@@ -264,19 +278,20 @@ a.article, a.article:hover {
         }
 
 thead {
-    border-left: 1px solid #b5b5b5;
-    border-right: 1px solid #aeafaf;
+    border-left: 1px solid black;
+    border-right: 1px solid #0c2323;
 }
 
     /*.table-fixed tbody td {
             float: left;
         }*/
 
-    .table thead tr th {
-        /*float: left;*/
-        background-color: #73b8c2;
-        border-color: #dbeef3;
-    }
+.table thead tr th {
+    /*float: left;*/
+    background-color: #010708;
+    border-color: #dbeef3;
+    color: white;
+}
 
     .table .sizetwo {
         padding-bottom: 0.55rem;
@@ -320,4 +335,29 @@ thead {
         width: 30%;
         height: 80px;
     }
+	
+	/*form*/	
+	.form-control:focus{
+		border-color: #a9d7de;
+		box-shadow: 0 0 0 0.2rem #c0d0d2;
+	}
 
+
+    /*for image uploading display*/
+
+#uploadPreview {
+    border: 1px solid #848c90;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    margin: 10px auto;
+}
+
+    #uploadPreview img {
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+table tr.active {
+    background: #ccc;
+}

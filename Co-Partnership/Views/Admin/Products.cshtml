@@ -1,12 +1,44 @@
-﻿
+﻿@model IEnumerable<Co_Partnership.Models.Database.Transaction> 
 @{
     ViewData["Title"] = "Products";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <div id="admin-body">
     <h2>Products</h2>
-
+    <a class="btn btn-info float-right" asp-controller="Admin" asp-action="CreateProduct" role="button"><span class="fa fa-plus mr-1"></span>Add new</a>
+    <a id="deleteBtn" class="btn btn-info float-left"><span class="fa fa-minus mr-1"></span>Delete</a>
     <div id="Product-list"></div>
+
+    <div id="Sales-list">
+        <form asp-action="GetSales" method="post">
+            @*<input type="hidden" asp-for="" />*@
+
+            <div class="form-group">
+                @*<label asp-for="Category" class="control-label"></label>
+                <input asp-for="Category" class="form-control" />
+                <span asp-validation-for="Category" class="text-danger"></span>*@
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+
+        <table class="table w-100">
+            <thead>
+                <tr>
+                    <th class="w-50">Total sales</th>
+                    <th class="w-50">Period</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>12.3</td>
+                    <td>23-2-2018</td>
+                </tr>
+     
+            </tbody>
+        </table>
+    </div>
 
 
 

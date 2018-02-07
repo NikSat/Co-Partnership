@@ -80,7 +80,7 @@
 
         let maspro = document.createElement('button');
         maspro.classList.add("bstyle");
-        maspro.innerText = "Process All";
+        maspro.innerText = "Add new";
         wrapcell.appendChild(maspro);
         row.appendChild(wrapcell);
 
