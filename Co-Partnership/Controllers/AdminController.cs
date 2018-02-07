@@ -18,11 +18,18 @@ namespace Co_Partnership.Controllers
         private readonly IItemRepository _itemRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ITransactionRepository _transactionRepository;
-        public AdminController(IItemRepository itemRepository, IHostingEnvironment hostingEnvironment, ITransactionRepository transactionRepository)
+        private readonly IAddressRepository _addressRepository;
+
+        public AdminController(
+            IItemRepository itemRepository, 
+            IHostingEnvironment hostingEnvironment, 
+            ITransactionRepository transactionRepository,
+            IAddressRepository addressRepository)
         {
             _itemRepository = itemRepository;
             _hostingEnvironment = hostingEnvironment;
             _transactionRepository = transactionRepository;
+            _addressRepository = addressRepository;
         }
         public IActionResult Finance()
         {
@@ -41,10 +48,32 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
+        public IActionResult Requests()
+        {
+            ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
+            var model = new RequestsViewModel()
+            {
+                PendingOffers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 2).ToList(),
+                PendingOrders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 1).ToList(),
+                Addresses = new List<Address>()
+            };
+
+            foreach (var order in model.PendingOrders)
+            {
+                model.Addresses.Add(_addressRepository
+                    .AddressRepo
+                    .FirstOrDefault(a => a.TransactionId == order.Id));
+            }
+            return View(model);
+        }
+
         public IActionResult CreateProduct()
         {
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
