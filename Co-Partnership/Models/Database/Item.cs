@@ -14,10 +14,12 @@ namespace Co_Partnership.Models.Database
 
         public int Id { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(15)]
         [Required]
         public string Name { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(15)]
         [Required]
         public string Category { get; set; }
@@ -32,6 +34,7 @@ namespace Co_Partnership.Models.Database
         public bool? IsLive { get; set; }
         
         public string Image { get; set; }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [Required]
         public string UnitType { get; set; }
 

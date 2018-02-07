@@ -70,14 +70,14 @@ a, a:hover, a:focus {
 
     #sidebar .sidebar-header {
         padding: 20px;
-        background: #124850;
+        background: #225158;
         border-right: 1px solid #094d58;
     }
 
     #sidebar ul.components {
         padding: 0;
-        border-bottom: 1px solid #36585f;
-        border-top: 1px solid #36585f;
+        border-bottom: 1px solid #2c4348;
+        border-top: 1px solid #313a3c;
         background-color: black;
     }
 
