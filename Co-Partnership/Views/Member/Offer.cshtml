@@ -1,0 +1,46 @@
+﻿@model OfferViewModel
+@{
+    ViewData["Title"] = "New Offer";
+}
+
+<h4>
+    Offer a product: @Model.Item.Name
+</h4>
+<br />
+<form asp-controller="Member" asp-action="Offer" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="ItemId" value="@Model.Item.Id" hidden />
+    <table class="table ">
+        <tr>
+            <td><label>Unit Price  </label></td>
+            <td><span class="currency" id="UnitPrice">@(Model.Item.UnitPrice / 3)</span></td>
+        </tr>
+
+        <tr>
+            <td><label>Quantity  </label></td>
+            <td>
+                <input asp-for="Quantity" min="1" style="max-width:60px" oninput="quantityChanged(this.value)" onkeypress="return preventSubmit(event)" /> <label>@Model.Item.UnitType</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Total  </label></td>
+            <td><span class="currency" id="TotalPrice">@(Model.Item.UnitPrice / 3 * Model.Quantity)</span></td>
+        </tr>
+    </table>
+    @*<label>Unit Price : </label><span class="currency" id="UnitPrice">@(Model.Item.UnitPrice / 3)</span>
+        <br />
+        <label>Quantity : </label>
+        <input asp-for="Quantity" min="1" oninput="quantityChanged(this.value)" onkeypress="return preventSubmit(event)" /> <label>@Model.Item.UnitType</label>
+        <br />
+        <label>Total : <span class="currency" id="TotalPrice">@(Model.Item.UnitPrice / 3 * Model.Quantity)</span></label>
+        <br />*@
+    <a class="btn btn-primary" asp-controller="Member" asp-action="Index">Go Back</a>
+    <a class="btn btn-primary" asp-controller="Member" asp-action="OfferItems">Choose another Product</a>
+    <input class="btn btn-primary" type="submit" value="Submit Offer" style="float:right;" />
+</form>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/Offer.js"></script>
+    <script type="text/javascript" src="~/js/currencyFormat.js"></script>
+}

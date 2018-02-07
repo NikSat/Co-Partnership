@@ -22,5 +22,11 @@ namespace Co_Partnership.Services
         Task<User> RetrieveByExternalAsync(string extId);
 
         int GetUserFromIdentity(string userId);
+
+        string GetEmail(string userId);
+
+        string GetName(int userId);
+
+        decimal GetBalance(int userId);
     }
 }

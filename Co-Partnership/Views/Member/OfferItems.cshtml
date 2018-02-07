@@ -1,0 +1,63 @@
+﻿@model OfferItemsViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<form asp-controller="Member" asp-action="OfferItems" method="post" >
+    <div style="text-align:center;">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <b>Product:</b>
+        <select asp-for="ItemId" asp-items="@Model.SelectItems" id="selectProduct" onchange="selectChanged(this.value)">
+            <option value="start">Please select one </option>
+        </select>
+        <input class="btn btn-primary" type="submit" value="Make an offer!" id="productSubmit" disabled />
+    </div>
+</form>
+
+
+<br />
+
+<h5>Available Products</h5>
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Product</th>
+            <th>Description</th>
+            <th>Buying Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <span class="currency">@(item.UnitPrice / 3)</span>
+                / @item.UnitType
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-controller="Member" asp-action="Index">Go Back</a>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/currencyFormat.js"></script>
+    <script type="text/javascript" src="~/js/Offer.js"></script>
+}
+
+
+

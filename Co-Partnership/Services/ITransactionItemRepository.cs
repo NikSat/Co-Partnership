@@ -23,5 +23,7 @@ namespace Co_Partnership.Services
         void CreateDbCart(int userid);
 
         void SaveCartToDB(int userid);
+
+        void LoginMergeCart(int userid);
     }
 }

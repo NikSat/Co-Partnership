@@ -20,9 +20,10 @@ namespace Co_Partnership.Services
 
         public IQueryable<Transaction> Transactions
             => db.Transaction
-            .Include(a => a.Owner)
-            .Include(b => b.TransactionItem)
-            .ThenInclude(c => c.Item);
+            .Include(t => t.Owner)
+            .Include(t => t.Recipient)
+            .Include(t => t.TransactionItem)
+            .ThenInclude(t => t.Item);
 
         public Transaction DeleteTransaction(int transactionId)
         {
@@ -37,10 +38,11 @@ namespace Co_Partnership.Services
         }
 
 
-        public void SaveTransaction(Transaction transaction)
+        public Transaction SaveTransaction(Transaction transaction)
         {
             db.Transaction.Add(transaction);
             db.SaveChanges();
+            return transaction;
         }
 
         public void UpdateTransaction(Transaction transaction)
