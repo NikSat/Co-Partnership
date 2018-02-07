@@ -8,11 +8,8 @@
         // Make the head
         let head = document.createElement('thead');
         let row = document.createElement('tr');
-        let cell = document.createElement('th');
-        cell.id = -1;
-
-        row.appendChild(cell);
-        let titles = ["Title", "Description", "Category", "Image", "Quantity", "IsLive", "Price"];
+       
+        let titles = ["Title", "Description", "Category", "Image", "Quantity", "IsLive", "Price","Type"];
 
 
 
@@ -58,7 +55,7 @@
         
 
         $("#Product-list tbody").append(
-            `<tr id=${product.id}><td class='checkbox'> <input id="c${product.id}" type="checkbox" ></td>
+            `<tr id=${product.id}>
                         <td class="sizeone" >${product.name}</td>
                         <td class="sizeone" >${product.description}</td>
                          <td class="sizeone" >${product.category}</td>
@@ -66,6 +63,7 @@
                         <td class="sizeone" >${product.stockQuantity}</td>
                         <td class="sizeone" >${product.isLive}</td>
                         <td class="sizeone" >${product.unitPrice}</td>
+                        <td class="sizeone" >${product.unitType}</td>
                         <td class="sizeone" ><a href="EditProduct/${product.id}" >Edit</a></td>
                     </tr>`
 

@@ -54,7 +54,11 @@
                             else if (transaction.RecipientId == Model.CurrentUserId)
                             {
                                 <td>Deposit from</td>
-                                if (transaction.Owner.UserType == 3)
+                                if(transaction.Owner == null)
+                                {
+                                    <td>Unknown</td>
+                                }
+                                else if (transaction.Owner.UserType == 3)
                                 {
                                     <td>Co-Partenership</td>
                                 }
@@ -66,7 +70,10 @@
                             else if (transaction.OwnerId == Model.CurrentUserId)
                             {
                                 <td>Transfer to</td>
-                                if (transaction.Recipient.UserType == 3)
+                                if(transaction.Recipient == null){
+                                    <td>Unknown</td>
+                                }
+                                else if (transaction.Recipient.UserType == 3)
                                 {
                                     <td>Co-Partenership</td>
                                 }
@@ -80,7 +87,7 @@
                             @if (transaction.Type == 2 || transaction.Type == 3)
                             {
                                 <td>
-                                    <a class="btn" data-toggle="collapse" href="#collapsive@(transaction.Id)" aria-expanded="false" aria-controls="collapsive@(transaction.Id)">More..</a>
+                                    <a class="btn" data-toggle="collapse" href="#collapsive@(transaction.Id)" aria-expanded="false" aria-controls="collapsive@(transaction.Id)">Details..</a>
                                 </td>
                             }
                             else
