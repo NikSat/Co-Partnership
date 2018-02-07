@@ -18,7 +18,13 @@ namespace Co_Partnership.Services
         void SaveItem(Item item);
 
         Item DeleteItem(int itemId);
+
+
         IQueryable<TopProductsModel> GetTop();
+
+        List<string> GetCategories();
+
+        Item GetItem(int id);
     }
 
     

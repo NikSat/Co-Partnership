@@ -16,7 +16,10 @@ namespace Co_Partnership.Services
         private Cart _cart;
 
         // The Constructor
-        public TransactionItemRepository(Co_PartnershipContext db, ITransactionRepository transactionRepository, Cart cart)
+        public TransactionItemRepository(
+            Co_PartnershipContext db,
+            ITransactionRepository transactionRepository,
+            Cart cart)
         {
             this.db = db;
             _transactionRepository = transactionRepository;
@@ -28,19 +31,11 @@ namespace Co_Partnership.Services
                                                                 .Include(a => a.Item)
                                                                 .Include(b => b.Transaction);
 
-
-        public TransactionItem DeleteItem(int trItemId)
+        public TransactionItem DeleteItem(TransactionItem item)
         {
-            TransactionItem ite = TIRepository.FirstOrDefault(p => p.Id == trItemId);
-
-            if (ite != null)
-            {
-                db.TransactionItem.Remove(ite);
-                db.SaveChanges();
-            }
-
-            return ite;
-
+            db.TransactionItem.Remove(item);
+            db.SaveChanges();
+            return item;
         }
 
         public void SaveItem(TransactionItem item)
@@ -55,6 +50,22 @@ namespace Co_Partnership.Services
             db.SaveChanges();
         }
 
+        public void AddOrUpdate(TransactionItem item)
+        {
+            var transItem = GetItem(item.Id, item.ItemId);
+            if (transItem == null)
+            {
+                db.TransactionItem.Add(item);
+            }
+            else
+            {
+                //db.Update(transItem);
+                transItem.Quantinty = item.Quantinty;
+                db.Update(transItem);
+            }
+            db.SaveChanges();
+        }
+
         //Gets a list of transaction items for a specific transaction if tthey exist
         public List<TransactionItem> GetTransactionItems(int transactionId)
         {
@@ -62,57 +73,38 @@ namespace Co_Partnership.Services
         }
 
         //Gets an item if it exists inside a transaction
-        public TransactionItem GetItem(int transactionId, int itemId)
+        public TransactionItem GetItem(int transactionId, int? itemId)
         {
-             return TIRepository.FirstOrDefault(ti => ti.TransactionId == transactionId && ti.ItemId == itemId);
+            return TIRepository.SingleOrDefault(ti => ti.TransactionId == transactionId && ti.ItemId == itemId);
         }
 
-        public void SaveCartToDB(int userid) //from session to db
+        // if there isnt a cart in DB
+        // creates one and adds session items      
+        public void CreateDbCart(int userid)
         {
-            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // incomplete transaction = cart saved tto db
-
-            //an uparxei cart sto db fernw ta items tou DB kai ta sugkrinw me tou cart(session)
-            if (incomplete != null)
+            var price = _cart.ComputeTotalValue();
+            var incTransaction = new Transaction() // make cart in DB
             {
-                var dbItems = TIRepository.Where(ti => ti.TransactionId == incomplete.Id).ToList(); // citems in DB
-
-                foreach (var itemDB in dbItems)
-                {
-                    var itemInCart = _cart.GetCartItem((int)itemDB.ItemId); // get the item if it exists in cart
-
-                    if(itemInCart != null) //if it exists in both, take cart quantity and update DB
-                    {
-                        itemDB.Quantinty = itemInCart.Quantinty;
-                        UpdateItem(itemDB);
-                    }
-                    else // if it doesnt exist in cart, delete it from database
-                    {
-                        DeleteItem(itemDB.Id);
-                    }
-                }
-            }
-            else // make the empty cart in DB (incomplete transaction type = 0)
-            {
-                var incTransaction = new Transaction()
-                {
-                    OwnerId = userid,
-                    Date = DateTime.Now,
-                    Type = 0,
-                    IsProcessed = 0
-                };
-                _transactionRepository.SaveTransaction(incTransaction); // save new transaction to db
-                incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // get incomplete transaction
-            }
-
+                OwnerId = userid,
+                Date = DateTime.Now,
+                Type = 0,
+                IsProcessed = 0,
+                Price = price
+            };
+            _transactionRepository.SaveTransaction(incTransaction); // save cart to db
+            var incomplete = _transactionRepository.Transactions.FirstOrDefault(t => t.OwnerId == userid && t.Type == 0); // get it from db (auto id)
 
             var transactionId = incomplete.Id;
 
-            //if there are items in cart(session) that arent saved in DB now we save them
-            foreach (var cItem in _cart.CartItems)
+            foreach (var cItem in _cart.CartItems) // save session items to db
             {
-                var itemInDB = GetItem(transactionId, (int)cItem.ItemId);
-
-                if (itemInDB == null) // an kapoio cart item den uparxei sto db to ftiaxnw k to pros8etw
+                var itemExistsInDb = GetItem(transactionId, (int)cItem.ItemId);
+                if (itemExistsInDb != null) // if item exists in DB
+                {
+                    itemExistsInDb.Quantinty = cItem.Quantinty;
+                    UpdateItem(itemExistsInDb);
+                }
+                else // if item doesnt exist in db, save sessionitem to DB
                 {
                     var transactionItem = new TransactionItem()
                     {
@@ -121,19 +113,122 @@ namespace Co_Partnership.Services
                         Quantinty = cItem.Quantinty,
                         Acceptance = true
                     };
-
-                    SaveItem(transactionItem);
+                    AddOrUpdate(transactionItem);
                 }
             }
+        }
 
-            // then get all items for this incomplete transaction
-            List<TransactionItem> items = GetTransactionItems(transactionId);
-            // calculate price
-            var price = items.Select(i => (decimal)i.Quantinty * i.Item.UnitPrice).Sum();// without VAT
+        //if there isnt a cart in db => create cart in db
+        //else =>
+        //recalculate price and save it in db
+        // then Get session items 
+        // if they exist in DB update them in db
+        // if they dont add them to db
+        // if there are items in DB that arent in session delete them from db
+        // 
+        public void SaveCartToDB(int userid) //from session to db
+        {
+            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // incomplete transaction = cart saved tto db
 
-            //save price into transaction
-            incomplete.Price = price;
-            _transactionRepository.UpdateTransaction(incomplete);
+            if (incomplete != null)
+            {
+                var price = _cart.ComputeTotalValue(); // update price in db
+                incomplete.Price = price;
+                _transactionRepository.UpdateTransaction(incomplete);
+
+                var transactionId = incomplete.Id;
+                var cartItems = _cart.CartItems;
+                foreach (var cItem in cartItems)
+                {
+                    var itemExistsInDb = GetItem(transactionId, (int)cItem.ItemId);
+                    if (itemExistsInDb != null && itemExistsInDb.Quantinty != cItem.Quantinty) // if item exists in DB
+                    {
+                        itemExistsInDb.Quantinty = cItem.Quantinty;
+                        UpdateItem(itemExistsInDb);
+                    }
+                    else if (itemExistsInDb == null)// if item doesnt exist in db, save sessionitem to DB
+                    {
+                        var transactionItem = new TransactionItem()
+                        {
+                            TransactionId = transactionId,
+                            ItemId = cItem.ItemId,
+                            Quantinty = cItem.Quantinty,
+                            Acceptance = true
+                        };
+                        AddOrUpdate(transactionItem);
+                    }
+                }
+
+                var dbItems = GetTransactionItems(transactionId);
+                foreach (var dbItem in dbItems) // if db item doesnt exist in cart
+                {
+                    var itemExistsInCart = _cart.GetCartItem((int)dbItem.ItemId);
+                    if (itemExistsInCart == null)
+                    {
+                        DeleteItem(dbItem);
+                    }
+                }
+            }
+            else
+            {
+                CreateDbCart(userid);
+            }
+        }
+
+        //GET CART
+        //summary:
+        // if there is a cart in DB merge it with session cart: 
+        // 1. if dbitem exists in session, take max quantity and update both
+        // 2. if dbitem doenst exist in session, add to session
+        // then (3.) if session item doesnt exist in DB sav it in db
+        public void LoginMergeCart(int userid)
+        {
+            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // get cart in DB if it exists
+            if (incomplete != null) // if cart exists in DB --> MERGE
+            {
+                var transactionId = incomplete.Id;
+                var dbItems = GetTransactionItems(transactionId); // get cartItems from DB
+
+                foreach (var dbItem in dbItems)// foreach item in DB add to cart or update if exists in session
+                {
+                    var cart = _cart.CartItems;
+                    var itemExistsInS = _cart.GetCartItem((int)dbItem.ItemId);
+                    if (itemExistsInS != null && dbItem.Quantinty > itemExistsInS.Quantinty) //if it exists in current cart
+                    {
+                        _cart.UpdateQuantity((int)dbItem.ItemId, (int)dbItem.Quantinty);
+                    }
+                    else if (itemExistsInS != null && dbItem.Quantinty < itemExistsInS.Quantinty)
+                    {
+                        dbItem.Quantinty = itemExistsInS.Quantinty;
+                        UpdateItem(dbItem);
+                    }                    
+                    else if (itemExistsInS == null) // if it doenst exist in current cart
+                    {
+                        _cart.AddItem(dbItem.Item, (int)dbItem.Quantinty);
+                    }
+                }
+                var cartItems = _cart.CartItems; // get cart Items from session
+
+                foreach (var cItem in cartItems)
+                {
+                    var itemExistsInDb = GetItem(transactionId, cItem.ItemId);
+                    if (itemExistsInDb == null) // if session item doenst exist in DB
+                    {
+                        var transactionItem = new TransactionItem()
+                        {
+                            TransactionId = transactionId,
+                            ItemId = cItem.ItemId,
+                            Quantinty = cItem.Quantinty,
+                            Acceptance = true
+                        };
+                        AddOrUpdate(transactionItem);
+                    }
+                }
+            }
+            else
+            {
+               CreateDbCart(userid);
+            }
         }
     }
 }

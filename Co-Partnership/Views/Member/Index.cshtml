@@ -1,0 +1,134 @@
+﻿@model MemberAccountViewModel
+
+@{
+    ViewData["Title"] = "My account";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h5>
+                Member : @Model.Username <br />
+                Current Balance : <span class="currency">@Model.Balance</span> <br />
+
+            </h5>
+            
+        </div>
+        <div class="col-4">
+            <a class="btn btn-primary" asp-controller="Member" asp-action="OfferItems">Make a new Offer!</a>
+            <a class="btn btn-outline-primary" asp-controller="Member" asp-action="MembersTable">See all members</a>
+
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <h4>
+            Transactions History
+        </h4>
+        <br />
+        @if (Model.Transactions.Count == 0)
+        {
+            <p>There are no transactions available..</p>
+        }
+        else
+        {
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>From / To</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model.Transactions)
+                    {
+                        <tr>
+
+                            @if (transaction.Type == 2 || transaction.Type == 3)
+                            {
+                                <td>Deposit from</td>
+                                <td>Co-Partenership</td>
+                            }
+                            else if (transaction.RecipientId == Model.CurrentUserId)
+                            {
+                                <td>Deposit from</td>
+                                if (transaction.Owner.UserType == 3)
+                                {
+                                    <td>Co-Partenership</td>
+                                }
+                                else
+                                {
+                                    <td>@transaction.Owner.FirstName @transaction.Owner.LastName</td>
+                                }
+                            }
+                            else if (transaction.OwnerId == Model.CurrentUserId)
+                            {
+                                <td>Transfer to</td>
+                                if (transaction.Recipient.UserType == 3)
+                                {
+                                    <td>Co-Partenership</td>
+                                }
+                                else
+                                {
+                                    <td>@transaction.Recipient.FirstName @transaction.Recipient.LastName</td>
+                                }
+                            }
+                            <td>@Html.DisplayFor(modelItem => transaction.DateProcessed)</td>
+                            <td class="currency">@Html.DisplayFor(modelItem => transaction.Price)</td>
+                            @if (transaction.Type == 2 || transaction.Type == 3)
+                            {
+                                <td>
+                                    <a class="btn" data-toggle="collapse" href="#collapsive@(transaction.Id)" aria-expanded="false" aria-controls="collapsive@(transaction.Id)">More..</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+
+                            }
+                        </tr>
+
+
+                        <tr class="collapse" id="collapsive@(transaction.Id)">
+                            @if (transaction.Type == 2)
+                            {
+                                <td colspan="2">Coopartnership bought: </td>
+                                <td colspan="3">
+                                    <table align="center">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in transaction.TransactionItem)
+                                            {
+                                                <tr>
+                                                    <td>@item.Item.Category</td>
+                                                    <td>@item.Item.Name</td>
+                                                    <td> @item.Quantinty @item.Item.UnitType</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            }
+                            else if (transaction.Type == 3)
+                            {
+                                <td colspan="5" align="center">Sales Share </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        </div>
+</div>
+
+
+        @section Scripts {
+            <script type="text/javascript" src="~/js/currencyFormat.js"></script>}

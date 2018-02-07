@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Co_Partnership.Models;
 using Co_Partnership.Models.AccountViewModels;
 using Co_Partnership.Services;
+using Co_Partnership.Models.Database;
 
 namespace Co_Partnership.Controllers
 {
@@ -83,6 +84,12 @@ namespace Co_Partnership.Controllers
                         return View(model);
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt. If you don't have an account register.");
+                    return View(model);
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
@@ -91,36 +98,13 @@ namespace Co_Partnership.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-
+                  
                     // take cart if it already exists and merge it with anonymous
-                    var id =_userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
-
-                    var incomplete = _transactionRepository.GetIncompleteTransaction(id); // get cart if it exists
-                    if (incomplete != null) // if cart exists
-                    {
-                        var transactionId = incomplete.Id;
-                        var items = _transactionItems.GetTransactionItems(transactionId); // get cartItems from DB
-                       
-                        foreach (var item in items)// foreach item add to cart or update if exists
-                        {
-                            var itemExists = _cart.GetCartItem((int)item.ItemId); //if it exists in current cart
-                            if (itemExists != null && item.Quantinty != itemExists.Quantinty)
-                            {
-                                var quantity = (item.Quantinty > itemExists.Quantinty) ? item.Quantinty : itemExists.Quantinty;
-                                _cart.UpdateQuantity((int)item.ItemId, (int)quantity);
-                            }
-                            else if (itemExists == null)
-                            {
-                                _cart.AddItem(item.Item, (int)item.Quantinty);
-                            }
-                        }
-                    }                    
+                    var userid = _userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
+                    _transactionItems.LoginMergeCart(userid);
+                    
                     return RedirectToLocal(returnUrl);
                 }
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                //}
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
@@ -136,62 +120,6 @@ namespace Co_Partnership.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
-        //{
-        //    // Ensure the user has gone through the username & password screen first
-        //    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load two-factor authentication user.");
-        //    }
-
-        //    var model = new LoginWith2faViewModel { RememberMe = rememberMe };
-        //    ViewData["ReturnUrl"] = returnUrl;
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-
-        //    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //    }
-
-        //    var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
-
-        //    var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
-
-        //    if (result.Succeeded)
-        //    {
-        //        _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
-        //        return RedirectToLocal(returnUrl);
-        //    }
-        //    else if (result.IsLockedOut)
-        //    {
-        //        _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-        //        return RedirectToAction(nameof(Lockout));
-        //    }
-        //    else
-        //    {
-        //        _logger.LogWarning("Invalid authenticator code entered for user with ID {UserId}.", user.Id);
-        //        ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-        //        return View();
-        //    }
-        //}
 
         //[HttpGet]
         //[AllowAnonymous]
@@ -284,7 +212,7 @@ namespace Co_Partnership.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                    
+
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -301,7 +229,7 @@ namespace Co_Partnership.Controllers
         {
             var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             var id = _userRepository.GetUserFromIdentity(user.Id); // get userID from CoPartDB
-            
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
 
@@ -405,7 +333,7 @@ namespace Co_Partnership.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
-                await _signInManager.SignInAsync(user,true);
+                await _signInManager.SignInAsync(user, true);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

@@ -45,7 +45,8 @@
         let quantityInput = document.createElement('input');
         quantityInput.type = "number";
         quantityInput.value = cartItem.quantinty;
-        quantityInput.name = "quantity";
+        quantityInput.name = "quantityIn";
+        quantityInput.classList.add("itemQuantity");
         quantityInput.id = "quantityInput" + String(cartItem.itemId);
         quantityInput.min = 1;
         quantityInput.max = cartItem.item.stockQuantity;
@@ -91,7 +92,7 @@
         td5.appendChild(clearButton);
 
         //Events for Quantity Inputs
-        $(`#quantityInput${cartItem.itemId}`)           
+        $(`#quantityInput${cartItem.itemId}`)
             .change((e) => {
                 quantitychanged(e, quantityInput, cartItem);
             })
@@ -170,6 +171,18 @@
 
         totalcell.innerText = total;
         totalVATcell.innerText = totalVAT;
+
+        let numberOfItems = 0;
+        $(".itemQuantity").each((index, element) => {            
+                let strQ = element.value;                
+                let pQ = Number(strQ);
+                numberOfItems += pQ;
+        });
+
+        let cartSummary = String(numberOfItems) + " item(s) " + String(totalVAT);
+        $("span.refreshCart").each((index, element) => {
+            element.innerText = cartSummary;
+        });            
     };
 
     let addButtons = () => {
@@ -206,9 +219,19 @@
         $(`#savebtn`).click(() => {
             window.location.href = "/Cart/SaveLogout";
         });
+        $(`#backbtn`).click(() => {
+            //window.history.back();
+            let ex = document.referrer;
+            if (ex.endsWith("/Cart/CheckOut")) {
+                window.location.href = "/Products/1";
+            }
+            else {
+                window.location.href = ex;
+            }
+        });
 
     };
-    
+
     let getCartItems = () => {
         $.ajax({
             url: "api/Cart",
@@ -248,6 +271,8 @@
                 let itemPrice = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(price);
                 p.innerHTML = itemPrice;
                 getTotals();
+
+                saveCartToDB();
             }
         });
     };
@@ -272,11 +297,27 @@
                     let al = document.createElement('div');
                     al.innerHTML = "The Cart is empty..";
                     targ.appendChild(al);
+
+                    saveCartToDB();
                 }
             }
+        });
+
+    };
+
+    let saveCartToDB = () => {
+        $.ajax({
+            url: "/api/SaveCart",
+            contentType: "application/json",
+            method: "POST",
+            success: console.log("Cart saved")
         });
     };
 
     getCartItems();
 
+    //$(window)
+    //    .on("beforeunload", saveCartToDB())
+    //    .on("pagehide", saveCartToDB())
+    //    .on("unload", saveCartToDB());
 });

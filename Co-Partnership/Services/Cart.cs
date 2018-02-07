@@ -27,7 +27,6 @@ namespace Co_Partnership.Services
             var cartItem = cartItems
                 .Where(i => i.Item.Id == item.Id)
                 .SingleOrDefault(); 
-
             
             if (cartItem == null)
             {
@@ -75,6 +74,8 @@ namespace Co_Partnership.Services
         }
 
         public virtual decimal ComputeTotalValue() => cartItems.Sum(e => e.Item.UnitPrice.Value * Convert.ToDecimal(e.Quantinty));
+
+        public virtual int NumberOfItems() => CartItems.Sum(e => (int)e.Quantinty);
 
         public virtual void Clear() => cartItems.Clear();
        

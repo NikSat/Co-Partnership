@@ -42,6 +42,7 @@ namespace Co_Partnership.Services
             //    return Transactions.OrderByDescending(x => x.).Take(3)
         }
 
+
         public Item DeleteItem(int itemId)
         {
             Item ite = db.Item.FirstOrDefault(p => p.Id == itemId);
@@ -56,6 +57,7 @@ namespace Co_Partnership.Services
 
         }
 
+
         public void SaveItem(Item item)
         {
             db.Item.Add(item);
@@ -66,6 +68,19 @@ namespace Co_Partnership.Services
         {
             db.Update(item);
             db.SaveChanges();
+        }
+
+        public List<string> GetCategories()
+        {
+            return Items
+                .Select(i => i.Category)
+                .Distinct()
+                .ToList();
+        }
+
+        public Item GetItem(int id)
+        {
+            return Items.FirstOrDefault(i => i.Id == id);
         }
     }
 }

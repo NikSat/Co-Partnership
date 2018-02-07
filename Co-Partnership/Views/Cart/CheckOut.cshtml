@@ -18,18 +18,8 @@
     @*select one of available addresses if there are OR ADD NEW ADDRESS below*@
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CheckOut">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*hidden*@
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TransactionId" class="control-label"></label>
-                <select asp-for="TransactionId" class ="form-control" asp-items="ViewBag.TransactionId"></select>
-            </div>
-            @*shown*@
+        <form asp-action="CheckOut" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
             <div class="form-group">
                 <label asp-for="Address1" class="control-label"></label>
                 <input asp-for="Address1" class="form-control" />

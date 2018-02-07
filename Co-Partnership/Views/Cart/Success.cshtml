@@ -1,0 +1,51 @@
+﻿@model Co_Partnership.Models.SuccessCartViewModel
+
+@{
+    ViewData["Title"] = "Order sent!";
+}
+
+<h4>Order Sent! <br /> Thank you!</h4>
+
+<p>
+    You will receive a confirmation message
+    and shipping details via email and your personal inbox soon.
+</p>
+
+<h5>Order Details</h5>
+<div>
+    <table class="table table-fixed">
+        <thead>
+            <tr>
+                <th class="col">Product </th>
+                <th class="col">Unit Price</th>
+                <th class="col">Quantity</th>
+                <th class="col">Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transItem in Model.TransactionItems)
+            {
+                <tr>
+                    <td>@transItem.Item.Name</td>
+                    <td class="currency">@transItem.Item.UnitPrice</td>
+                    <td>@transItem.Quantinty</td>
+                    <td class="currency">@((decimal)transItem.Quantinty * (decimal)transItem.Item.UnitPrice) </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total :</td>
+                <td class="currency">@Model.PriceNoVAT </td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td colspan="3">Total (23% VAT) :</td>
+                <td class="currency">@(Model.PriceNoVAT * 1.23m) </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/currencyFormat.js"></script>}
+

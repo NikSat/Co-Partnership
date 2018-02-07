@@ -11,10 +11,12 @@ namespace Co_Partnership.Services
     public class UserRepository : IUserRepository
     {
         private Co_PartnershipContext db;
+        private ApplicationDbContext identityDb;
 
-        public UserRepository(Co_PartnershipContext db)
+        public UserRepository(Co_PartnershipContext db, ApplicationDbContext applicationDbContext)
         {
             this.db = db;
+            identityDb = applicationDbContext;
         }
 
         public IQueryable<User> Users => db.User; 
@@ -68,6 +70,33 @@ namespace Co_Partnership.Services
             return Users.FirstOrDefault(u => u.ExtId == userId).Id;
         }
 
+        public string GetEmail(string userId)
+        {
+            var user = identityDb.Users.FirstOrDefault(u => u.Id == userId);
+            if(user != null)
+            {
+                return user.Email;
+            }
+            return null;
+        }
+        public string GetName(int userId)
+        {
+            var user = Users.FirstOrDefault(u => u.Id == userId);
+            if(user != null)
+            {
+                return user.FirstName + " " + user.LastName;
+            }
+            return null;
+        }
 
+        public decimal GetBalance(int userId)
+        {
+            var account = db.PersonalFinancialAccount.FirstOrDefault(a => a.UserId == userId);
+            if(account != null)
+            {
+                return (decimal)account.Amount;
+            }
+            return 0m;
+        }
     }
 }

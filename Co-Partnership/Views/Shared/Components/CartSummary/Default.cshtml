@@ -1,0 +1,18 @@
+﻿@using System.Globalization;
+@model CartSummaryViewModel
+@{
+    Layout = null;
+}
+
+<div>
+    @if (Model.NumberOfItems > 0)
+    {
+        <small class="navbar-text">
+            <b>Your cart:</b>
+            <span class="refreshCart">
+                @Model.NumberOfItems item(s)
+                @Model.Price.ToString("c", new CultureInfo("de-DE")).Replace('.', ',')
+            </span>
+        </small>
+    }
+</div>
