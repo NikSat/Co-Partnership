@@ -4,11 +4,14 @@
     if (currentValue !== "start") {
         if (submit.hasAttribute('disabled')) {
             submit.removeAttribute('disabled');
+            console.log('enabled');
         }
     }
     else {
         if (!submit.hasAttribute('disabled')) {
-            submit.addAttribute('disabled');
+            //submit.addAttribute('disabled');
+            submit.disabled = 'disabled';   
+            console.log('disabled')
         }
     }
     console.log("selectChanged");

@@ -187,6 +187,29 @@
 
     let addButtons = () => {
         let targ = document.getElementById("cart");
+
+        // Add CheckBox Method of Payment Always cash on delivery
+        let divPayment = document.createElement('div');
+        divPayment.style = "text-align: right;";
+        targ.appendChild(divPayment);
+        let checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = "payment";
+        checkbox.value = "delivery";
+        checkbox.id = "payOnDelivery";
+        checkbox.checked = true;       
+        let lbl = document.createElement('label');
+        lbl.innerText = " Payment on delivery";
+        lbl.style = "padding: 5px;"; 
+
+        divPayment.appendChild(checkbox);
+        divPayment.appendChild(lbl);     
+
+        $('#payOnDelivery').click((e) => {
+            e.preventDefault();
+        })
+
+        // Add Buttons
         let div = document.createElement('div');
         div.id = "buttons";
         targ.appendChild(div);
@@ -321,3 +344,4 @@
     //    .on("pagehide", saveCartToDB())
     //    .on("unload", saveCartToDB());
 });
+
