@@ -129,5 +129,18 @@ namespace Co_Partnership.Services
             return incomplete;
         }
 
+        public IEnumerable<Object> GetPurchaseHistory(int userId)
+        {
+            var PurchaseList =
+               from Transaction in Transactions
+               where Transaction.OwnerId == userId && Transaction.IsProcessed == 1
+               select new
+               {
+                   OrderId = Transaction.Id,
+                   OrderDate = Transaction.Date,
+                   OrderPrice = Transaction.Price,
+               };
+            return  PurchaseList;
+        }
     }
 }

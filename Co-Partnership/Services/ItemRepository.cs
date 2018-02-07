@@ -42,6 +42,7 @@ namespace Co_Partnership.Services
             //    return Transactions.OrderByDescending(x => x.).Take(3)
         }
 
+
         public Item DeleteItem(int itemId)
         {
             Item ite = db.Item.FirstOrDefault(p => p.Id == itemId);
@@ -55,6 +56,7 @@ namespace Co_Partnership.Services
             return ite;
 
         }
+
 
         public void SaveItem(Item item)
         {

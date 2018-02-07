@@ -23,6 +23,7 @@ namespace Co_Partnership.Services
 
         int GetUserFromIdentity(string userId);
 
+
         string GetEmail(string userId);
 
         string GetName(int userId);

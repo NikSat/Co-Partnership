@@ -14,7 +14,7 @@ p {
 
 .messageBox {
     margin-left: 22%;
-    width: 100%;
+    width: 78%;
     height: 100vh;
     display: flex;
     justify-content: space-between;
@@ -110,6 +110,10 @@ p {
     border-radius: 10px;
 }
 
+    .btn-small:hover {
+        background: #f2f3f4;
+    }
+
 .mailList {
     padding: 2em;
 }
@@ -135,4 +139,12 @@ p {
 
 .thick {
     font-weight:700;
+}
+
+
+.ordered {
+    width:80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

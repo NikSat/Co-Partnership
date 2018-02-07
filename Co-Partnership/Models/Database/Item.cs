@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Co_Partnership.Models.Database
 {
@@ -12,13 +13,32 @@ namespace Co_Partnership.Models.Database
         }
 
         public int Id { get; set; }
+
+        [StringLength(15)]
+        [Required]
         public string Name { get; set; }
+
+        [StringLength(15)]
+        [Required]
         public string Category { get; set; }
+        [StringLength(255)]
+        [Required]
         public string Description { get; set; }
+
+        [Range(1, 500)]
+        [Required]
         public double? StockQuantity { get; set; }
+        [Required]
         public bool? IsLive { get; set; }
+        
         public string Image { get; set; }
+        [Required]
         public string UnitType { get; set; }
+
+        [Range(1, 800)]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
+        [DataType(DataType.Currency)]
+        [Required]
         public decimal? UnitPrice { get; set; }
 
         public ICollection<TransactionItem> TransactionItem { get; set; }

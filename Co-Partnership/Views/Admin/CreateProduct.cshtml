@@ -1,0 +1,81 @@
+﻿@model Co_Partnership.Models.Database.Item
+
+@{
+    ViewData["Title"] = "CreateProduct";
+
+}
+@* Layout = "~/Views/Shared/_AdminLayout.cshtml"; *@
+<div id="admin-body" class="container">
+    <h2>CreateProduct</h2>
+
+    <h4>Item</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateProduct" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label"></label>
+                    <input asp-for="Category" class="form-control" />
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StockQuantity" class="control-label"></label>
+                    <input asp-for="StockQuantity" class="form-control" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="IsLive" class="control-label"></label>
+                        <input asp-for="IsLive" class="form-control" />
+                        <span asp-validation-for="IsLive" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="IsLive" class="control-label"></label>
+                    <select asp-for="IsLive" class="form-control">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Image</label>
+                    <input type="file" name="uploadedImage" id="file" />@ViewBag.ErrorMessage
+                    <div id="uploadPreview"></div>
+                    @*<span asp-validation-for="Image" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label asp-for="UnitType" class="control-label"></label>
+                    <input asp-for="UnitType" class="form-control" />
+                    <span asp-validation-for="UnitType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UnitPrice" class="control-label"></label>
+                    <input asp-for="UnitPrice" class="form-control" />
+                    <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-info" type="submit" value="Create" />
+                    <a class="btn btn-dark float-right" asp-action="Products" role="button">Go Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/CreateProductsAdmin.js"></script>}

@@ -9,6 +9,7 @@ using Co_Partnership.Data;
 using Microsoft.EntityFrameworkCore;
 using Co_Partnership.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
 {
@@ -109,5 +110,12 @@ namespace Co_Partnership.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Authorize]
+        public IActionResult Personal()
+        {
+            return View();
+        }
+
     }
 }
