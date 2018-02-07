@@ -107,5 +107,18 @@ namespace Co_Partnership.Controllers
             await wishRepository.DeleteWishAsync(id,userid);
 
         }
+
+
+        // This function gives a summary of the wishlist items
+        [Route("/api/Wishlist/Summary")]
+        [HttpPost]
+        public async Task<IQueryable<object>> GiveSummary()
+        {
+            int userid = await GetUserId();
+            return wishRepository.GetWishSummary(userid);
+        }
+
+
+
     }
 }

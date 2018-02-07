@@ -16,8 +16,12 @@ namespace Co_Partnership.Services
         
         void UpdateMessage(Message message);
 
-        IQueryable<Object> GetMessageSummary();
+        IQueryable<Object> GetMessageSummary(int userId);
+
+        IQueryable<Object> GetSentMessageSummary(int userId);
 
         Object GetDetailed(int id);
+
+        void MarkRead(int id);
     }
 }

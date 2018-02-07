@@ -48,10 +48,11 @@ namespace Co_Partnership.Services
         }
         
         // This function returns only the messages sender date sent if it is processed and the title
-        public IQueryable<Object> GetMessageSummary()
+        public IQueryable<Object> GetMessageSummary(int userId)
         {
             var MessageList =
                 from Message in Messages
+                where Message.ReceiverId ==userId
                 select new
                 {
                     Id = Message.Id,
@@ -61,7 +62,7 @@ namespace Co_Partnership.Services
                     Status=Message.Processed
                 };
 
-            return MessageList;
+            return MessageList.OrderByDescending(a => a.Id);
 
         }
 
@@ -89,6 +90,38 @@ namespace Co_Partnership.Services
 
         }
 
+        // This function flags an unread message as read
+        public void MarkRead(int id)
+        {
+            Message mes = db.Message.FirstOrDefault(p => p.Id == id);
+            if (mes != null)
+            {
+                if (mes.Processed==false)
+                {
+                    mes.Processed = true;
+                    mes.DateProcessed = DateTime.Now;
+                    db.Update(mes);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public IQueryable<object> GetSentMessageSummary(int userId)
+        {
+            var MessageList =
+               from Message in Messages
+               where Message.SenderId == userId
+               select new
+               {
+                   Id = Message.Id,
+                   SenderName = "To: "+Message.Receiver.FirstName + " " + Message.Receiver.LastName,
+                   Title = Message.Title,
+                   DateSent = Message.DateSent,
+                   Status = Message.Processed
+               };
+
+            return MessageList.OrderByDescending(a => a.Id);
+        }
 
     }
 }

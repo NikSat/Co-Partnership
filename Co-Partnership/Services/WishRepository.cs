@@ -72,5 +72,22 @@ namespace Co_Partnership.Services
             await db.SaveChangesAsync();
 
         }
+
+
+        // This function gets a summary of the wished items
+        public IQueryable<Object> GetWishSummary (int userId)
+        {
+            var WishSummary =
+                from Wished in Wishes
+                where Wished.UserId == userId
+                select new
+                {
+                    Id = Wished.ItemId,
+                    Name = Wished.Item.Name,
+                    Category = Wished.Item.Category,
+                    IsLive = Wished.Item.IsLive                    
+                };
+            return WishSummary;
+        }
     }
 }

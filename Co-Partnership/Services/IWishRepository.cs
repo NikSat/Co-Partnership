@@ -20,5 +20,7 @@ namespace Co_Partnership.Services
 
         Task DeleteWishAsync(WishList weee);
 
+        IQueryable<Object> GetWishSummary(int userId);
+
     }
 }

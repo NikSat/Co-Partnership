@@ -9,7 +9,7 @@ using Co_Partnership.Models;
 using Co_Partnership.Services;
 using Co_Partnership.Models.Database;
 using Newtonsoft.Json;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace Co_Partnership.Controllers
 {
@@ -21,12 +21,29 @@ namespace Co_Partnership.Controllers
         // It requires both  transactions and the total found
         private ITransactionRepository financeRepository;
         private ICompAccountRepository compRepository;
+        private IUserRepository userRepository;
+        private UserManager<ApplicationUser> manager;
 
-        public FinanceController(ITransactionRepository repository,ICompAccountRepository varcomprepository)
+
+        public FinanceController(ITransactionRepository repository,ICompAccountRepository varcomprepository, IUserRepository us, UserManager<ApplicationUser> mngr)
         {
             financeRepository = repository;
             compRepository = varcomprepository;
+            userRepository = us;
+            manager = mngr;
         }
+
+        // This function gets the current user
+        public async Task<int> GetUserId()
+        {
+            var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
+
+
+            var use = await userRepository.RetrieveByExternalAsync(currentuser.Id);
+            return use.Id;
+        }
+
+
 
         // This function gets the orders that are not reviewed yet (order type is integer 1 )
         // GET: Admin/api/financies/Order
@@ -64,6 +81,18 @@ namespace Co_Partnership.Controllers
 
         }
         
+        // This function gets all the purchases for this user
+        [Route("/api/Finance/PurchaseHistory")]
+        [HttpPost]
+        public async Task<IEnumerable<Object>> GetPurchaseHistory()
+        {
+            // Get the user
+            int BId = await GetUserId();
+            // Get his purchases
+            return financeRepository.GetPurchaseHistory(BId);
+
+        }
+
 
     }
 }

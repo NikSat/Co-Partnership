@@ -26,5 +26,7 @@ namespace Co_Partnership.Services
         int NewTransactionCount(int type);
 
         Transaction GetIncompleteTransaction(int userId);
+
+        IEnumerable<Object> GetPurchaseHistory(int userId);
     }
 }
