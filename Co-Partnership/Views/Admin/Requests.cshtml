@@ -1,13 +1,22 @@
 ﻿@model RequestsViewModel
 @{
     ViewData["Title"] = "Requests";
-    
+
 }
 <div id="admin-body">
     <div class="container">
         <div class="row">
-            <h4>Requests</h4> <br />
-            <h5>Orders</h5> <br />
+            <h4>Requests</h4>
+        </div>
+        <div class="row">
+            <div style="height:50px" id="validation">
+                <span id="error" style="color:red">@Model.ErrorMessage</span>
+            </div>
+        </div>
+        <div class="row">
+            <h5>Orders</h5>
+        </div>
+        <div class="row">
             @if (Model.PendingOrders.Count == 0)
             {
                 <p>There are no pending orders from Clients..</p>
@@ -20,7 +29,8 @@
                             <th>Client</th>
                             <th>Number of Products</th>
                             <th>Date</th>
-                            <th>Price</th>
+                            <th>Amount</th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -32,11 +42,23 @@
                                 <td>@or.OwnerId @or.Owner.FirstName @or.Owner.LastName</td>
                                 <td>@or.TransactionItem.Count</td>
                                 <td>@or.Date</td>
-                                <td>@or.Price</td>
-                                <td>Accept / Decline</td>
+                                <td class="currency">@or.Price</td>
                                 <td>
-                                    <a class="btn" data-toggle="collapse" href="#collapsive@(or.Id)" aria-expanded="false" aria-controls="collapsive@(or.Id)">Details..</a>
+                                    <a class="btn btn-outline-info" data-toggle="collapse" href="#collapsive@(or.Id)" aria-expanded="false" aria-controls="collapsive@(or.Id)">Details..</a>
                                 </td>
+                                <td>
+                                    <form asp-controller="Admin" asp-action="AcceptOrder" method="post">
+                                        <input asp-for="TransactionId" value="@or.Id" hidden />
+                                        <input class="btn btn-info" type="submit" value="Accept" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <form asp-controller="Admin" asp-action="DeclineOrder" method="post">
+                                        <input asp-for="TransactionId" value="@or.Id" hidden />
+                                        <input class="btn btn-info" type="submit" value="Decline" />
+                                    </form>
+                                </td>
+
                             </tr>
 
                             <tr class="collapse" id="collapsive@(or.Id)">
@@ -49,7 +71,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                @*@if (Model.Addresses.FirstOrDefault(a => a.TransactionId == or.Id) == null)
+                                                @if (Model.Addresses.FirstOrDefault(a => a.TransactionId == or.Id) == null)
                                                 {
                                                     <td>Unknown</td>
 
@@ -62,9 +84,7 @@
                                                         @Model.Addresses.FirstOrDefault(a => a.TransactionId == or.Id).City
                                                         @Model.Addresses.FirstOrDefault(a => a.TransactionId == or.Id).Country)
                                                     </td>
-                                                }*@
-
-
+                                                }
                                             </tr>
                                         </tbody>
                                     </table>
@@ -95,8 +115,9 @@
                     </tbody>
                 </table>
             }
-
-            <h5>Orders</h5> <br />
+            <br />
+            <h5>Offers</h5>
+            <br />
             @if (Model.PendingOffers.Count == 0)
             {
                 <p>There are no pending offers from Members..</p>
@@ -110,7 +131,8 @@
                             <th>Item</th>
                             <th>Quantity</th>
                             <th>Date</th>
-                            <th>Price</th>
+                            <th>Amount</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -120,11 +142,20 @@
                             <tr>
                                 <td>@of.OwnerId @of.Owner.FirstName @of.Owner.LastName</td>
                                 <td>@of.TransactionItem.First().Item.Name</td>
-                                <td>@of.TransactionItem.First().Quantinty</td>
+                                <td>@of.TransactionItem.First().Quantinty @of.TransactionItem.First().Item.UnitType</td>
                                 <td>@of.Date</td>
-                                <td>@of.Price</td>
+                                <td class="currency">@of.Price</td>
                                 <td>
-                                    Accept / Decline
+                                    <form asp-controller="Admin" asp-action="AcceptOffer" method="post">
+                                        <input asp-for="TransactionId" value="@of.Id" hidden />
+                                        <input class="btn btn-info" type="submit" value="Accept" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <form asp-controller="Admin" asp-action="DeclineOffer" method="post">
+                                        <input asp-for="TransactionId" value="@of.Id" hidden />
+                                        <input class="btn btn-info" type="submit" value="Decline" />
+                                    </form>
                                 </td>
                             </tr>
                         }

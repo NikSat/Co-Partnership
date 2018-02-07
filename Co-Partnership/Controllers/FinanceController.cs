@@ -72,7 +72,7 @@ namespace Co_Partnership.Controllers
             transaction.IsProcessed = 1;
             financeRepository.UpdateTransaction(transaction);
             // Also update the whole fund
-            var found = compRepository.Account.FirstOrDefault(a=> a.Id==1);
+            var found = compRepository.Account;
             found.MemberShare = found.MemberShare + (transaction.Price / 2);
             found.CoOpShare=found.CoOpShare + (transaction.Price / 2);
             found.Date = DateTime.Now;
