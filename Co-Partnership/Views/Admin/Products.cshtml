@@ -9,13 +9,24 @@
     <div id="Product-list"></div>
 
     <div id="Sales-list">
-        <form asp-action="GetSales" method="post">
+        <form asp-action="GetSales" method="post" id="Sales">
             @*<input type="hidden" asp-for="" />*@
 
             <div class="form-group">
-                @*<label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>*@
+                <label class="control-label">Month</label>
+                <select name="carlist" class="form-control" form="carform">
+                    <option value="volvo">January</option>
+                    <option value="saab">February</option>
+                    <option value="opel">March</option>
+                    <option value="audi">April</option>
+                    <option value="audi">May</option>
+                    <option value="audi">June</option>
+                    <option value="audi">July</option>
+                    <option value="audi">August</option>
+                    <option value="audi">September</option>
+                    <option value="audi">November</option>
+                    <option value="audi">Oktober</option>
+                </select>
             </div>
 
             <div class="form-group">

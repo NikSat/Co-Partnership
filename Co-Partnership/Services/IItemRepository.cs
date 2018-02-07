@@ -19,9 +19,12 @@ namespace Co_Partnership.Services
 
         Item DeleteItem(int itemId);
 
-        Item GetItem(int itemId);
 
         IQueryable<TopProductsModel> GetTop();
+
+        List<string> GetCategories();
+
+        Item GetItem(int id);
     }
 
     

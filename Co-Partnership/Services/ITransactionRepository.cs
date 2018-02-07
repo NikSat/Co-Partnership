@@ -13,7 +13,7 @@ namespace Co_Partnership.Services
 
         void UpdateTransaction(Transaction transaction);
 
-        void SaveTransaction(Transaction transaction);
+        Transaction SaveTransaction(Transaction transaction);
 
         Transaction DeleteTransaction(int transactionId);
 

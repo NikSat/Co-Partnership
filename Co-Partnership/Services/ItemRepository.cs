@@ -57,11 +57,6 @@ namespace Co_Partnership.Services
 
         }
 
-        public Item GetItem(int itemId)
-        {
-            Item item = db.Item.FirstOrDefault(p => p.Id == itemId);
-            return item;
-        }
 
         public void SaveItem(Item item)
         {
@@ -73,6 +68,19 @@ namespace Co_Partnership.Services
         {
             db.Update(item);
             db.SaveChanges();
+        }
+
+        public List<string> GetCategories()
+        {
+            return Items
+                .Select(i => i.Category)
+                .Distinct()
+                .ToList();
+        }
+
+        public Item GetItem(int id)
+        {
+            return Items.FirstOrDefault(i => i.Id == id);
         }
     }
 }

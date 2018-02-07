@@ -312,7 +312,7 @@
             method: "POST",
             success: console.log("Cart saved")
         });
-    }
+    };
 
     getCartItems();
 

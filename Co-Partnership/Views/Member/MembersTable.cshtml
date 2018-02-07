@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MembersTableViewModel>
+
+@{
+    ViewData["Title"] = "Table of Members";
+}
+
+<h4>
+    Table of Members
+</h4>
+
+<br />
+<table class="table table-fixed">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model)
+        {
+            <tr>
+                <td>
+                    @member.Name
+                </td>
+                <td>
+                    @member.Email
+                </td>
+                <td>
+                    @member.Type
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-controller="Member" asp-action="Index">Go Back</a>

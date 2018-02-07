@@ -174,5 +174,61 @@ namespace Co_Partnership.Services
                 CreateDbCart(userid);
             }
         }
+
+        //GET CART
+        //summary:
+        // if there is a cart in DB merge it with session cart: 
+        // 1. if dbitem exists in session, take max quantity and update both
+        // 2. if dbitem doenst exist in session, add to session
+        // then (3.) if session item doesnt exist in DB sav it in db
+        public void LoginMergeCart(int userid)
+        {
+            var incomplete = _transactionRepository.GetIncompleteTransaction(userid); // get cart in DB if it exists
+            if (incomplete != null) // if cart exists in DB --> MERGE
+            {
+                var transactionId = incomplete.Id;
+                var dbItems = GetTransactionItems(transactionId); // get cartItems from DB
+
+                foreach (var dbItem in dbItems)// foreach item in DB add to cart or update if exists in session
+                {
+                    var cart = _cart.CartItems;
+                    var itemExistsInS = _cart.GetCartItem((int)dbItem.ItemId);
+                    if (itemExistsInS != null && dbItem.Quantinty > itemExistsInS.Quantinty) //if it exists in current cart
+                    {
+                        _cart.UpdateQuantity((int)dbItem.ItemId, (int)dbItem.Quantinty);
+                    }
+                    else if (itemExistsInS != null && dbItem.Quantinty < itemExistsInS.Quantinty)
+                    {
+                        dbItem.Quantinty = itemExistsInS.Quantinty;
+                        UpdateItem(dbItem);
+                    }                    
+                    else if (itemExistsInS == null) // if it doenst exist in current cart
+                    {
+                        _cart.AddItem(dbItem.Item, (int)dbItem.Quantinty);
+                    }
+                }
+                var cartItems = _cart.CartItems; // get cart Items from session
+
+                foreach (var cItem in cartItems)
+                {
+                    var itemExistsInDb = GetItem(transactionId, cItem.ItemId);
+                    if (itemExistsInDb == null) // if session item doenst exist in DB
+                    {
+                        var transactionItem = new TransactionItem()
+                        {
+                            TransactionId = transactionId,
+                            ItemId = cItem.ItemId,
+                            Quantinty = cItem.Quantinty,
+                            Acceptance = true
+                        };
+                        AddOrUpdate(transactionItem);
+                    }
+                }
+            }
+            else
+            {
+               CreateDbCart(userid);
+            }
+        }
     }
 }

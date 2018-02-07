@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Offer Submitted";
+}
+
+<h4>
+   Thank you for submitting your offer!<br />
+</h4>
+<br />
+@*<h5>
+    If you want to offer another product :
+    <a class="btn btn-primary" asp-controller="Member" asp-action="OfferItems">Make a new offer!</a>
+</h5>*@
+<a class="btn btn-primary" asp-controller="Member" asp-action="Index" >Go Back</a>
+<a class="btn btn-primary" asp-controller="Member" asp-action="OfferItems" style="float:right;">Make a new offer!</a>
+
