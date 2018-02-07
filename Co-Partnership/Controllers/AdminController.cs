@@ -62,9 +62,12 @@ namespace Co_Partnership.Controllers
 
             foreach (var order in model.PendingOrders)
             {
-                model.Addresses.Add(_addressRepository
-                    .AddressRepo
-                    .FirstOrDefault(a => a.TransactionId == order.Id));
+                var address = _addressRepository.AddressRepo
+                    .FirstOrDefault(a => a.TransactionId == order.Id);
+                if (address != null)
+                {
+                    model.Addresses.Add(address);
+                }
             }
             return View(model);
         }
