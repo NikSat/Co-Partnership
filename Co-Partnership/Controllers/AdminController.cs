@@ -6,23 +6,41 @@ using System.Threading.Tasks;
 using Co_Partnership.Models;
 using Co_Partnership.Models.Database;
 using Co_Partnership.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Co_Partnership.Controllers
 {
-
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IItemRepository _itemRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ITransactionRepository _transactionRepository;
-        public AdminController(IItemRepository itemRepository, IHostingEnvironment hostingEnvironment, ITransactionRepository transactionRepository)
+        private readonly IAddressRepository _addressRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
+        private readonly ICompAccountRepository _compAccount;
+
+        public AdminController(
+            IItemRepository itemRepository, 
+            IHostingEnvironment hostingEnvironment, 
+            ITransactionRepository transactionRepository,
+            IAddressRepository addressRepository,
+            UserManager<ApplicationUser> userManager,
+            IUserRepository userRepository,
+            ICompAccountRepository compAccount)
         {
             _itemRepository = itemRepository;
             _hostingEnvironment = hostingEnvironment;
             _transactionRepository = transactionRepository;
+            _addressRepository = addressRepository;
+            _userManager = userManager;
+            _userRepository = userRepository;
+            _compAccount = compAccount;
         }
         public IActionResult Finance()
         {
@@ -52,6 +70,7 @@ namespace Co_Partnership.Controllers
         {
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,5 +138,104 @@ namespace Co_Partnership.Controllers
             }
             return View(item);
         }
+
+
+        public IActionResult Requests()
+        {
+            ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
+            var model = new RequestsViewModel()
+            {
+                PendingOffers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 2).ToList(),
+                PendingOrders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 1).ToList(),
+                Addresses = new List<Address>()
+            };
+
+            foreach (var order in model.PendingOrders)
+            {
+                var address = _addressRepository.AddressRepo
+                    .FirstOrDefault(a => a.TransactionId == order.Id);
+                if (address != null)
+                {
+                    model.Addresses.Add(address);
+                }
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Requests(RequestsViewModel model)
+        {
+            var newModel = new RequestsViewModel()
+            {
+                PendingOffers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 2).ToList(),
+                PendingOrders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 1).ToList(),
+                Addresses = new List<Address>()
+            };
+
+            foreach (var order in newModel.PendingOrders)
+            {
+                var address = _addressRepository.AddressRepo
+                    .FirstOrDefault(a => a.TransactionId == order.Id);
+                if (address != null)
+                {
+                    newModel.Addresses.Add(address);
+                }
+            }
+
+            newModel.ErrorMessage = model.ErrorMessage;
+            return View(newModel);
+        }
+       
+        public async Task<IActionResult> AcceptOffer(RequestsViewModel model)
+        {
+            var transactionId = model.TransactionId;
+            var offer = _transactionRepository.Transactions.FirstOrDefault(t => t.Id == transactionId);
+            var adminId = await GetUserId();
+
+            var coBalance = _compAccount.GetCoopShare();
+
+            if(coBalance < offer.Price)
+            {
+                model.ErrorMessage = "Co-Partenership blanace is not enought to buy the offer.";
+                model.PendingOffers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 2).ToList();
+                model.PendingOrders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 0 && t.Type == 1).ToList();
+                model.Addresses = new List<Address>();
+                foreach (var order in model.PendingOrders)
+                {
+                    var address = _addressRepository.AddressRepo
+                        .FirstOrDefault(a => a.TransactionId == order.Id);
+                    if (address != null)
+                    {
+                        model.Addresses.Add(address);
+                    }
+                }
+                return View("Requests", model);
+            }
+
+
+
+            //transaction accepted by current user
+            offer.IsProcessed = 1;
+            offer.RecipientId = adminId;
+            _transactionRepository.UpdateTransaction(offer);
+
+
+
+
+            return RedirectToAction(nameof(Requests));
+        }
+
+        public async Task<int> GetUserId()
+        {
+            var currentuser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
+
+            return _userRepository.GetUserFromIdentity(currentuser.Id);
+        }
+
     }
 }
