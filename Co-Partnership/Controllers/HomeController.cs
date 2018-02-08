@@ -104,6 +104,7 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Messages()
         {
             return View();
