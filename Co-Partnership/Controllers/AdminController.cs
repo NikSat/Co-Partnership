@@ -140,6 +140,25 @@ namespace Co_Partnership.Controllers
             return View(item);
         }
 
+        public IActionResult SeeTransactions()
+        {
+            ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
+            var model = new SeeTransactionsViewModel()
+            {
+                Orders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 1 && t.Type == 1).ToList(),
+                DeclinedOrders = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 1 && t.Type == -1).ToList(),
+                SalesShare = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 1 && t.Type == 3).ToList(),
+                Offers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 1 && t.Type == 2).ToList(),
+                DeclinedOffers = _transactionRepository.Transactions
+                    .Where(t => t.IsProcessed == 1 && t.Type == -2).ToList()
+            };
+            
+            return View(model);
+        }
 
         public IActionResult Requests()
         {
@@ -349,7 +368,7 @@ namespace Co_Partnership.Controllers
             _transactionRepository.UpdateTransaction(order);
 
             //return products to repo
-            foreach(var transactionItem in order.TransactionItem)
+            foreach (var transactionItem in order.TransactionItem)
             {
                 var itemId = transactionItem.ItemId;
                 var quantity = transactionItem.Quantinty;
