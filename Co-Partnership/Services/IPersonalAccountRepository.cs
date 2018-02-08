@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Co_Partnership.Services
 {
-    interface IPersonalAccountRepository
+    public interface IPersonalAccountRepository
     {
         IQueryable<PersonalFinancialAccount> Account { get; }
 

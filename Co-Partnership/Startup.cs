@@ -82,6 +82,7 @@ namespace Co_Partnership
             services.AddTransient<ICompAccountRepository, CompanyAccountRepository>();
             services.AddTransient<IWishRepository, WishRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<IPersonalAccountRepository, PersonalAccountRepository>();
 
 
 
