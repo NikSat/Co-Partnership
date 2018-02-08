@@ -16,16 +16,11 @@ namespace Co_Partnership.Controllers
     public class ProductsController : Controller
     {
         private IItemRepository itemRepository;
-
         private UserManager<ApplicationUser> manager;
-
         private IWishRepository wishRepository;
-
         private IUserRepository userep;
 
-
         public int PageSize = 8;
-
 
         // Constructor 
         public ProductsController(UserManager<ApplicationUser> mngr, IWishRepository wRpstr, IUserRepository us, IItemRepository itrep)
@@ -34,11 +29,8 @@ namespace Co_Partnership.Controllers
             manager = mngr;
             wishRepository = wRpstr;
             userep = us;
-            itemRepository = itrep;
-            
+            itemRepository = itrep;           
         }
-
-
 
         // This function gets the list of liked items for the specific user
         public async Task<List<LikeItem>> MakeLikeList()
@@ -54,11 +46,8 @@ namespace Co_Partnership.Controllers
                 LikeItemList.Add(Like);
             }
 
-
             // Now check if there is a user 
-
-            var name = HttpContext.User.Identity.Name;
-            
+            var name = HttpContext.User.Identity.Name;           
 
             if (name != null)
             {
@@ -73,7 +62,6 @@ namespace Co_Partnership.Controllers
                 if (!list.Any())
                 {
                     return LikeItemList;
-
                 }
                 else
                 {
@@ -89,34 +77,18 @@ namespace Co_Partnership.Controllers
                     }
                     return LikeItemList;
                 }
-
             }
             else
             {
                 return LikeItemList;
-            }
-            
+            }           
         }
-
-
-
-
-
-        //[HttpPost]
-        //public void Index(string searchString, string sortOrder)
-        //{
-        //    Index(searchString, sortOrder);
-        //}
 
         // GET: All Products that are live
         public async Task<ViewResult> Index(string searchString, string sortOrder = null,string category = null, int productPage = 1)
         {
             List<LikeItem> likeItem = await MakeLikeList();
-           // ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-           // ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
-            //ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? sortOrder : "";
-            //ViewData["PriceSortDesc"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
 
             var sortPar =likeItem.Where(p => (p.BaseItem.IsLive ?? false) && (category == null || p.BaseItem.Category == category));
             if (!String.IsNullOrEmpty(searchString))
@@ -126,30 +98,11 @@ namespace Co_Partnership.Controllers
                 );//pros evaluation to sygkekrimeno
             }
 
-            switch (sortOrder)
-            {
-                //case "name_desc":
-                //    sortPar = sortPar.OrderByDescending(s => s.Name);
-                //    break;
-                //case "Price":
-                //    sortPar = sortPar.OrderBy(s => ((decimal?)s.UnitPrice));//den exei ylopoih8ei to price swsta akoma
-                //    ViewBag.CurrentSorting = sortOrder;
-                //    break;
-                //case "price_desc":
-                //    sortPar = sortPar.OrderByDescending(s => ((decimal?)s.UnitPrice));//den exei ylopoih8ei to price swsta akoma
-                //    ViewBag.CurrentSorting = sortOrder;
-                //    break;
-                //case "Date":
-                //            sortPar = sortPar.OrderBy(s => s.);//den exei ylopoih8ei to date akoma
-                //    break;
-                //case "date_desc":
-                //            sortPar = sortPar.OrderByDescending(s => s.EnrollmentDate);
-                //    break;
-                default:
-                    sortPar = sortPar.OrderBy(s => s.BaseItem.Name);//auto prepei na to vgalv an apofsisv na mhn exw allo sorting
-                    ViewBag.CurrentSorting = null;
-                    break;
-            }
+            
+            sortPar = sortPar.OrderBy(s => s.BaseItem.Name);
+
+
+            
 
 
             return View(new ProductViewModel

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Co_Partnership.Models;
-using Co_Partnership.Data;
 using Microsoft.EntityFrameworkCore;
 using Co_Partnership.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,27 +11,30 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
 {
+
     public class HomeController : Controller
     {
-        private readonly IItemRepository _context;
+        private readonly IItemRepository _itemRepo;
         private readonly UserManager<ApplicationUser> manager;
         private IUserRepository userep;
         private IWishRepository wishRepository;
 
-        public HomeController(IItemRepository context,UserManager<ApplicationUser> umngr, IUserRepository userRepository, IWishRepository wRpstr)
+        public HomeController(
+            IItemRepository itemRepo, 
+            UserManager<ApplicationUser> umngr, 
+            IUserRepository userRepository, 
+            IWishRepository wRpstr)
         {
-            _context = context;
+            _itemRepo = itemRepo;
             manager = umngr;
             userep = userRepository;
             wishRepository = wRpstr;
         }
 
-
-
         public async Task<ViewResult>  Index()
         {
             // First, get the top items
-            var Topitems = await _context.GetTop().Where(p => (p.Product.IsLive ?? false)).ToListAsync();
+            var Topitems = await _itemRepo.GetTop().Where(p => (p.Product.IsLive ?? false)).ToListAsync();
             
             // The list of likeitems
             List<TopLikeItem> LikeItemList = new List<TopLikeItem>();
@@ -44,7 +45,6 @@ namespace Co_Partnership.Controllers
                 LikeItemList.Add(Like);
             }
             
-
             // Check if there is a user logged in
             var name = HttpContext.User.Identity.Name;
             if (name != null)
@@ -80,29 +80,16 @@ namespace Co_Partnership.Controllers
                     }
                     return View(LikeItemList);
                 }
-
             }
             else
             {
                 return View(LikeItemList);
-            }
-            
-
+            }           
         }
-
-
 
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
