@@ -155,7 +155,7 @@ namespace Co_Partnership.Controllers
             // Lets take it slowly step by step
             // Checks
             // Find the total number of members
-            IEnumerable<User> Members= userRepository.Users.Where(a => a.UserType == 2);
+            IList<User> Members= userRepository.Users.Where(a => a.UserType == 2).ToList();
 
             if (!Members.Any())
             {

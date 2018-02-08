@@ -365,6 +365,7 @@ table tr.active {
 
 
 .salesoverview {
+    margin-top:20px;
     display: flex;
     justify-content: space-between;
 }
@@ -372,4 +373,18 @@ table tr.active {
 .dividoverview {
     display: flex;
     justify-content: space-around;
+}
+
+
+.salesactionwrapper {
+    display: block;
+    margin: 20px;
+    margin-left: 0;
+    margin-top:40px;
+}
+
+#salestable {
+    margin: 10px;
+    height: 400px;
+    margin-left: 0;
 }

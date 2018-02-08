@@ -24,9 +24,12 @@ $(document).ready(function () {
                     );
                 }
                 else {
-
+                    let sum = 0;
                     $("#salestable tbody").empty();
-                    data.forEach(x => PopulateRows(x));
+                    data.forEach(x => {
+                        PopulateRows(x);
+
+                    });
 
                 }
             }
@@ -45,9 +48,9 @@ $(document).ready(function () {
                 $("#foundsummary").empty();
                 $("#foundsummary").append(
                     `<h5>Company Account Balance</h5></br>
-                    <h6>Total funds:  ${(data.memberShare + data.coOpShare).toFixed(2)}</h6>
-                    <h6>Member share fund:  ${data.memberShare.toFixed(2)}</h6>
-                    <h6>Company repository:  ${data.coOpShare.toFixed(2)}</h6>
+                    <h6>Total funds:  ${(data.memberShare + data.coOpShare).toFixed(2)} &#8364</h6>
+                    <h6>Member share fund:  ${data.memberShare.toFixed(2)} &#8364</h6>
+                    <h6>Company repository:  ${data.coOpShare.toFixed(2)} &#8364</h6>
                     `
                 );
             }
@@ -79,7 +82,7 @@ $(document).ready(function () {
                         `
                     <h6>Total new offers:  ${data.number}</h6>
                     <h6>Total items in offers:  ${data.totalItems}</h6>
-                    <h6>Total cost:  ${data.totalPrice.toFixed(2)}</h6>  
+                    <h6>Total cost:  ${data.totalPrice.toFixed(2)} &#8364</h6>  
                         
                         `
                     );
@@ -113,7 +116,7 @@ $(document).ready(function () {
                         `
                     <h6>Total new orders:  ${data.number}</h6>
                     <h6>Total items in orders:  ${data.totalItems}</h6>
-                    <h6>Total profit:  ${data.totalPrice.toFixed(2)}</h6>  
+                    <h6>Total profit:  ${data.totalPrice.toFixed(2)} &#8364</h6>  
                         
                         `
                     );
@@ -135,9 +138,9 @@ $(document).ready(function () {
             success: (data) => {
                 $("#dividsummary").empty();
                 $("#dividsummary").append(
-                    `   <h5>Member share fund: ${data.founds.toFixed(2)}</h5>
+                    `   <h5>Member share fund: ${data.founds.toFixed(2)} &#8364</h5>
                         <h5>Total members: ${data.number}</h5>
-                        <h5>Divident per member: ${(data.founds / data.number).toFixed(2)}</h5>
+                        <h5>Divident per member: ${(data.founds / data.number).toFixed(2)} &#8364</h5>
                   `);
             }            
         });
@@ -191,9 +194,9 @@ $(document).ready(function () {
             `
                 <tr>
                       <td> ${x.transId}</td>
-                        <td>${x.transDate}</td>
+                      <td>${x.transDate.slice(0, 10)}</td>
                       <td>  ${x.transGoods}</td>
-                       <td> ${x.transPrice}</td>
+                       <td> ${x.transPrice} &#8364</td>
                 </tr>
             `
         );
