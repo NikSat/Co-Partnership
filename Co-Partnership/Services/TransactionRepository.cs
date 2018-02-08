@@ -181,7 +181,10 @@ namespace Co_Partnership.Services
                         // Now select according to the input 10 means select all
                         if (id == 10)
                         {
-                            Summaries.Add(trans);
+                            if( trans.Type == 1 || trans.Type==2 || trans.Type == 3)
+                            {
+                                Summaries.Add(trans);
+                            }
                         }
                         // If not 10 select accordingly
                         if (id ==trans.Type )
@@ -210,19 +213,45 @@ namespace Co_Partnership.Services
             }
 
             return null;
-/*
-                from Transaction in Transactions
-                where Transaction.Type == id && Transaction.DateProcessed >= start && Transaction.DateProcessed <= end
-                select new
-                {
-                    TransId = Transaction.Id,
-                    TransDate=Transaction.DateProcessed,
-                    TransGoods=Transaction.TransactionItem.Sum(x => x.Quantinty),
-                    TransPrice = Transaction.Price,
-                };
-                return Summaries;
 
-    */
+        }
+
+        // This function gives a summary of new orders or offers
+        public Object SummarizeNewTransactions(int type)
+        {
+            // Get the transactions of each type that are not processed
+            IQueryable<Transaction> ThisType = Transactions.Where(a => a.Type == type && a.IsProcessed==0);
+
+            // If no transactions of this type return empty
+            if (!ThisType.Any())
+            {
+                return null;
+            }
+            int number = ThisType.Count();
+            //count the money for each transaction
+            decimal money = ThisType.Sum(a => (decimal)a.Price);
+            // Check if there are transaction items in each transaction
+            double totals=0;
+            foreach (Transaction tra in ThisType)
+            {
+                if (!tra.TransactionItem.Any())
+                {
+                    continue;
+                }
+                foreach (TransactionItem traitem in tra.TransactionItem)
+                {
+                    totals += (double)traitem.Quantinty;
+                }
+
+            }
+            
+            return new
+            {
+                Number = number,
+                TotalPrice = money,
+                TotalItems = totals
+            };
+
         }
 
 

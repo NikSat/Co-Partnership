@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Co_Partnership.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class MemberController : Controller
     {
         private ITransactionRepository _transactionRepository;

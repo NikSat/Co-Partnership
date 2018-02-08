@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Co_Partnership.Data;
 using Co_Partnership.Models;
 using Co_Partnership.Models.Database;
 using Co_Partnership.Services;
@@ -12,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Co_Partnership.Controllers
 {
-    
+    [AutoValidateAntiforgeryToken]
     public class CartController : Controller
     {
         private SignInManager<ApplicationUser> _signInManager;
