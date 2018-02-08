@@ -245,11 +245,11 @@
             </div>
             <div class="subBody">
                 <div class="bodyHead">
-                    <div class="checkAll btn-small">
+                    <div class="checkAll btn">
                             <input type="checkbox" name="SelectAll" value="All"><a>All</a>   
                     </div>
-                        <a id="markRead" class="btn-small">Mark Read</a>
-                        <a id="deleteMessages" class="btn-small">Delete</a>
+                        <a id="markRead" class="btn btn-secondary">Mark Read</a>
+                        <a id="deleteMessages" class="ml-3 btn btn-secondary">Delete</a>
                 </div>
                 <div class="mailList"></div>
             </div>`

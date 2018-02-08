@@ -84,10 +84,8 @@ p {
             background-color: #e3f2f7;
         }
 
-.EmailHead {
-    height: 10%;
+.EmailHead { 
     background-color: rgb(184, 180, 180);
-    padding: 1%;
     display: flex;
     align-items: center;
     justify-content: center;
