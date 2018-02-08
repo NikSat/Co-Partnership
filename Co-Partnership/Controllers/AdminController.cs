@@ -163,9 +163,205 @@ namespace Co_Partnership.Controllers
                 DeclinedOffers = _transactionRepository.Transactions
                     .Where(t => t.IsProcessed == 1 && t.Type == -2).ToList()
             };
-            
+
             return View(model);
         }
+
+        public IActionResult Clients()
+        {
+            ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
+            var DBclients = _userRepository.Users.Where(u => u.IsActive == true);
+            var clients = new List<ClientsViewModel>();
+            foreach (var user in DBclients)
+            {
+                var userModel = new ClientsViewModel()
+                {
+                    Id = user.Id,
+                    Username = _userRepository.GetUsername(user.ExtId),
+                    Name = _userRepository.GetName(user.Id),
+                    Email = _userRepository.GetEmail(user.ExtId),
+                    NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Count(),
+                    SumOfPayments = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Select(t => t.Price).Sum(),
+                    UserType = user.UserType
+                };
+                clients.Add(userModel);
+            }
+
+            var model = new ClientsView()
+            {
+                Clients = clients
+                .OrderBy(u => u.UserType)
+                .ThenByDescending(u => u.SumOfPayments)
+                .ToList()
+            };
+            return View(model);
+        }
+
+        public async Task<IActionResult> PromoteToMember(ClientsView modelReturned)
+        {
+            var userId = modelReturned.UserId;
+            var dbUser = _userRepository.Users.FirstOrDefault(u => u.Id == userId);
+
+            var IdUser = await _userManager.FindByIdAsync(dbUser.ExtId);
+            var result = await _userManager.AddToRoleAsync(IdUser, "Member");
+
+            if (result.Succeeded)
+            {
+                dbUser.UserType = 2;
+                await _userRepository.UpdateUserAsync(dbUser);
+
+                var DBclientsS = _userRepository.Users.Where(u => u.IsActive == true);
+                var clientsS = new List<ClientsViewModel>();
+                foreach (var user in DBclientsS)
+                {
+                    var userModel = new ClientsViewModel()
+                    {
+                        Id = user.Id,
+                        Username = _userRepository.GetUsername(user.ExtId),
+                        Name = _userRepository.GetName(user.Id),
+                        Email = _userRepository.GetEmail(user.ExtId),
+                        NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Count(),
+                        SumOfPayments = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Select(t => t.Price).Sum(),
+                        UserType = user.UserType
+                    };
+                    clientsS.Add(userModel);
+                }
+                var successModel = new ClientsView()
+                {
+                    Clients = clientsS
+                        .OrderBy(u => u.UserType)
+                        .ThenByDescending(u => u.SumOfPayments)
+                        .ToList()
+                };
+
+                return View("Clients", successModel);
+            }
+
+            var DBclients = _userRepository.Users.Where(u => u.IsActive == true);
+            var clients = new List<ClientsViewModel>();
+            foreach (var user in DBclients)
+            {
+                var userModel = new ClientsViewModel()
+                {
+                    Id = user.Id,
+                    Username = _userRepository.GetUsername(user.ExtId),
+                    Name = _userRepository.GetName(user.Id),
+                    Email = _userRepository.GetEmail(user.ExtId),
+                    NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Count(),
+                    SumOfPayments = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 1).Select(t => t.Price).Sum(),
+                    UserType = user.UserType
+                };
+                clients.Add(userModel);
+            }
+           
+            var model = new ClientsView()
+            {
+                Clients = clients
+                    .OrderBy(u => u.UserType)
+                    .ThenByDescending(u => u.SumOfPayments)
+                    .ToList(),
+                ErrorMessage = "Something went wrong"
+            };
+
+            return View("Clients", model);
+        }
+
+        public IActionResult Members()
+        {
+            ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
+            var DBmembers = _userRepository.Users.Where(u => (u.UserType == 2 || u.UserType == 3) && u.IsActive == true);
+            var members = new List<ClientsViewModel>();
+            foreach (var user in DBmembers)
+            {
+                var userModel = new ClientsViewModel()
+                {
+                    Id = user.Id,
+                    Username = _userRepository.GetUsername(user.ExtId),
+                    Name = _userRepository.GetName(user.Id),
+                    Email = _userRepository.GetEmail(user.ExtId),
+                    NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 2).Count(),
+                    UserType = user.UserType
+                };
+                members.Add(userModel);
+            }
+
+            var model = new ClientsView()
+            {
+                Clients = members
+                .OrderBy(u => u.UserType)
+                .ThenByDescending(u => u.NumberOfOrders)
+                .ToList()
+            };
+            return View(model);
+        }
+
+        public async Task<IActionResult> PromoteToAdmin(ClientsView modelReturned)
+        {
+            var userId = modelReturned.UserId;
+            var dbUser = _userRepository.Users.FirstOrDefault(u => u.Id == userId);
+
+            var IdUser = await _userManager.FindByIdAsync(dbUser.ExtId);
+            var result = await _userManager.AddToRoleAsync(IdUser, "Admin");
+
+            if (result.Succeeded)
+            {
+                dbUser.UserType = 3;
+                await _userRepository.UpdateUserAsync(dbUser);
+
+                var DBmembersS = _userRepository.Users.Where(u => (u.UserType == 2 || u.UserType == 3) && u.IsActive == true);
+                var membersS = new List<ClientsViewModel>();
+                foreach (var user in DBmembersS)
+                {
+                    var userModel = new ClientsViewModel()
+                    {
+                        Id = user.Id,
+                        Username = _userRepository.GetUsername(user.ExtId),
+                        Name = _userRepository.GetName(user.Id),
+                        Email = _userRepository.GetEmail(user.ExtId),
+                        NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 2).Count(),
+                        UserType = user.UserType
+                    };
+                    membersS.Add(userModel);
+                }
+
+                var successModel = new ClientsView()
+                {
+                    Clients = membersS
+                        .OrderBy(u => u.UserType)
+                        .ThenByDescending(u => u.NumberOfOrders)
+                        .ToList()
+                };
+
+                return View("Members", successModel);
+            }
+
+            var DBmembers = _userRepository.Users.Where(u => (u.UserType == 2 || u.UserType == 3) && u.IsActive == true);
+            var clients = new List<ClientsViewModel>();
+            foreach (var user in DBmembers)
+            {
+                var userModel = new ClientsViewModel()
+                {
+                    Id = user.Id,
+                    Username = _userRepository.GetUsername(user.ExtId),
+                    Name = _userRepository.GetName(user.Id),
+                    Email = _userRepository.GetEmail(user.ExtId),
+                    NumberOfOrders = user.TransactionOwner.Where(t => t.IsProcessed == 1 && t.Type == 2).Count(),
+                    UserType = user.UserType
+                };
+                clients.Add(userModel);
+            }
+            var model = new ClientsView()
+            {
+                Clients = clients
+                    .OrderBy(u => u.UserType)
+                    .ThenByDescending(u => u.NumberOfOrders)
+                    .ToList(),
+                ErrorMessage = "Something went wrong"
+            };
+
+            return View("Members", model);
+        }
+
 
         public IActionResult Requests()
         {
@@ -189,31 +385,6 @@ namespace Co_Partnership.Controllers
                 }
             }
             return View(model);
-        }
-        [HttpPost]
-        public IActionResult Requests(RequestsViewModel model)
-        {
-            var newModel = new RequestsViewModel()
-            {
-                PendingOffers = _transactionRepository.Transactions
-                    .Where(t => t.IsProcessed == 0 && t.Type == 2).ToList(),
-                PendingOrders = _transactionRepository.Transactions
-                    .Where(t => t.IsProcessed == 0 && t.Type == 1).ToList(),
-                Addresses = new List<Address>()
-            };
-
-            foreach (var order in newModel.PendingOrders)
-            {
-                var address = _addressRepository.AddressRepo
-                    .FirstOrDefault(a => a.TransactionId == order.Id);
-                if (address != null)
-                {
-                    newModel.Addresses.Add(address);
-                }
-            }
-
-            newModel.ErrorMessage = model.ErrorMessage;
-            return View(newModel);
         }
 
         public async Task<IActionResult> AcceptOffer(RequestsViewModel model)

@@ -19,7 +19,7 @@ namespace Co_Partnership.Services
             identityDb = applicationDbContext;
         }
 
-        public IQueryable<User> Users => db.User; 
+        public IQueryable<User> Users => db.User.Include(u => u.TransactionOwner); 
 
         public async Task CreateUserAsync(string extId,int userType, string fisrtName, string lastName)
         {
@@ -79,6 +79,17 @@ namespace Co_Partnership.Services
             }
             return null;
         }
+
+        public string GetUsername(string userId)
+        {
+            var user = identityDb.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                return user.UserName;
+            }
+            return null;
+        }
+
         public string GetName(int userId)
         {
             var user = Users.FirstOrDefault(u => u.Id == userId);
