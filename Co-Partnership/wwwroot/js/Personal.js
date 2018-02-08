@@ -49,7 +49,7 @@
     // ANOTHER API TO REMOVE FROM HISTORY
     let PostToggle = (id) => {
         $.ajax({
-            url: "/api/Wishlist",
+            url: "/api/Wishlist/Toggle",
             contentType: "application/json",
             method: "POST",
             data: JSON.stringify({
@@ -159,11 +159,19 @@
 
 
     let AppendHistory = (x) => {
-        $(".wishtable tbody").append(`
+        let date
+        if (x.orderDate===null) {
+            date = "-";
+        }
+        else
+        {
+            date = x.orderDate.slice(0, 10);
+        }
+        $(".historytable tbody").append(`
                   <tr id=${x.id}>
-                            <td>${x.id}</th>
-                            <td>${x.date}</td>
-                            <td>${x.price}</td>
+                            <td>${x.orderId}</th>
+                            <td>${date}</td>
+                            <td>${x.orderPrice.toFixed(2)} &#8364</td>
                  </tr>
             `
         );
