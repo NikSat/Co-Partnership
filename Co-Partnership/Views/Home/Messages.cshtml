@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/Message.css" type="text/css" />
+    <title>Messages</title>
+</head>
+<body>
+    <div id="admin-body" class="ml-0 messageBox  components d-flex justify-content-between ">
+        @*<div class="UserName d-inline-block float-left">
+                <h3>Mark</h3>
+            </div>*@
+        <ul class="ml-0 list-unstyled messageSide d-block py-3 mb-0">
+
+            <li class="btn-wrap">
+                <a id="Compose" class=" btn btn-secondary ">Compose</a>
+            </li>
+            <li class="actions">
+                <ul class="pl-0">
+                    <li id="actionInbox">
+                        Inbox
+                    </li>
+                    <li id="actionSent">
+                        Sent
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="messageBody">
+
+        </div>
+
+
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/js/Message.js"></script>}
+    </body>
+</html>
