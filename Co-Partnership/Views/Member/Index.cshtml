@@ -11,7 +11,7 @@
                 Current Balance : <span class="currency">@Model.Balance</span> <br />
 
             </h5>
-            
+
         </div>
         <div class="col-4">
             <a class="btn btn-primary" asp-controller="Member" asp-action="OfferItems">Make a new Offer!</a>
@@ -24,7 +24,8 @@
         <h4>
             Transactions History
         </h4>
-        <br />
+    </div>
+    <div class="row">
         @if (Model.Transactions.Count == 0)
         {
             <p>There are no transactions available..</p>
@@ -54,7 +55,7 @@
                             else if (transaction.RecipientId == Model.CurrentUserId)
                             {
                                 <td>Deposit from</td>
-                                if(transaction.Owner == null)
+                                if (transaction.Owner == null)
                                 {
                                     <td>Unknown</td>
                                 }
@@ -70,7 +71,8 @@
                             else if (transaction.OwnerId == Model.CurrentUserId)
                             {
                                 <td>Transfer to</td>
-                                if(transaction.Recipient == null){
+                                if (transaction.Recipient == null)
+                                {
                                     <td>Unknown</td>
                                 }
                                 else if (transaction.Recipient.UserType == 3)
@@ -133,7 +135,7 @@
                 </tbody>
             </table>
         }
-        </div>
+    </div>
 </div>
 
 

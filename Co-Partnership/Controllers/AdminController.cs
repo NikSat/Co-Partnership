@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Co_Partnership.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class AdminController : Controller
     {
         private readonly IItemRepository _itemRepository;

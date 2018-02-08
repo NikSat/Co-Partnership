@@ -17,6 +17,7 @@ using Co_Partnership.Services;
 namespace Co_Partnership.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
