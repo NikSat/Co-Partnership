@@ -13,4 +13,4 @@
         .on("beforeunload", saveCartToDB());
     //.on("pagehide", saveCartToDB());
     //.on("unload", saveCartToDB());
-}
+});
