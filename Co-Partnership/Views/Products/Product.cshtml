@@ -42,12 +42,20 @@
             <dd class="col-6">
                 @Html.DisplayFor(model => model.BaseItem.Description)
             </dd>
+            <dt class="col-6">
+                Price /  @Html.DisplayFor(model => model.BaseItem.UnitType):
+            </dt>
+
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.BaseItem.UnitPrice)
+            </dd>
+
             @*<dt>
-                    @Html.DisplayNameFor(model => model.StockQuantity)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.StockQuantity)
-                </dd>*@
+            @Html.DisplayNameFor(model => model.StockQuantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StockQuantity)
+        </dd>*@
 
         </dl>
 

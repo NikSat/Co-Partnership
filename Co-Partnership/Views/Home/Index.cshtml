@@ -8,7 +8,7 @@
 
 
 
-<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel" >
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -16,30 +16,28 @@
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="carousel-item active" style="background-image: url('/images/olive_oil.jpg')">
-            @*<img class="d-block img-fluid" src="" alt="ASP.NET">*@
             <div class="carousel-caption ">
-                @*d-none d-md-block*@
                 <h3>Olive Oil</h3>
                 <p>Oils</p>
                 <p>Extra virgin olive oil</p>
-                <p>2.22 / Litter</p>
+                <p>2.22 € / Litter</p>
             </div>
         </div>
         <div class="carousel-item" style="background-image: url('/images/apples.jpg')">
-            @*<img class="d-block img-fluid" src="~/images/fjords.jpg" alt="Visual Studio">*@
-            <div class="carousel-caption ">
-                @*d-none d-md-block*@
+            <div class="carousel-caption ">           
                 <h3>Apples</h3>
                 <p>Fruits</p>
                 <p>Fresh apples</p>
-                <p>0.7 / kilo.</p>
+                <p>0.7 € / kilo.</p>
             </div>
         </div>
-        <div class="carousel-item">
-            <img class="d-block img-fluid" src="~/images/hawai1.jpg" alt="Package Management">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block img-fluid" src="~/images/hawai2.jpg" style="" alt="Microsoft Azure">
+        <div class="carousel-item" style="background-image: url('/images/feta.jpg')">       
+            <div class="carousel-caption ">             
+                <h3>Feta</h3>
+                <p>Cheeses</p>
+                <p>Goat-milk cheese</p>
+                <p>2.30 € / kilo.</p>
+            </div>
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -62,7 +60,7 @@
                     <a asp-controller="Products" asp-action="Product" asp-route-id="@item.Product.Product.Id">
                         <div class="wrapper">
                             <div class="card-img-top" style="background-image:url('@item.Product.Product.Image');height:140px;">
-                                @*<img class="" src="" alt="Card image cap">*@
+  
                             </div>
                         </div>
                     </a>
