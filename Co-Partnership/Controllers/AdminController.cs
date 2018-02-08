@@ -50,12 +50,6 @@ namespace Co_Partnership.Controllers
             _messageInterface = messageInterface;
         }
 
-        public IActionResult Finance()
-        {
-            ViewBag.CurrentChoice = this.ControllerContext.RouteData.Values["action"].ToString();
-            return View("Finance");
-        }
-
         public IActionResult Products()
         {
             ViewBag.CurrentChoice = this.ControllerContext.RouteData.Values["action"].ToString();
@@ -74,20 +68,15 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
-
         public IActionResult CreateProduct()
         {
             return View();
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateProduct(Item newItem, IFormFile uploadedImage)
         {
-
-
-
             if (uploadedImage != null && uploadedImage.ContentType.ToLower().StartsWith("image/"))
             {
                 var filename = ContentDispositionHeaderValue
@@ -100,8 +89,6 @@ namespace Co_Partnership.Controllers
                 {
                     _itemRepository.SaveItem(newItem);
 
-
-
                     using (System.IO.FileStream fs = System.IO.File.Create(filepath))
                     {
                         uploadedImage.CopyTo(fs);
@@ -113,8 +100,6 @@ namespace Co_Partnership.Controllers
             }
             ViewBag.ErrorMessage = "image upload is required.";
             return View(newItem);
-
-
         }
 
 
@@ -363,7 +348,6 @@ namespace Co_Partnership.Controllers
             return View("Members", model);
         }
 
-
         public IActionResult Requests()
         {
             ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
@@ -580,6 +564,5 @@ namespace Co_Partnership.Controllers
 
             return _userRepository.GetUserFromIdentity(currentuser.Id);
         }
-
     }
 }

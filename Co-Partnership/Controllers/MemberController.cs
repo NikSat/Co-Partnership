@@ -35,6 +35,7 @@ namespace Co_Partnership.Controllers
             _itemRepository = itemRepository;
             _transactionItems = transactionItem;
         }
+
         [HttpGet]
         [Route("Member/Index")]
         public async Task<IActionResult> Index() // See memberAccount (balance & transactions)
