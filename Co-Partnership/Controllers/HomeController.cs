@@ -104,5 +104,9 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
+        public IActionResult Messages()
+        {
+            return View();
+        }
     }
 }
