@@ -190,10 +190,13 @@ namespace Co_Partnership.Controllers
                     personal = new PersonalFinancialAccount();
                     personal.UserId = us.Id;
                     personal.Amount = Divident;
+                    personalAccount.AddAccount(personal);
                 }
-                personal.Amount += Divident;
-                personalAccount.UpdateAccount(personal);
-
+                else
+                {
+                    personal.Amount += Divident;
+                    personalAccount.UpdateAccount(personal);
+                }
                 // Register Transaction
 
                 Transaction Current = new Transaction();
