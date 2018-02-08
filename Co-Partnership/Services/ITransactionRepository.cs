@@ -31,5 +31,8 @@ namespace Co_Partnership.Services
 
 
         IEnumerable<Object> getSummaries(int id,DateTime start,DateTime end);
+
+
+        Object SummarizeNewTransactions(int type);
     }
 }

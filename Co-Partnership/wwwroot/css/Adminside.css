@@ -361,3 +361,15 @@ thead {
 table tr.active {
     background: #ccc;
 }
+
+
+
+.salesoverview {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dividoverview {
+    display: flex;
+    justify-content: space-around;
+}
