@@ -49,7 +49,7 @@
     // ANOTHER API TO REMOVE FROM HISTORY
     let PostToggle = (id) => {
         $.ajax({
-            url: "/api/Wishlist",
+            url: "/api/Wishlist/Toggle",
             contentType: "application/json",
             method: "POST",
             data: JSON.stringify({

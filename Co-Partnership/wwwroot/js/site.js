@@ -114,7 +114,7 @@ $(function () {
 // Toggle favor 
 let PostToggle = (id) => {
     $.ajax({
-        url: "/api/Wishlist",
+        url: "/api/Wishlist/Toggle",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
@@ -135,7 +135,7 @@ let PostToggle = (id) => {
 // Toggle favor for buttons
 let PostButtonToggle = (id) => {
     $.ajax({
-        url: "/api/Wishlist",
+        url: "/api/Wishlist/Toggle",
         contentType: "application/json",
         method: "POST",
         data: JSON.stringify({
