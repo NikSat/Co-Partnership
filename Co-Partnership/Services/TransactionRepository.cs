@@ -142,5 +142,89 @@ namespace Co_Partnership.Services
                };
             return  PurchaseList;
         }
+
+
+        // This function returns a summary of selected object
+        public IEnumerable<Object> getSummaries(int id,DateTime start,DateTime end)
+        {
+            // First of all check the inputs serverside
+            // Id must be one of these numbers
+            if (id == 1 || id == 2 || id == 3 || id == 10)
+            {
+                // No date must be null
+                if (start ==null || end==null)
+                {
+                    return null;
+                }
+
+                // End date later than startdate
+                if (start>=end)
+                {
+                    return null;
+                }
+
+                // Get all the processed transactions between that time window
+                List<Transaction> Summaries = new List<Transaction>();
+
+                foreach (Transaction trans in Transactions)
+                {
+                    // Make sure processed date has a value
+                    if (!trans.DateProcessed.HasValue)
+                    {
+                        continue;
+                    }
+                    // Then cast it
+                    DateTime time = (DateTime)trans.DateProcessed;
+      
+                    if (start <= time && end >= time && trans.IsProcessed==1)
+                        {
+                        // Now select according to the input 10 means select all
+                        if (id == 10)
+                        {
+                            Summaries.Add(trans);
+                        }
+                        // If not 10 select accordingly
+                        if (id ==trans.Type )
+                        {
+                            Summaries.Add(trans);
+                        }
+
+
+
+                    }
+                }
+
+                // Now make the new items
+                var Selection =
+                    Summaries.Select(a => new
+                    {
+                        TransId = a.Id,
+                        TransDate = a.DateProcessed,
+                        TransGoods = a.TransactionItem.Sum(x => x.Quantinty),
+                        TransPrice = a.Price,
+                        TransType= a.Type
+                    });
+                return Selection;
+
+
+            }
+
+            return null;
+/*
+                from Transaction in Transactions
+                where Transaction.Type == id && Transaction.DateProcessed >= start && Transaction.DateProcessed <= end
+                select new
+                {
+                    TransId = Transaction.Id,
+                    TransDate=Transaction.DateProcessed,
+                    TransGoods=Transaction.TransactionItem.Sum(x => x.Quantinty),
+                    TransPrice = Transaction.Price,
+                };
+                return Summaries;
+
+    */
+        }
+
+
     }
 }

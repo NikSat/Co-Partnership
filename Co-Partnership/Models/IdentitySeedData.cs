@@ -71,7 +71,8 @@ namespace Co_Partnership.Models
 
                 if (newUser.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(userA, "Admin");
+                    var roles = new List<string>(){ "Admin", "Member", "SimpleUser"};
+                    await userManager.AddToRolesAsync(userA, roles);
                     int adminType = 3;
                     await _userRepository.CreateUserAsync(userA.Id, adminType, "Super", "Admin");
                 }
@@ -93,7 +94,8 @@ namespace Co_Partnership.Models
                 var user = await userManager.CreateAsync(userM, PasswordMember);
                 if (user.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(userM, "Member");
+                    var roles = new List<string>() { "Member", "SimpleUser" };
+                    await userManager.AddToRolesAsync(userM, roles);
                     int memberType = 2;
                     await _userRepository.CreateUserAsync(userM.Id, memberType, "John", "Smith");
                 }

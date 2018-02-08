@@ -11,6 +11,7 @@ namespace Co_Partnership.Models
         public List<Transaction> PendingOrders { get; set; }
         public List<Address> Addresses { get; set; }
         public List<Transaction> PendingOffers { get; set; }
-
+        public int TransactionId { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -44,6 +44,19 @@ namespace Co_Partnership.Controllers
         }
 
 
+        // This function gets the sales/orders etc for a period of time
+        [Route("/api/Finance/PerDate")]
+        [HttpPost]
+        public IEnumerable<Object> FinSum([FromBody]Transaction trans)
+        {
+            DateTime start = (DateTime)trans.Date;
+            DateTime end = (DateTime)trans.DateProcessed;
+            int id = trans.Id;
+            return financeRepository.getSummaries(id, start, end);
+
+
+        }
+
 
         // This function gets the orders that are not reviewed yet (order type is integer 1 )
         // GET: Admin/api/financies/Order
@@ -70,9 +83,10 @@ namespace Co_Partnership.Controllers
             //Get the transaction and update it
             var transaction=financeRepository.Transactions.FirstOrDefault(a => a.Id == id);
             transaction.IsProcessed = 1;
+            transaction.DateProcessed = DateTime.Now;
             financeRepository.UpdateTransaction(transaction);
             // Also update the whole fund
-            var found = compRepository.Account.FirstOrDefault(a=> a.Id==1);
+            var found = compRepository.Account;
             found.MemberShare = found.MemberShare + (transaction.Price / 2);
             found.CoOpShare=found.CoOpShare + (transaction.Price / 2);
             found.Date = DateTime.Now;

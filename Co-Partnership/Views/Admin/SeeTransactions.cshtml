@@ -1,0 +1,255 @@
+﻿@model SeeTransactionsViewModel
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<div id="admin-body">
+    <div class="container">
+        <div class="row" style="padding: 10px;margin-top: 10px;">
+            <h4>Transactions</h4>
+        </div>
+        <div class="row">
+            <h5>Orders</h5>
+        </div>
+        <div class="row">
+            @if (Model.Orders.Count == 0)
+            {
+                <p>There are no orders..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Client</th>
+                            <th>Number of Products</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var or in Model.Orders)
+                        {
+                            <tr>
+                                <td>@or.Id</td>
+                                <td>@or.OwnerId @or.Owner.FirstName @or.Owner.LastName</td>
+                                <td>@or.TransactionItem.Count</td>
+                                <td>@or.DateProcessed</td>
+                                <td class="currency">@or.Price</td>
+                                <td>
+                                    <a class="btn btn-outline-info" data-toggle="collapse" href="#collapsive@(or.Id)" aria-expanded="false" aria-controls="collapsive@(or.Id)">Details..</a>
+                                </td>
+                            </tr>
+
+                            <tr class="collapse" id="collapsive@(or.Id)">
+                                <td colspan="2">
+                                    Client bought:
+                                </td>
+                                <td colspan="3">
+                                    <table align="center">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in or.TransactionItem)
+                                            {
+                                                <tr>
+                                                    <td>@item.Item.Category</td>
+                                                    <td>@item.Item.Name</td>
+                                                    <td> @item.Quantinty @item.Item.UnitType</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="row">
+            <h5>Offers</h5>
+        </div>
+        <div class="row">
+            @if (Model.Offers.Count == 0)
+            {
+                <p>There are no pending offers..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Member</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var of in Model.Offers)
+                        {
+                            <tr>
+                                <td>@of.Id</td>
+                                <td>@of.OwnerId @of.Owner.FirstName @of.Owner.LastName</td>
+                                <td>@of.TransactionItem.First().Item.Name</td>
+                                <td>@of.TransactionItem.First().Quantinty @of.TransactionItem.First().Item.UnitType</td>
+                                <td>@of.DateProcessed</td>
+                                <td class="currency">@of.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="row">
+            <h5>Sales Sharing</h5>
+        </div>
+        <div class="row">
+            @if (Model.SalesShare.Count == 0)
+            {
+                <p>There aren't any sales' shares..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Member</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sh in Model.SalesShare)
+                        {
+                            <tr>
+                                <td>@sh.Id</td>
+                                <td>@sh.OwnerId @sh.Owner.FirstName @sh.Owner.LastName</td>
+                                <td>@sh.DateProcessed</td>
+                                <td class="currency">@sh.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="row">
+            <h5>Canceled Orders</h5>
+        </div>
+        <div class="row">
+            @if (Model.DeclinedOrders.Count == 0)
+            {
+                <p>There are no canceled orders..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Client</th>
+                            <th>Number of Products</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var or in Model.DeclinedOrders)
+                        {
+                            <tr>
+                                <td>@or.Id</td>
+                                <td>@or.OwnerId @or.Owner.FirstName @or.Owner.LastName</td>
+                                <td>@or.TransactionItem.Count</td>
+                                <td>@or.DateProcessed</td>
+                                <td>
+                                    <a class="btn btn-outline-info" data-toggle="collapse" href="#collapsive@(or.Id)" aria-expanded="false" aria-controls="collapsive@(or.Id)">Details..</a>
+                                </td>
+                            </tr>
+
+                            <tr class="collapse" id="collapsive@(or.Id)">
+                                <td colspan="2">
+                                    Client wanted:
+                                </td>
+                                <td colspan="3">
+                                    <table align="center">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in or.TransactionItem)
+                                            {
+                                                <tr>
+                                                    <td>@item.Item.Category</td>
+                                                    <td>@item.Item.Name</td>
+                                                    <td> @item.Quantinty @item.Item.UnitType</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="row">
+            <h5>Declined Offers</h5>
+        </div>
+        <div class="row">
+            @if (Model.DeclinedOffers.Count == 0)
+            {
+                <p>There are no declined offers..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Member</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var of in Model.DeclinedOffers)
+                        {
+                            <tr>
+                                <td>@of.Id</td>
+                                <td>@of.OwnerId @of.Owner.FirstName @of.Owner.LastName</td>
+                                <td>@of.TransactionItem.First().Item.Name</td>
+                                <td>@of.TransactionItem.First().Quantinty @of.TransactionItem.First().Item.UnitType</td>
+                                <td>@of.DateProcessed</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/currencyFormat.js"></script>}
+

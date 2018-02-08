@@ -26,6 +26,8 @@ namespace Co_Partnership.Services
 
         string GetEmail(string userId);
 
+        string GetUsername(string userId);
+
         string GetName(int userId);
 
         decimal GetBalance(int userId);

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Sales";
+
+}
+
+<div id="admin-body">
+    <h2>Sales Overview</h2>
+
+    <form action="">
+        Start date:
+        <input type="date" id="sday" name="sday">
+        End date:
+        <input type="date" id="eday" name="eday">
+        Transaction type:
+        <select id="types">
+            <option value="1">Sales</option>
+            <option value="2">Offers</option>
+            <option value="3">Dividents</option>
+            <option value="10">All</option>
+        </select>
+        <input type="submit" id="submitable">
+    </form>
+    <div id="salestable"></div>
+
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/Sales.js"></script>}

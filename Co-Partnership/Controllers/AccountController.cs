@@ -333,7 +333,13 @@ namespace Co_Partnership.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
+            {
                 await _signInManager.SignInAsync(user, true);
+                var dbUserId = _userRepository.GetUserFromIdentity(user.Id);
+                var dbUser = _userRepository.Users.FirstOrDefault(u => u.Id == dbUserId);
+                dbUser.IsActive = true;
+                await _userRepository.UpdateUserAsync(dbUser);
+            }    
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

@@ -8,11 +8,12 @@ namespace Co_Partnership.Services
 {
     public interface ICompAccountRepository
     {
-
-        IQueryable<CompanyFinancialAccount> Account { get; }
+        CompanyFinancialAccount Account { get; }
 
         void UpdateAccount(CompanyFinancialAccount account);
-               
 
+        decimal GetCoopShare();
+
+        void UpdateCoopBalance(decimal coopbalance);
     }
 }

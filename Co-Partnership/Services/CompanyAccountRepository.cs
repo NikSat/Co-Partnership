@@ -18,11 +18,24 @@ namespace Co_Partnership.Services
             this.db = db;
         }
 
-        public IQueryable<CompanyFinancialAccount> Account => db.CompanyFinancialAccount;
+        public CompanyFinancialAccount Account => db.CompanyFinancialAccount.FirstOrDefault(a => a.Id == 1);
 
         public void UpdateAccount(CompanyFinancialAccount account)
         {
             db.Update(account);
+            db.SaveChanges();
+        }
+
+        public decimal GetCoopShare()
+        {
+            return (decimal)Account.CoOpShare;
+        }
+
+        public void UpdateCoopBalance(decimal coopbalance)
+        {
+            Account.CoOpShare = coopbalance;
+            Account.Date = DateTime.Today;
+            db.Update(Account);
             db.SaveChanges();
         }
     }
