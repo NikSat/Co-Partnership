@@ -8,7 +8,7 @@
 
 <p>
     You will receive a confirmation message
-    and shipping details via email and your personal inbox soon.
+    and shipping details via your personal inbox soon.
 </p>
 
 <h5>Order Details</h5>
@@ -28,7 +28,7 @@
                 <tr>
                     <td>@transItem.Item.Name</td>
                     <td class="currency">@transItem.Item.UnitPrice</td>
-                    <td>@transItem.Quantinty</td>
+                    <td>@transItem.Quantinty @transItem.Item.UnitType</td>
                     <td class="currency">@((decimal)transItem.Quantinty * (decimal)transItem.Item.UnitPrice) </td>
                 </tr>
             }

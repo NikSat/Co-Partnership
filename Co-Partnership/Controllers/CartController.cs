@@ -75,6 +75,7 @@ namespace Co_Partnership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOut(Address address)
         {
             if (!ModelState.IsValid)

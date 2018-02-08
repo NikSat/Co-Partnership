@@ -147,7 +147,7 @@ namespace Co_Partnership.Controllers
             return View(item);
         }
 
-        public IActionResult SeeTransactions()
+        public IActionResult Transactions()
         {
             ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
             var model = new SeeTransactionsViewModel()
