@@ -80,6 +80,7 @@ namespace Co_Partnership
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IMessageInterface, MessageInterface>();
             services.AddTransient<ICompAccountRepository, CompanyAccountRepository>();
+            services.AddTransient<IPersonalAccountRepository, PersonalAccountRepository>();
             services.AddTransient<IWishRepository, WishRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IPersonalAccountRepository, PersonalAccountRepository>();

@@ -5,7 +5,7 @@
 }
 <div id="admin-body">
     <div class="container">
-        <div class="row">
+        <div class="row" style="padding: 10px;margin-top: 10px;">
             <h4>Requests</h4>
         </div>
         <div class="row">
@@ -115,9 +115,12 @@
                     </tbody>
                 </table>
             }
-            <br />
+        </div>
+        <div class="row">
+
             <h5>Offers</h5>
-            <br />
+        </div>
+        <div class="row">
             @if (Model.PendingOffers.Count == 0)
             {
                 <p>There are no pending offers from Members..</p>
@@ -137,7 +140,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var of in Model.PendingOrders)
+                        @foreach (var of in Model.PendingOffers)
                         {
                             <tr>
                                 <td>@of.OwnerId @of.Owner.FirstName @of.Owner.LastName</td>

@@ -11,5 +11,9 @@ namespace Co_Partnership.Services
         IQueryable<PersonalFinancialAccount> Account { get; }
 
         void UpdateAccount(PersonalFinancialAccount account);
+
+        void AddAccount(PersonalFinancialAccount account);
+
+        PersonalFinancialAccount GetAccount(int userId);
     }
 }

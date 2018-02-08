@@ -25,5 +25,16 @@ namespace Co_Partnership.Services
             db.Update(account);
             db.SaveChanges();
         }
+
+        public void AddAccount(PersonalFinancialAccount account)
+        {
+            db.PersonalFinancialAccount.Add(account);
+            db.SaveChanges();
+        }
+
+        public PersonalFinancialAccount GetAccount(int userId)
+        {
+            return Account.FirstOrDefault(a => a.UserId == userId);
+        }
     }
 }

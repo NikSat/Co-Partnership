@@ -21,6 +21,7 @@
         clrBtn = document.createElement('input');
         clrBtn.type = 'button';
         clrBtn.id = "clearAllButton";
+        clrBtn.value = "All";
         row.lastChild.appendChild(clrBtn); // insert clearAll button at last column of header
 
         head.appendChild(row);
@@ -224,6 +225,7 @@
         let buyBtn = document.createElement('input');
         buyBtn.type = "button";
         buyBtn.id = "buyBtn";
+        buyBtn.classList.add("ml-3");//bootstrap class for left margin
         buyBtn.value = "Continue";
         buyBtn.style = "float: right;";
         div.appendChild(buyBtn);

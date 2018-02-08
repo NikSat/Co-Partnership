@@ -1,0 +1,77 @@
+﻿@model ClientsView
+@{
+    ViewData["Title"] = "Members";
+}
+
+<div id="admin-body">
+    <div class="container">
+        <div class="row" style="padding: 10px;margin-top: 10px;">
+            <h4>Members</h4>
+        </div>
+        <div class="row">
+            <div style="height:50px" id="validation">
+                <span id="error" style="color:red">@Model.ErrorMessage</span>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.Clients.Count == 0)
+            {
+                <p>There are no members..</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Fullname</th>
+                            <th>Email</th>
+                            <th>Offers</th>
+                            <th>User Type</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var u in Model.Clients)
+                        {
+                            <tr>
+                                <td>@u.Id</td>
+                                <td>@u.Username</td>
+                                <td>@u.Name</td>
+                                <td>@u.Email</td>
+                                <td>@u.NumberOfOrders</td>
+                                @if (u.UserType == 1)
+                                {
+                                    <td>Simple User</td>
+                                }
+                                else if (u.UserType == 2)
+                                {
+                                    <td>Member</td>
+                                }
+                                else
+                                {
+                                    <td>Admin</td>
+                                }
+
+                                <td>
+                                    @if (u.UserType == 2)
+                                    {
+                                        <form asp-controller="Admin" asp-action="PromoteToAdmin" method="post">
+                                            <input asp-for="@Model.UserId" value="@u.Id" hidden />
+                                            <input class="btn btn-info" type="submit" value="Promote To Admin" />
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/currencyFormat.js"></script>}
+
