@@ -41,6 +41,13 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
+        public IActionResult Sales()
+        {
+            ViewBag.CurrentChoice = this.ControllerContext.RouteData.Values["action"].ToString();
+            return View();
+        }
+
+
         public IActionResult CreateProduct()
         {
             return View();
