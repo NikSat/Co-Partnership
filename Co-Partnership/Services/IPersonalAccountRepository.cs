@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Co_Partnership.Services
 {
-    interface IPersonalAccountRepository
+    public interface IPersonalAccountRepository
     {
         IQueryable<PersonalFinancialAccount> Account { get; }
 
         void UpdateAccount(PersonalFinancialAccount account);
+
+        void AddAccount(PersonalFinancialAccount account);
+
+        PersonalFinancialAccount GetAccount(int userId);
     }
 }

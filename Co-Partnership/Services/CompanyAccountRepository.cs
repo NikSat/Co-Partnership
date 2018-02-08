@@ -30,5 +30,13 @@ namespace Co_Partnership.Services
         {
             return (decimal)Account.CoOpShare;
         }
+
+        public void UpdateCoopBalance(decimal coopbalance)
+        {
+            Account.CoOpShare = coopbalance;
+            Account.Date = DateTime.Today;
+            db.Update(Account);
+            db.SaveChanges();
+        }
     }
 }
