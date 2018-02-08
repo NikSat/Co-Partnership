@@ -257,17 +257,17 @@
         let x = document.querySelector(".checkAll");
         x.querySelector('input[type = checkbox]').addEventListener('change', function (event) {
             unCheck(this);
-            event.preventDefault;
+            event.preventDefault();
         });
         x = document.querySelector("#markRead");
         x.addEventListener('click', function (event) {
             MarkAll();
-            event.preventDefault;
+            event.preventDefault();
         });
         x = document.querySelector("#deleteMessages");
         x.addEventListener('click', function (event) {
             DeleteAll();
-            event.preventDefault;
+            event.preventDefault();
         });
 
 
@@ -394,7 +394,7 @@
             $(".messageBody").empty();
             MakeMessageListBody("Inbox");
             MakeMessageList();
-            event.preventDefault;
+            event.preventDefault();
         });
 
     };
@@ -452,7 +452,7 @@
             $(".messageBody").empty();
             MakeMessageListBody("Inbox");
             MakeMessageList();
-            event.preventDefault;
+            event.preventDefault();
         });
  
 
@@ -472,7 +472,7 @@
         x = document.querySelector("#deleteSingle");
         x.addEventListener('click', function (event) {
             deleteSelf();          
-            event.preventDefault;
+            event.preventDefault();
         });
 
 
@@ -517,21 +517,21 @@
             $(".messageBody").empty();
             MakeMessageListBody("Inbox");
             MakeMessageList();
-            event.preventDefault;
+            event.preventDefault();
         });
 
         // The search button
         x = document.querySelector("#search");
         x.addEventListener('click', function (event) {
             SearchUser();
-            event.preventDefault;
+            event.preventDefault();
         });
         // The send button
         x = document.querySelector("#send");
         x.addEventListener('click', function (event) {            
             CheckMessage();
             //Send();
-            event.preventDefault;
+            event.preventDefault();
         });
     };
 

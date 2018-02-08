@@ -28,5 +28,8 @@ namespace Co_Partnership.Services
         Transaction GetIncompleteTransaction(int userId);
 
         IEnumerable<Object> GetPurchaseHistory(int userId);
+
+
+        IEnumerable<Object> getSummaries(int id,DateTime start,DateTime end);
     }
 }
