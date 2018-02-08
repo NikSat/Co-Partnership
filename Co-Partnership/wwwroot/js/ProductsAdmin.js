@@ -62,9 +62,9 @@
                         <td class="sizeone" >${product.image}</td>
                         <td class="sizeone" >${product.stockQuantity}</td>
                         <td class="sizeone" >${product.isLive}</td>
-                        <td class="sizeone" >${product.unitPrice}</td>
+                        <td class="sizeone" >${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(product.unitPrice)}</td>
                         <td class="sizeone" >${product.unitType}</td>
-                        <td class="sizeone" ><a href="EditProduct/${product.id}" >Edit</a></td>
+                        <td class="sizeone" ><a class="btn btn-outline-info" href="EditProduct/${product.id}" >Edit</a></td>
                     </tr>`
 
         );
