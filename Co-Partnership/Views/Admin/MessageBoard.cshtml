@@ -3,15 +3,16 @@
     ViewData["Title"] = "Message Board";
 }
 
-<div class="messageBox">
-    <aside class="messageSide">
-        <div class="UserName">
-            <span>Mark</span>
-        </div>
-        <div class="btn-wrap">
+<div id="admin-body" class="messageBox components">
+    @*<div class="UserName d-inline-block float-left">
+        <h3>Mark</h3>
+    </div>*@
+    <ul class="list-unstyled messageSide d-block py-3 mb-0" >
+
+        <li class="btn-wrap">
             <a id="Compose" class="btn-compose">Compose</a>
-        </div>
-        <div class="actions">
+        </li>
+        <li class="actions">
             <ul>
                 <li id="actionInbox">
                     Inbox
@@ -21,9 +22,9 @@
                 </li>
             </ul>
 
-        </div>
+        </li>
 
-    </aside>
+    </ul>
 
     <div class="messageBody">
 

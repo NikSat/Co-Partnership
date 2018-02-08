@@ -53,17 +53,17 @@
 
             <div class="d-flex flex-row justify-content-between mt-5">
                 <div class="btn-group d-flex" role="group">
-                    <a href="" class="btn btn-secondary ">Buy</a>
+                    <a class="btn btn-secondary "asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@Model.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
                     @if (Model.IsLiked)
                     {
-                          <a href="" id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Liked!</a>
+                          <a  id=@Model.BaseItem.Id class="btn btn-secondary likebutton"><span class="fa fa-heart red mr-2"></span>Liked!</a>
                     }
                     else
                     {
-                          <a href="" id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
+                          <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
                     }
                 </div>
-                <a class="btn btn btn-secondary" asp-action="Index">Back to List</a>
+                <a class="btn btn btn-primary" href="javascript:history.go(-1)">Back to List</a>
             </div>
         </div>
     </div>

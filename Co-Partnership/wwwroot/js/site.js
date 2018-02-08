@@ -40,7 +40,7 @@
     //);
 
 
-    ApplyAll();
+    
 
     ApplytoButton();
 
@@ -171,7 +171,7 @@ let PostButtonToggle = (id) => {
 let ToggleInner = (id) => {
     let current = document.querySelector("#" + CSS.escape(id));
     if (current.innerHTML==="Like") {
-        current.innerHTML = "Liked";
+        current.innerHTML = "<span class='fa fa-heart red mr-2'></span>Liked";
     }
     else {
         current.innerHTML = "Like";
@@ -197,6 +197,10 @@ let ToggleColor = (id) => {
 //////////////////EVENT LISTENERS
 
 // Apply the event listeners to all the heart spans and give them the parent's id
+document.addEventListener('DOMContentLoaded', function () {
+    ApplyAll();
+});
+
 let ApplyAll = () => {
     let one = $('span.fa-heart');
     one.each((index, value) => {
