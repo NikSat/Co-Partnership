@@ -14,57 +14,59 @@
     </ul>
 </div>
 
-    <div class="row mx-auto">
-        <div class="col-12 col-md-6 mb-5 mb-md-0 text-center text-md-left">
-            <h2>Details</h2>
-            <img class="img-fluid rounded" width="400" src="@Html.DisplayFor(model => model.BaseItem.Image)" />
-        </div>
-
-        <div class="col-12 col-md-6 ">
-            <h4 class="text-center text-md-left">Item</h4>
-            <hr />
-            <dl class="row mb-4 text-center">
-                <dt class="col-6">
-                    @Html.DisplayNameFor(model => model.BaseItem.Name):
-                </dt>
-                <dd  class="col-6">
-                    @Html.DisplayFor(model => model.BaseItem.Name)
-                </dd>
-                <dt  class="col-6">
-                    @Html.DisplayNameFor(model => model.BaseItem.Category):
-                </dt>
-                <dd  class="col-6">
-                    <a class="fancy-underline d-inline-block" asp-route="category" asp-route-category="@Model.BaseItem.Category" asp-route-productPage="1">@Html.DisplayFor(model => model.BaseItem.Category)</a>
-                </dd>
-                <dt  class="col-6">
-                    @Html.DisplayNameFor(model => model.BaseItem.Description):
-                </dt>
-                <dd  class="col-6">
-                    @Html.DisplayFor(model => model.BaseItem.Description)
-                </dd>
-                @*<dt>
-                        @Html.DisplayNameFor(model => model.StockQuantity)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.StockQuantity)
-                    </dd>*@
-
-            </dl>
-
-            <div class="d-flex flex-row justify-content-between mt-5">
-                <div class="btn-group d-flex" role="group">
-                    <a class="btn btn-secondary "asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@Model.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
-                    @if (Model.IsLiked)
-                    {
-                          <a  id=@Model.BaseItem.Id class="btn btn-secondary likebutton"><span class="fa fa-heart red mr-2"></span>Liked!</a>
-                    }
-                    else
-                    {
-                          <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
-                    }
-                </div>
-                <a class="btn btn btn-primary" href="javascript:history.go(-1)">Back to List</a>
-            </div>
-        </div>
+<div class="row mx-auto">
+    <div class="col-12 col-md-6 mb-5 mb-md-0 text-center text-md-left">
+        <h2>Details</h2>
+        <img class="img-fluid rounded" width="400" src="@Html.DisplayFor(model => model.BaseItem.Image)" />
     </div>
 
+    <div class="col-12 col-md-6 ">
+        <h4 class="text-center text-md-left">Item</h4>
+        <hr />
+        <dl class="row mb-4 text-center">
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.BaseItem.Name):
+            </dt>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.BaseItem.Name)
+            </dd>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.BaseItem.Category):
+            </dt>
+            <dd class="col-6">
+                <a class="fancy-underline d-inline-block" asp-route="category" asp-route-category="@Model.BaseItem.Category" asp-route-productPage="1">@Html.DisplayFor(model => model.BaseItem.Category)</a>
+            </dd>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.BaseItem.Description):
+            </dt>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.BaseItem.Description)
+            </dd>
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.StockQuantity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StockQuantity)
+                </dd>*@
+
+        </dl>
+
+        <div class="d-flex flex-row justify-content-between mt-5">
+            <div class="btn-group d-flex" role="group">
+                <a class="btn btn-secondary " asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@Model.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+                @if (Model.IsLiked)
+                {
+                    <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton"><span class="fa fa-heart red mr-2"></span>Liked!</a>
+                }
+                else
+                {
+                    <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
+                }
+            </div>
+            <a class="btn btn btn-primary" href="javascript:history.go(-1)">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/saveCart.js"></script>}
