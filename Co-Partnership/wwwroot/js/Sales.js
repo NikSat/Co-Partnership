@@ -186,10 +186,13 @@ $(document).ready(function () {
             contentType: "application/json",
             method: "POST",
             success: (data) => {
+                GetMoney();
+                GetAllMemberSummary();
                 $(".alertviewforaward").append(
                     `
             <div class="alert alert-success">
-                Unable to process, no funds in member share account. 
+                
+Dividents awarded successfully. 
             </div>
                 `
                 );
