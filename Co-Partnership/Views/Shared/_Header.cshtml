@@ -65,15 +65,11 @@
                 }
 
 
-
-
-
-
             </ul>
             <div class="navbar-nav w-100 d-flex justify-content-between align-items-md-center">
-                <form class="form-inline pl-2 my-2 my-lg-0  d-none d-md-block">
+                <form class="form-inline pl-2 my-2 my-lg-0  d-none d-md-block" asp-controller="Products" asp-action="Index">
                     <input class="form-control mr-sm-1" type="text" name="SearchString" value="@ViewData["currentFilter"]" aria-label="Search">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                    <input class="btn btn-outline-primary my-2 my-sm-0" type="submit" value="Search" />
                 </form>
                 <div>
                     <div class="cartSummary mr-4 d-none d-md-inline-block align-middle">

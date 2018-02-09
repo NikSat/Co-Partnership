@@ -83,7 +83,7 @@ namespace Co_Partnership.Controllers
         }
 
         // GET: All Products that are live
-        public async Task<ViewResult> Index(string searchString, string sortOrder = null,string category = null, int productPage = 1)
+        public async Task<ViewResult> Index(string searchString, string category = null, int productPage = 1)
         {
             List<LikeItem> likeItem = await MakeLikeList();
             ViewData["CurrentFilter"] = searchString;
@@ -91,7 +91,7 @@ namespace Co_Partnership.Controllers
             var sortPar =likeItem.Where(p => (p.BaseItem.IsLive ?? false) && (category == null || p.BaseItem.Category == category));
             if (!String.IsNullOrEmpty(searchString))
             {
-                sortPar = sortPar.Where(s => s.BaseItem.Name.Contains(searchString));
+                sortPar = sortPar.Where(s => s.BaseItem.Name.CaseInsensitiveContains(searchString));
             }
             
             sortPar = sortPar.OrderBy(s => s.BaseItem.Name);            
