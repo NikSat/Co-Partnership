@@ -89,7 +89,7 @@ namespace Co_Partnership.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Welcome to our Co-Partnership";
             return View();
         }
 
@@ -104,6 +104,7 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Messages()
         {
             return View();

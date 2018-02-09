@@ -387,4 +387,6 @@ table tr.active {
     margin: 10px;
     height: 400px;
     margin-left: 0;
+    overflow-y:scroll;
 }
+

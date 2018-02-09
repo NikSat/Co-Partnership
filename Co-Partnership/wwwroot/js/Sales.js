@@ -18,19 +18,50 @@ $(document).ready(function () {
             }),
             success: (data) => {
                 if (data.length === 0) {
+                    $("#salestable tfoot").empty();
                     $("#salestable tbody").empty();
                     $("#salestable tbody").append(
-                        `<tr><td colspan="4">No transactions took place during that period</td></tr>`
+                        `<tr><td colspan="4">No transactions of this type took place during that period</td></tr>`
                     );
                 }
                 else {
+                    if (id === "10") {
+                        $("#interchangeable")[0].innerHTML = "Type";
+                        let sum = 0;
+                        let tsum = 0;
+                        $("#salestable tfoot").empty();
+                        $("#salestable tbody").empty();
+                        data.forEach(x => {
+                            PopulateSpecialRows(x);
+                            if (x.transPrice === null) {
+                                sum += 0;
+                            }
+                            else if (x.transType === 1) {
+                                sum += x.transPrice;
+                            } else {
+                                sum -= x.transPrice;
+                            }
+                            tsum = tsum + 1;
+                        });
+                        BuildSpecialFooter(tsum, sum)
+                    } else {   
+                        $("#interchangeable")[0].innerHTML = "Total goods";
                     let sum = 0;
+                    let tsum = 0;
+                    $("#salestable tfoot").empty();
                     $("#salestable tbody").empty();
                     data.forEach(x => {
                         PopulateRows(x);
-
+                        if (x.transPrice === null) {
+                            sum += 0;
+                        }
+                        else {
+                            sum += x.transPrice;
+                        };
+                        tsum = tsum + 1;
                     });
-
+                    BuildFooter(tsum, sum)
+                    }
                 }
             }
         });
@@ -178,7 +209,7 @@ $(document).ready(function () {
                 <tr>
                     <th>Id</th>
                     <th>Date</th>
-                    <th>Number of goods</th>
+                    <th id="interchangeable">Total goods</th>
                 <th>Price</th>
                 </tr>
             </thead>
@@ -190,17 +221,79 @@ $(document).ready(function () {
 
 
     PopulateRows = (x) => {
+        let goods;
+        if (x.transGoods === 0) {
+            goods = "-";
+        }
+        else {
+            goods = x.transGoods;
+        }
         $("#salestable tbody").append(
             `
                 <tr>
                       <td> ${x.transId}</td>
                       <td>${x.transDate.slice(0, 10)}</td>
-                      <td>  ${x.transGoods}</td>
-                       <td> ${x.transPrice} &#8364</td>
+                      <td>  ${goods}</td>
+                       <td> ${x.transPrice.toFixed(2)} &#8364</td>
                 </tr>
             `
         );
     };
+
+
+    BuildFooter = (t, s) => {
+        $("#salestable").append(
+            `<tfoot>
+            <tr>
+                    <td colspan="4"><h5>Total transactions: ${t}</h5></td>
+            </tr><tr>
+                    <td  colspan="4"><h5>Total price: ${s.toFixed(2)} &#8364</h5></td>
+            </tr>
+            </tfoot>`
+        );
+    }
+
+
+
+    PopulateSpecialRows = (x) => {
+        let goods;
+        let mark;
+        if (x.transType === 1) {
+            goods = "Sale";
+            mark = "+ ";
+        }
+        else if (x.transType === 2){
+            goods = "Offer";
+            mark = "- ";
+        }
+        else{
+            goods = "Divident";
+            mark = "- ";
+        }
+        $("#salestable tbody").append(
+            `
+                <tr>
+                      <td> ${x.transId}</td>
+                      <td>${x.transDate.slice(0, 10)}</td>
+                      <td>  ${goods}</td>
+                       <td>${mark}  ${x.transPrice.toFixed(2)} &#8364</td>
+                </tr>
+            `
+        );
+    };
+
+
+    BuildSpecialFooter = (t, s) => {
+        $("#salestable").append(
+            `<tfoot>
+            <tr>
+                    <td colspan="4"><h5>Total transactions: ${t}</h5></td>
+            </tr><tr>
+                    <td  colspan="4"><h5>Total balance: ${s.toFixed(2)} &#8364</h5></td>
+            </tr>
+            </tfoot>`
+        );
+    }
 
 
 
@@ -281,8 +374,8 @@ $(document).ready(function () {
         let amount = document.getElementsByClassName("alertviewforaward")[0].id;
 
         // First check if there are enough money 
-        if (amount === 0) {
-            $("#alertview").append(
+        if (amount === "0") {
+            $(".alertviewforaward").append(
                 `
             <div class="alert alert-warning">
                 Unable to process, no funds in member share account. 
