@@ -38,7 +38,7 @@ namespace Co_Partnership.Models.Database
         [Required]
         public string UnitType { get; set; }
 
-        [Range(1, 800)]
+        [Range(0.2, 800)]
         [DisplayFormat(DataFormatString = "{0:n} €")]
         [DataType(DataType.Currency)]
         [Required]

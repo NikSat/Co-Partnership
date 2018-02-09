@@ -50,12 +50,6 @@ namespace Co_Partnership.Controllers
             _messageInterface = messageInterface;
         }
 
-        public IActionResult Finance()
-        {
-            ViewBag.CurrentChoice = this.ControllerContext.RouteData.Values["action"].ToString();
-            return View("Finance");
-        }
-
         public IActionResult Products()
         {
             ViewBag.CurrentChoice = this.ControllerContext.RouteData.Values["action"].ToString();
@@ -75,20 +69,15 @@ namespace Co_Partnership.Controllers
             return View();
         }
 
-
         public IActionResult CreateProduct()
         {
             return View();
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateProduct(Item newItem, IFormFile uploadedImage)
         {
-
-
-
             if (uploadedImage != null && uploadedImage.ContentType.ToLower().StartsWith("image/"))
             {
                 var filename = ContentDispositionHeaderValue
@@ -101,8 +90,6 @@ namespace Co_Partnership.Controllers
                 {
                     _itemRepository.SaveItem(newItem);
 
-
-
                     using (System.IO.FileStream fs = System.IO.File.Create(filepath))
                     {
                         uploadedImage.CopyTo(fs);
@@ -114,8 +101,6 @@ namespace Co_Partnership.Controllers
             }
             ViewBag.ErrorMessage = "image upload is required.";
             return View(newItem);
-
-
         }
 
 
@@ -364,7 +349,6 @@ namespace Co_Partnership.Controllers
             return View("Members", model);
         }
 
-
         public IActionResult Requests()
         {
             ViewBag.CurrentChoice = ControllerContext.RouteData.Values["action"].ToString();
@@ -459,7 +443,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = offer.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Offer accepted",
-                Message1 = $"Your offer for {quantity} {item.UnitType} {item.Name} has been accepted and {Math.Round((decimal)offer.Price, 2)}€ has been deposited to your member account.\n Thank you and have a great day,\n Co-Partenership"
+                Message1 = $"Your offer for {quantity} {item.UnitType} {item.Name} has been accepted and {Math.Round((decimal)offer.Price, 2)}€ has been deposited to your member account.<br> Thank you and have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -489,7 +473,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = offer.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Offer declined",
-                Message1 = $"We are sorry to inform you that your offer for {quantity} {item.UnitType} {item.Name} has been declined.\n Thanks for your attention, consideration, and time,\n Co-Partenership"
+                Message1 = $"We are sorry to inform you that your offer for {quantity} {item.UnitType} {item.Name} has been declined.<br> Thanks for your attention, consideration, and time,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -526,7 +510,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = order.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Your Order is being shipped",
-                Message1 = $"Your order for {items} is being shipped. We hope to see you again soon.\n Have a great day,\n Co-Partenership"
+                Message1 = $"Your order for {items} is being shipped. We hope to see you again soon.<br> Have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -568,7 +552,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = order.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Your Order is cancel",
-                Message1 = $"We are sorry to inform you that your order for {items} cannot be completed right now. Feel free to contact us for more information. We hope to see you again soon.\n Have a great day,\n Co-Partenership"
+                Message1 = $"We are sorry to inform you that your order for {items} cannot be completed right now. Feel free to contact us for more information. We hope to see you again soon.<br> Have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -581,6 +565,5 @@ namespace Co_Partnership.Controllers
 
             return _userRepository.GetUserFromIdentity(currentuser.Id);
         }
-
     }
 }

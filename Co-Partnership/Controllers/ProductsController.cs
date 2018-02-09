@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Co_Partnership.Data;
 using Co_Partnership.Models.Database;
 using Co_Partnership.Models;
 using Co_Partnership.Services;
@@ -85,7 +83,7 @@ namespace Co_Partnership.Controllers
         }
 
         // GET: All Products that are live
-        public async Task<ViewResult> Index(string searchString, string sortOrder = null,string category = null, int productPage = 1)
+        public async Task<ViewResult> Index(string searchString, string category = null, int productPage = 1)
         {
             List<LikeItem> likeItem = await MakeLikeList();
             ViewData["CurrentFilter"] = searchString;
@@ -93,17 +91,10 @@ namespace Co_Partnership.Controllers
             var sortPar =likeItem.Where(p => (p.BaseItem.IsLive ?? false) && (category == null || p.BaseItem.Category == category));
             if (!String.IsNullOrEmpty(searchString))
             {
-                sortPar = sortPar.Where(s => s.BaseItem.Name.Contains(searchString)
-               
-                );//pros evaluation to sygkekrimeno
+                sortPar = sortPar.Where(s => s.BaseItem.Name.CaseInsensitiveContains(searchString));
             }
-
             
-            sortPar = sortPar.OrderBy(s => s.BaseItem.Name);
-
-
-            
-
+            sortPar = sortPar.OrderBy(s => s.BaseItem.Name);            
 
             return View(new ProductViewModel
             {
@@ -139,9 +130,7 @@ namespace Co_Partnership.Controllers
                 return NotFound();
             }
 
-
             // Now check if there is a user 
-
             var name = HttpContext.User.Identity.Name;
             if (name != null)
             {
@@ -158,15 +147,12 @@ namespace Co_Partnership.Controllers
                 {
                    return View(new LikeItem(item, false));
                 }
-
             }
             else
             {
                 return View(new LikeItem(item, false));
-            }
-            
+            }            
         }
-
     }
 }
 

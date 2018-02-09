@@ -21,14 +21,15 @@ namespace Co_Partnership.Services
 
         public IQueryable<User> Users => db.User.Include(u => u.TransactionOwner); 
 
-        public async Task CreateUserAsync(string extId,int userType, string fisrtName, string lastName)
+        public async Task CreateUserAsync(string extId,int userType, string fisrtName, string lastName, bool isActive)
         {
             User user = new User()
             {
-                ExtId=extId,
-                UserType=userType,
-                FirstName=fisrtName,
-                LastName=lastName
+                ExtId = extId,
+                UserType = userType,
+                FirstName = fisrtName,
+                LastName = lastName,
+                IsActive = isActive
             };
             await SaveUserAsync(user);
         }

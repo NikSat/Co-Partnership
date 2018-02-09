@@ -42,12 +42,13 @@
             <dd class="col-6">
                 @Html.DisplayFor(model => model.BaseItem.Description)
             </dd>
-            @*<dt>
-                    @Html.DisplayNameFor(model => model.StockQuantity)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.StockQuantity)
-                </dd>*@
+            <dt class="col-6">
+                Price /  @Html.DisplayFor(model => model.BaseItem.UnitType):
+            </dt>
+
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.BaseItem.UnitPrice)
+            </dd>
 
         </dl>
 
@@ -63,7 +64,7 @@
                     <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton">Like</a>
                 }
             </div>
-            <a class="btn btn btn-primary" href="javascript:history.go(-1)">Back to List</a>
+            <a class="btn btn btn-primary" href="javascript:history.go(-1)">Back</a>
         </div>
     </div>
 </div>

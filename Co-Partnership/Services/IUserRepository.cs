@@ -17,7 +17,7 @@ namespace Co_Partnership.Services
 
         Task<User> DeleteUserAsync(int userId);
 
-        Task CreateUserAsync(string extId, int userType, string fisrtName, string lastName);
+        Task CreateUserAsync(string extId, int userType, string fisrtName, string lastName, bool isActive);
 
         Task<User> RetrieveByExternalAsync(string extId);
 

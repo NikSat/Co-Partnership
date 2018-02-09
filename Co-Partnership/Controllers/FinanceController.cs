@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Co_Partnership.Models.AccountViewModels;
 using Co_Partnership.Models;
 using Co_Partnership.Services;
 using Co_Partnership.Models.Database;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 
 namespace Co_Partnership.Controllers
@@ -26,7 +24,6 @@ namespace Co_Partnership.Controllers
         private IPersonalAccountRepository personalAccount;
         private IMessageInterface messageInterface;
 
-
         public FinanceController(ITransactionRepository repository, ICompAccountRepository varcomprepository, IUserRepository us, UserManager<ApplicationUser> mngr, IPersonalAccountRepository psac, IMessageInterface msg)
         {
             financeRepository = repository;
@@ -42,11 +39,9 @@ namespace Co_Partnership.Controllers
         {
             var currentuser = await manager.FindByNameAsync(HttpContext.User.Identity.Name).ConfigureAwait(false);
 
-
             var use = await userRepository.RetrieveByExternalAsync(currentuser.Id);
             return use.Id;
         }
-
 
         // This function gets the sales/orders etc for a period of time
         [Route("/api/Finance/PerDate")]
@@ -57,8 +52,6 @@ namespace Co_Partnership.Controllers
             DateTime end = (DateTime)trans.DateProcessed;
             int id = trans.Id;
             return financeRepository.getSummaries(id, start, end);
-
-
         }
 
 
@@ -96,7 +89,6 @@ namespace Co_Partnership.Controllers
             found.Date = DateTime.Now;
             compRepository.UpdateAccount(found);
             return Ok();
-
         }
 
         // This function gets all the purchases for this user
@@ -108,22 +100,18 @@ namespace Co_Partnership.Controllers
             int BId = await GetUserId();
             // Get his purchases
             return financeRepository.GetPurchaseHistory(BId);
-
         }
-
 
         // This function gets the total founds in the co-partnership account
         [Route("/api/Finance/TotalFounds")]
         [HttpPut]
         public Object GetTotalFounds()
         {
- 
             return new
             {
                 CoOpShare= compRepository.Account.CoOpShare,
                 MemberShare = compRepository.Account.MemberShare
             };
-
         }
 
         // This function gets the total number of members
@@ -176,7 +164,6 @@ namespace Co_Partnership.Controllers
             // The devident for each user
             decimal Divident = TotalShare / ((decimal)NoMembers);
 
-
             // Get the current user
             int CuId = await GetUserId();
 
@@ -221,7 +208,6 @@ namespace Co_Partnership.Controllers
                 messageInterface.SaveMessage(message);
             }
 
-
             // For the Company found
 
             // Empty the account 
@@ -229,10 +215,7 @@ namespace Co_Partnership.Controllers
             account.MemberShare = 0;
             compRepository.UpdateAccount(account);
 
-
             return Ok();
         }
-
-
     }
 }
