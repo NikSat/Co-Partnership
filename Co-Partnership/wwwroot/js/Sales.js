@@ -186,7 +186,7 @@ $(document).ready(function () {
             contentType: "application/json",
             method: "POST",
             success: (data) => {
-                $("#alertview").append(
+                $(".alertviewforaward").append(
                     `
             <div class="alert alert-success">
                 Unable to process, no funds in member share account. 
