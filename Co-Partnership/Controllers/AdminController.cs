@@ -442,7 +442,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = offer.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Offer accepted",
-                Message1 = $"Your offer for {quantity} {item.UnitType} {item.Name} has been accepted and {Math.Round((decimal)offer.Price, 2)}€ has been deposited to your member account.\n Thank you and have a great day,\n Co-Partenership"
+                Message1 = $"Your offer for {quantity} {item.UnitType} {item.Name} has been accepted and {Math.Round((decimal)offer.Price, 2)}€ has been deposited to your member account.<br> Thank you and have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -472,7 +472,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = offer.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Offer declined",
-                Message1 = $"We are sorry to inform you that your offer for {quantity} {item.UnitType} {item.Name} has been declined.\n Thanks for your attention, consideration, and time,\n Co-Partenership"
+                Message1 = $"We are sorry to inform you that your offer for {quantity} {item.UnitType} {item.Name} has been declined.<br> Thanks for your attention, consideration, and time,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -509,7 +509,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = order.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Your Order is being shipped",
-                Message1 = $"Your order for {items} is being shipped. We hope to see you again soon.\n Have a great day,\n Co-Partenership"
+                Message1 = $"Your order for {items} is being shipped. We hope to see you again soon.<br> Have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 
@@ -551,7 +551,7 @@ namespace Co_Partnership.Controllers
                 ReceiverId = order.OwnerId,
                 DateSent = DateTime.Now,
                 Title = "Your Order is cancel",
-                Message1 = $"We are sorry to inform you that your order for {items} cannot be completed right now. Feel free to contact us for more information. We hope to see you again soon.\n Have a great day,\n Co-Partenership"
+                Message1 = $"We are sorry to inform you that your order for {items} cannot be completed right now. Feel free to contact us for more information. We hope to see you again soon.<br> Have a great day,<br> Co-Partenership"
             };
             _messageInterface.SaveMessage(message);
 

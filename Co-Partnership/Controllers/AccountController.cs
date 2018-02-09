@@ -145,7 +145,7 @@ namespace Co_Partnership.Controllers
                     await _userManager.AddToRoleAsync(user, "SimpleUser");
                     int simpleUserType = 1;
 
-                    await _userRepository.CreateUserAsync(user.Id, simpleUserType, model.FirstName, model.LastName);
+                    await _userRepository.CreateUserAsync(user.Id, simpleUserType, model.FirstName, model.LastName, false);
 
                     _logger.LogInformation("User created a new account with password.");
 

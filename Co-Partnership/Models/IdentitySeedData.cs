@@ -74,7 +74,7 @@ namespace Co_Partnership.Models
                     var roles = new List<string>(){ "Admin", "Member", "SimpleUser"};
                     await userManager.AddToRolesAsync(userA, roles);
                     int adminType = 3;
-                    await _userRepository.CreateUserAsync(userA.Id, adminType, "Super", "Admin");
+                    await _userRepository.CreateUserAsync(userA.Id, adminType, "Super", "Admin", true);
                 }
             }
 
@@ -97,7 +97,7 @@ namespace Co_Partnership.Models
                     var roles = new List<string>() { "Member", "SimpleUser" };
                     await userManager.AddToRolesAsync(userM, roles);
                     int memberType = 2;
-                    await _userRepository.CreateUserAsync(userM.Id, memberType, "John", "Smith");
+                    await _userRepository.CreateUserAsync(userM.Id, memberType, "John", "Smith", true);
                 }
             }
 
