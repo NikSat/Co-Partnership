@@ -8,9 +8,11 @@ using Co_Partnership.Models;
 using Co_Partnership.Services;
 using Co_Partnership.Models.Database;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
 {
+    [Authorize(Roles="Admin")]
     [Produces("application/json")]
     public class FinanceController : Controller
     {

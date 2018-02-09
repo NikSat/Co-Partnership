@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Co_Partnership.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     [AutoValidateAntiforgeryToken]
     public class AdminController : Controller
     {

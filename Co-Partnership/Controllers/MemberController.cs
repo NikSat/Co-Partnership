@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Co_Partnership.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Member")]
     [AutoValidateAntiforgeryToken]
     public class MemberController : Controller
     {

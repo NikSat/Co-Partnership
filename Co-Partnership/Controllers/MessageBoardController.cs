@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Co_Partnership.Controllers
-{   //[Authorize]
+{
+    [Authorize]
     [Produces("application/json")]
     public class MessageBoardController : Controller
     {
