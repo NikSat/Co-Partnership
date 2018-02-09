@@ -30,18 +30,7 @@
         }
     );
 
-
-    //$("#exampleFormControlSelect1").change(function (e) {
-        
-    //    var baseUrl = 'Products';
-    //    location.href = baseUrl + '?sortOrder=' + $(this).val();
-    //    e.preventDefault();
-    //}
-    //);
-
-
     
-
     ApplytoButton();
 
 
@@ -51,17 +40,20 @@
 
 $(function () {
     $(".card").mouseenter(function () {
+
         $this = $(this);
         var event2 = $this.find(".fa-heart");
-        console.log(event2[0].classList.contains("grey"));
+        
         if (event2[0].classList.contains("grey")) {  
-            console.log("here");
+          
            event2.addClass("faa-pulse");
            event2.addClass("animated");
        }
     }).mouseleave(function () {
+
         $this = $(this);
         var event2 = $this.find(".fa-heart");
+
         if (event2[0].classList.contains("grey")) {
             event2.removeClass("faa-pulse");
             event2.removeClass("animated");
@@ -74,6 +66,7 @@ $(function () {
     var $window = $(window);
 
     function resize() {
+
         if (window.innerWidth < 768) {/*h innerwidth epistrefei panta  swsto apotelesma se anti8esh me th width() ths jquery*/
             $(".dropdown-menu").show();/*gia na fainetai to dropdownmenu stis mikres o8ones*/
         }
@@ -81,24 +74,12 @@ $(function () {
             $(".dropdown-menu").hide();/*gia na kruvetai to dropdownmenu apo md kai panw*/
         }
 
-
     }
 
     $window
         .resize(resize)
         .trigger('resize');
 })(jQuery);
-
-
-//$(window).on('load', function() {
-//    var heights1 = $(".equal-height1").map(function() {
-//        return $(this).height();
-//    }).get(),
-
-//    maxHeight1 = Math.max.apply(null, heights1);
-
-//    $(".equal-height1").height(maxHeight1);
-//});
 
 
 

@@ -4,14 +4,13 @@
     ViewData["Title"] = "CreateProduct";
 
 }
-@* Layout = "~/Views/Shared/_AdminLayout.cshtml"; *@
+
 <div id="admin-body" class="container">
     <h2>CreateProduct</h2>
 
-    <h4>Item</h4>
     <hr />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 offset-md-1">
             <form asp-action="CreateProduct" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

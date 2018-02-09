@@ -242,7 +242,6 @@ a.list-group-item {
 
 /*card*/
 .card {
-    /*border: none;*/
     border-color: #eee9de;
 }
 
@@ -332,9 +331,6 @@ nav ul li:hover > a {
     height: 100vh;
     min-height: 150px;
     background: no-repeat center scroll;
-    /*-webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;*/
     background-size: cover;
 }
 
