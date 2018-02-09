@@ -42,9 +42,9 @@ namespace Co_Partnership.Controllers
         {
             var userId = await GetUserId();
             var transactions = _transactionRepository.Transactions
-                .Where(t => (t.IsProcessed == 1 && (t.OwnerId == userId || t.RecipientId == userId)))
-                    //(t.OwnerId == userId && t.IsProcessed == 1 && t.Type == 2) ||  //accepted offers
-                    //(t.RecipientId == userId && t.IsProcessed == 1 && t.Type == 3)) // sales share
+                .Where//(t => (t.IsProcessed == 1 && (t.OwnerId == userId || t.RecipientId == userId)))
+                    (t => (t.OwnerId == userId && t.IsProcessed == 1 && t.Type == 2) ||  //accepted offers
+                    (t.RecipientId == userId && t.IsProcessed == 1 && t.Type == 3)) // sales share
                 .OrderByDescending(t => t.DateProcessed)
                 .ToList();
 

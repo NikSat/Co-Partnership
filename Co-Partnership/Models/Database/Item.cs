@@ -14,12 +14,10 @@ namespace Co_Partnership.Models.Database
 
         public int Id { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(15)]
         [Required]
         public string Name { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(15)]
         [Required]
         public string Category { get; set; }
@@ -27,7 +25,7 @@ namespace Co_Partnership.Models.Database
         [Required]
         public string Description { get; set; }
 
-        [Range(1, 500)]
+        [Range(0, 500)]
         [Required]
         public double? StockQuantity { get; set; }
         [Required]

@@ -20,6 +20,7 @@ namespace Co_Partnership.Components
         {
             ViewBag.CurrentCategory = RouteData.Values["category"];
             return View("Side", _context.Item
+                        .Where(x => x.IsLive == true)
                         .Select(x => x.Category)
                         .Distinct()
                         .OrderBy(x => x));

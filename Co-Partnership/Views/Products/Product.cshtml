@@ -54,7 +54,15 @@
 
         <div class="d-flex flex-row justify-content-between mt-5">
             <div class="btn-group d-flex" role="group">
-                <a class="btn btn-secondary " asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@Model.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+                @if (Model.BaseItem.StockQuantity > 0)
+                {
+                    <a class="btn btn-secondary " asp-controller="Cart" asp-action="AddToCart" asp-route-itemID="@Model.BaseItem.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path.ToString()">Add to <span class="fa fa-shopping-cart "></span></a>
+                }
+                else
+                {
+                    <a class="btn btn-secondary w-100 disabled">Buy</a>
+
+                }
                 @if (Model.IsLiked)
                 {
                     <a id=@Model.BaseItem.Id class="btn btn-secondary likebutton"><span class="fa fa-heart red mr-2"></span>Liked!</a>
