@@ -282,6 +282,9 @@ thead {
     border-right: 1px solid #0c2323;
 }
 
+.table {
+    border: 1px solid #cdd1d6;
+}
 
 .table thead tr th {
     /*float: left;*/
@@ -293,6 +296,10 @@ thead {
     .table .sizetwo {
         padding-bottom: 0.55rem;
         padding-top: 0.55rem;
+    }
+
+    .table td{
+        vertical-align:middle;
     }
 
     .sizeone {
