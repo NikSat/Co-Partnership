@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
 {
-    [Authorize(Roles="Admin")]
+    [Authorize]
     [Produces("application/json")]
     public class FinanceController : Controller
     {
@@ -96,6 +96,7 @@ namespace Co_Partnership.Controllers
         // This function gets all the purchases for this user
         [Route("/api/Finance/PurchaseHistory")]
         [HttpPost]
+        [Authorize]
         public async Task<IEnumerable<Object>> GetPurchaseHistory()
         {
             // Get the user

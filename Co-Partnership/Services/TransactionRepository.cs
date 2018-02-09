@@ -133,7 +133,7 @@ namespace Co_Partnership.Services
         {
             var PurchaseList =
                from Transaction in Transactions
-               where Transaction.OwnerId == userId && Transaction.IsProcessed == 1
+               where Transaction.OwnerId == userId && Transaction.IsProcessed == 1 && Transaction.Type == 1
                select new
                {
                    OrderId = Transaction.Id,
