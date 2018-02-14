@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Co_Partnership.Controllers
 {
-    [Authorize]
+   
     [Produces("application/json")]
     public class FinanceController : Controller
     {
@@ -46,8 +46,10 @@ namespace Co_Partnership.Controllers
         }
 
         // This function gets the sales/orders etc for a period of time
+
         [Route("/api/Finance/PerDate")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<Object> FinSum([FromBody]Transaction trans)
         {
             DateTime start = (DateTime)trans.Date;
@@ -61,6 +63,7 @@ namespace Co_Partnership.Controllers
         // GET: Admin/api/financies/Order
         [Route("Admin/api/Finance/Order")]
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<Object> Get()
         {
             return financeRepository.ListTransactions(1);
@@ -69,6 +72,7 @@ namespace Co_Partnership.Controllers
         // This function gets the items from each order
         [Route("Admin/api/Finance/Order/Details")]
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<Object> Get(int id)
         {
             return financeRepository.ListItems(id);
@@ -77,6 +81,7 @@ namespace Co_Partnership.Controllers
         // This function updates the orders 
         [Route("Admin/api/Finance/Order/Update")]
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IActionResult Update([FromBody]int id)
         {
             //Get the transaction and update it
@@ -105,9 +110,10 @@ namespace Co_Partnership.Controllers
             return financeRepository.GetPurchaseHistory(BId);
         }
 
-        // This function gets the total founds in the co-partnership account
+        // This function gets the total funds in the co-partnership account
         [Route("/api/Finance/TotalFounds")]
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public Object GetTotalFounds()
         {
             return new
@@ -120,6 +126,7 @@ namespace Co_Partnership.Controllers
         // This function gets the total number of members
         [Route("/api/Finance/TotalMembers")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public Object NumberOfMembers()
         {
             return new {
@@ -131,6 +138,7 @@ namespace Co_Partnership.Controllers
         // This function gets the orders offers summary
         [Route("/api/Finance/OrderSummary")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public Object GetOrderSummary([FromBody]Transaction trans)
         {
             int id = trans.Id;
@@ -141,6 +149,7 @@ namespace Co_Partnership.Controllers
         // This function awards all the dividends
         [Route("/api/Finance/AwardDividents")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AwardDividents()
         {
             // Lets take it slowly step by step
